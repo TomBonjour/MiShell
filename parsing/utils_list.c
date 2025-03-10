@@ -6,13 +6,15 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 08:02:20 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/03 20:00:41 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/09 12:58:07 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-t_list	*ft_lstnew(char *cmd)
+
+// Malloc le nouveau node et remplit les tableaux de commandes et de redir
+t_list	*ft_lst_new_node(char *cmd)
 {
 	t_list	*new_elem;
 
@@ -27,43 +29,7 @@ t_list	*ft_lstnew(char *cmd)
 	return (new_elem);
 }
 
-t_list	*ft_lstlast(t_list *lst)
-{
-	if (lst == NULL)
-		return (0);
-	while (lst->next != NULL)
-	{
-		lst = lst->next;
-	}
-	return (lst);
-}
-
-void	ft_lstadd_back(t_list **lst, t_list *lstnew)
-{
-	t_list	*last;
-
-	if (!lst || !lstnew)
-		return ;
-	last = ft_lstlast(*lst);
-	if (!last)
-		*lst = lstnew;
-	else
-		last->next = lstnew;
-}
-
-int	ft_lstsize(t_list *lst)
-{
-	int	size;
-
-	size = 0;
-	while (lst != NULL)
-	{
-		lst = lst->next;
-		size++;
-	}
-	return (size);
-}
-
+// Free la liste
 void	ft_free_list(t_list **line)
 {
 	int		i;

@@ -6,11 +6,12 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:09:33 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/03 20:02:06 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/09 12:57:41 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
+#include <linux/limits.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <readline/readline.h>
@@ -22,6 +23,19 @@ typedef struct s_list
 	char			**redir;
 	struct s_list	*next;
 }					t_list;
+
+typedef struct s_env
+{
+	char			*name;
+	char			*data;
+}					t_env;
+
+//------ BUILTINS UTILS ------//
+int		ft_pwd(void);
+int		ft_env(char **envp);
+void	ft_echo(char **tab);
+int		ft_cd(char **tab, t_env *env);
+
 
 //------ PARSING UTILS ------//
 void	ft_parsing(char *input);
@@ -39,7 +53,7 @@ t_list	*ft_tokenize(char *s);
 int		ft_syntaxer(t_list *line);
 
 //------ LISTS UTILS ------//
-t_list	*ft_lstnew(char *s);
+t_list	*ft_lst_new_node(char *s);
 void	ft_lstadd_back(t_list **lst, t_list *lstnew);
 void	ft_free_list(t_list **line);
 
@@ -55,3 +69,4 @@ int		ft_strlen(char *str);
 char	*ft_substr(char *s, int start, int len);
 char	*ft_extract_quote(char *cmd, int *i, char *str, char quote);
 char	*ft_extract_str(char *cmd, int *i, char *str);
+void	ft_pathcpy(char s[4096], char *src, int size);

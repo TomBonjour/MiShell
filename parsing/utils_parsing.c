@@ -6,12 +6,13 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:56:13 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/03 20:00:50 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/09 12:51:44 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+// A FINIR !!! Free la list et exit le programme en affichant syntax_error
 void	ft_syntax_error(t_list **args, char *mess)
 {
 	if (args == NULL)
@@ -22,6 +23,9 @@ void	ft_syntax_error(t_list **args, char *mess)
 	exit (0);
 }
 
+// Trouve la fin de la quote dans laquelle on est entré.
+// Renvoie syntax error si la quote n'a pas de fin.
+// 		Utilisée dès qu'on trouve une quote et qu'on veut la passer
 void	ft_find_end_quote(char *s, int *i, char c)
 {
 	(*i)++;

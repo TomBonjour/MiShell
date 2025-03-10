@@ -6,44 +6,96 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:50:54 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/01 22:00:48 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/09 11:59:17 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h" 
 
-/*void	ft_sigint_handler(int sig)
+
+// Copie du contenu de la variable dans la partie "data" de la structure t_env
+void	ft_copy_env_data(char **envp, t_env *env, int j, int *i)
 {
-	(void)sig;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	while (envp[j][*i] != '\0')
+		(*i)++;
+	(*i) -= ft_strlen(env[j].name) + 1;
+	env[j].data = malloc(sizeof(char) * (*i + 1));
+	env[j].data[*i] = '\0';
+	(*i)--;
+	while (*i >= 0)
+	{
+		env[j].data[*i] = envp[j][*i + ft_strlen(env[j].name) + 1];
+		(*i)--;
+	}
 }
 
-void	ft_sigquit_handler(int sig)
+// Copie du nom de la variable dans la partie "name" de la structure
+void	ft_copy_env_name(char **envp, t_env *env, int j, int *i)
 {
-	(void)sig;
-	readline("mangeducrabe> ");
+	while (envp[j][*i] != '=')
+		(*i)++;
+	env[j].name = malloc(sizeof(char) * (*i + 1));
+	env[j].name[*i] = '\0';
+	(*i)--;
+	while (*i >= 0)
+	{
+		env[j].name[*i] = envp[j][*i];
+		(*i)--;
+	}
 }
 
-void	setup_signals(void)
-{
-	signal(SIGINT, ft_sigint_handler);			// CTRL-C : kill the process
-	signal(SIGQUIT, ft_sigquit_handler);		// CTRL-\ : quit and core dump
-}*/
 
-int	main(void)
+// Création du nouveau tableau de variables d'environnement
+// --> un tableau de structures {char **name ; char **data}
+t_env	*ft_set_env(char **envp)
 {
-	char	*input = ">           y<yy>j<f";
-	// char	*input = "<< here cat";
-	t_list	*line;
 	int		i;
 	int		j;
+	int		size;
+	t_env	*env;
 
-	i = 0;
-	j = 1;
+	j = 0;
+	while (envp[j] != NULL)
+		j++;
+	env = malloc(sizeof(t_env) * j);
+	j = 0;
+	while (envp[j] != NULL)
+	{
+		i = 0;
+		ft_copy_env_name(envp, env, j, &i);
+		size = ft_strlen(env[j].name);
+		i = size + 2;
+		ft_copy_env_data(envp, env, j, &i);
+		j++;
+	}
+	env[j].name = NULL;
+	env[j].data = NULL;
+	return (env);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	(void)ac;
+	(void)av;
+	(void)envp;
+	t_env 	*env;
+	char	*input = "cd builtin";
+	t_list	*line;
+	// int		i;
+	// int		j;
+
+	// i = 0;
+	// j = 1;
+	
+
+	// Copie de la liste de variables d'env (char **envp)
+	// dans un tableau de structure (t_env *env)
+	env = ft_set_env(envp);
+
+	// Mise en place des signaux (SIGINT, SIGQUIT)
 	/*setup_signals();
+	
+
 	while (1)
 	{
 		input = readline("mangeducrabe> ");
@@ -54,8 +106,11 @@ int	main(void)
 		}
 		add_history(input);*/
 		line = ft_tokenize(input);
-		//ft_parsing(input);
-		while (line != NULL)
+
+
+		//PRINT LISTE CHAINEE
+
+		/*while (line != NULL)
 		{
 			i = 0;
 			printf ("COMMANDE %d\n", j);
@@ -78,8 +133,16 @@ int	main(void)
 			j++;
 		}
 		printf("NULL");
-		//ft_free_list(&line);
-	//}
+		ft_free_list(&line);
+	}*/
+	
+
+	//TEST COMMANDES 
+	
+	//ft_env(env);
+	//ft_pwd();
+	//ft_echo(line->args);
+	ft_cd(line->args, env);
 	return (0);
 }
 

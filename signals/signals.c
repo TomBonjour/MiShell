@@ -1,38 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 18:31:22 by tobourge          #+#    #+#             */
-/*   Updated: 2024/11/30 19:23:18 by tobourge         ###   ########.fr       */
+/*   Created: 2025/03/09 11:57:51 by tobourge          #+#    #+#             */
+/*   Updated: 2025/03/09 11:58:34 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-int	ft_atoi(const char *str)
+/*void	ft_sigint_handler(int sig)
 {
-	int	i;
-	int	n;
-	int	sign;
-
-	i = 0;
-	n = 0;
-	sign = 1;
-	while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == 32)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			sign *= -1;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		n = (n * 10) + (str[i] - 48);
-		i++;
-	}
-	return (n * sign);
+	(void)sig;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
 }
+
+void	ft_sigquit_handler(int sig)
+{
+	(void)sig;
+	readline("mangeducrabe> ");
+}
+
+void	setup_signals(void)
+{
+	signal(SIGINT, ft_sigint_handler);			// CTRL-C : kill the process
+	signal(SIGQUIT, ft_sigquit_handler);		// CTRL-\ : quit and core dump
+}*/

@@ -7,13 +7,17 @@ LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 #-------------------------------------------------------SRCS----------------------------------------------------#
-SRCS = main.c\
-	   parsing/ft_tokenize.c\
-	   parsing/ft_syntaxer.c\
-	   parsing/utils_parsing.c\
-	   parsing/utils_tokenize.c\
-	   parsing/utils_list.c\
-	   parsing/utils_generals.c\
+SRCS = main.c \
+	   parsing/ft_tokenize.c \
+	   parsing/ft_syntaxer.c \
+	   parsing/utils_parsing.c \
+	   parsing/utils_tokenize.c \
+	   parsing/utils_list.c \
+	   parsing/utils_generals.c \
+	   builtin/echo_exit.c \
+	   builtin/env_exp_unset.c \
+	   builtin/pwd_cd.c \
+	   signals/signals.c
 
 #-------------------------------------------------------OBJECTS--------------------------------------------------#
 OBJ = $(SRCS:.c=.o)
@@ -57,7 +61,7 @@ $(LIBFT):
 
 # Link the objects and create the executable
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(INCS) -o $(NAME) $(OBJS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(INCS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(OBJ_PATH)%.o: %.c
 	@mkdir -p $(dir $@)
@@ -78,13 +82,13 @@ $(OBJ_PATH)%.o: %.c
 
 # Clean object files and temporary files
 clean:
-	@make --no-print-directory -C $(LIBFT_PATH) clean
+	$(MAKE) -C $(LIBFT_PATH) clean
 	@rm -rf $(OBJ_PATH)
 	@echo "$(YELLOW)>>> Minishell is cleaned 🧹 <<<$(DEFAULT)"
 
 # Fully clean the project (including executable and libft)
 fclean: clean
-	@make --no-print-directory -C $(LIBFT_PATH) fclean
+	$(MAKE) -C $(LIBFT_PATH) fclean
 	@rm -f $(NAME)
 	@echo "$(RED)>>> Minishell is fully cleaned 🧼 <<<$(DEFAULT)"
 

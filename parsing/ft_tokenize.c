@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:21:36 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/03 20:00:22 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/09 12:57:04 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ t_list	**ft_lst_new_add_back(char *s, int len, t_list **args)
 	while (ft_is_blank(s[len - 1]) == 1 && len > 0)
 		len--;
 	cmd = ft_substr(s, 0, len);
-	new_arg = ft_lstnew(cmd);
+	new_arg = ft_lst_new_node(cmd);
 	if (new_arg == 0)
 		return (NULL);
 	free(cmd);

@@ -1,38 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   env_exp_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/10 18:31:22 by tobourge          #+#    #+#             */
-/*   Updated: 2024/11/30 19:23:18 by tobourge         ###   ########.fr       */
+/*   Created: 2025/03/08 21:38:10 by tobourge          #+#    #+#             */
+/*   Updated: 2025/03/09 12:36:33 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../minishell.h"
 
-int	ft_atoi(const char *str)
+
+// COMMANDE ENV : imprime la copie du tableau de variables d'environnement
+int	ft_env(char **env)
 {
 	int	i;
-	int	n;
-	int	sign;
 
 	i = 0;
-	n = 0;
-	sign = 1;
-	while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == 32)
-		i++;
-	if (str[i] == '-' || str[i] == '+')
+	if (!env || !env[i])
+		return (-1);
+	while (env[i] != NULL)
 	{
-		if (str[i] == '-')
-			sign *= -1;
+		printf("%s\n", env[i]);
 		i++;
 	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		n = (n * 10) + (str[i] - 48);
-		i++;
-	}
-	return (n * sign);
+	return (0);
 }
+
+/*int	ft_export(char **tab, t_env *env)
+{
+
+}
+
+
+int	ft_unset(char **tab, t_env *env)
+{
+
+}*/

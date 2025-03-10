@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:27:52 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/03 20:00:34 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/09 13:02:25 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@ void	ft_reverse_free(char **tab, int j)
 	free(tab);
 }
 
-int	ft_strlen(char *str)
+void	ft_pathcpy(char str[PATH_MAX], char *src, int size)
 {
-	int	n;
-
-	n = 0;
-	while (str[n] != '\0')
-		n++;
-	return (n);
+	int	i;
+	
+	i = 0;
+	while (src[i] != '\0' && i < size)
+	{
+		str[i] = src[i];
+		i++;
+	}
 }
 
 char	*ft_substr(char *s, int start, int len)
@@ -52,24 +54,7 @@ char	*ft_substr(char *s, int start, int len)
 	return (dest);
 }
 
-char	*ft_strdup(char *src)
-{
-	char	*str;
-	int		i;
-
-	str = malloc(sizeof(char) * (ft_strlen(src) + 1));
-	if (!str)
-		return (0);
-	i = 0;
-	while (src[i] != '\0')
-	{
-		str[i] = src[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
+// Re-malloc +1 une chaine de caractere et rajoute le char ~c
 char	*ft_realloc_char(char *str, char c)
 {
 	char	*new;
@@ -91,6 +76,8 @@ char	*ft_realloc_char(char *str, char c)
 	return (new);
 }
 
+
+// Extrait une chaine de caractère entre quotes
 char	*ft_extract_quote(char *cmd, int *i, char *str, char quote)
 {
 	if (quote == '\0')
@@ -113,6 +100,7 @@ char	*ft_extract_quote(char *cmd, int *i, char *str, char quote)
 	return (str);
 }
 
+// Extrait un argument entier
 char	*ft_extract_str(char *cmd, int *i, char *str)
 {
 	while (ft_is_blank(cmd[*i]) == 0 && ft_is_redir(cmd[*i]) == 0

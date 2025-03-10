@@ -6,12 +6,14 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/01 20:38:09 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/03 20:04:55 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/09 13:03:07 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+
+// 
 int	ft_check_redir_syntax(char *redir)
 {
 	if (ft_is_redir(redir[1]) == 1)
