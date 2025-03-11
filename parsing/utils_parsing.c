@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 15:56:13 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/09 12:51:44 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/10 22:13:20 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_syntax_error(t_list **args, char *mess)
 	if (mess == NULL)
 		(void)mess;
 	printf("Syntax error\n");
+	ft_free_list(args);
 	exit (0);
 }
 

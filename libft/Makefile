@@ -48,22 +48,14 @@ SRCS	=	ft_isalpha.c \
 			ft_putendl_fd.c \
 			ft_putnbr_fd.c \
 			ft_strlcat.c \
-			ft_lstnew_bonus.c \
-			ft_lstadd_front_bonus.c \
-			ft_lstsize_bonus.c \
-			ft_lstlast_bonus.c \
-			ft_lstadd_back_bonus.c \
-			ft_lstdelone_bonus.c \
-			ft_lstclear_bonus.c \
-			ft_lstiter_bonus.c \
-			ft_lstmap_bonus.c
+		
 			
 OBJS	=	$(SRCS:.c=.o)
 	
 all	:	$(NAME)
 
 %.o : %.c
-		@$(CC) $(CFLAGS) -fPIC -c $< -o $@
+		@$(CC) $(CFLAGS) -g -fPIC -c $< -o $@
 
 $(NAME)	:	$(OBJS)
 	@ar -rcs $(NAME) $(OBJS)

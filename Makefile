@@ -33,7 +33,7 @@ INC_DIR = includes
 INCS = -I $(LIBFT_PATH) -I $(INC_DIR)
 
 #-------------------------------------------------------LDFLAGS--------------------------------------------------#
-# LDFLAGS = -L /usr/local/lib -l readline
+LDFLAGS = -L /usr/local/lib -l readline
 
 #-------------------------------------------------------NAME-----------------------------------------------------#
 NAME = minishell
@@ -61,7 +61,7 @@ $(LIBFT):
 
 # Link the objects and create the executable
 $(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(INCS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(LDFLAGS) $(INCS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(OBJ_PATH)%.o: %.c
 	@mkdir -p $(dir $@)

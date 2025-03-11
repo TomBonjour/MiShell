@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 10:27:52 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/09 13:02:25 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:25:19 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_reverse_free(char **tab, int j)
 	free(tab);
 }
 
-void	ft_pathcpy(char str[PATH_MAX], char *src, int size)
+char	*ft_pathcpy(char str[PATH_MAX], char *src, int size)
 {
 	int	i;
 	
@@ -32,26 +32,7 @@ void	ft_pathcpy(char str[PATH_MAX], char *src, int size)
 		str[i] = src[i];
 		i++;
 	}
-}
-
-char	*ft_substr(char *s, int start, int len)
-{
-	int		j;
-	char	*dest;
-
-	if (!s)
-		return (0);
-	j = 0;
-	dest = malloc(sizeof(char) * (len + 1));
-	if (!dest)
-		return (0);
-	while (j < len && s[j + start] != '\0' && start < ft_strlen(s))
-	{
-		dest[j] = s[j + start];
-		j++;
-	}
-	dest[j] = '\0';
-	return (dest);
+	return (str);
 }
 
 // Re-malloc +1 une chaine de caractere et rajoute le char ~c

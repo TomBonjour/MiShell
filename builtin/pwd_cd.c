@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:59:45 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/09 12:35:10 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:26:53 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,12 @@ int	ft_change_dir_and_pwd(char *newdir, char path[PATH_MAX], t_env *env)
 {
 	if (getcwd(path, PATH_MAX) == NULL)
 		return (-1);
-	printf("%s\n", path);
 	if (ft_set_env_var("OLDPWD", path, env) != 0)
 		return (-1);
 	if (chdir(newdir) != 0)
 		return (-1);
 	if (getcwd(path, PATH_MAX) == NULL)
 		return (-1);
-	printf("%s\n", path);
 	if (ft_set_env_var("PWD", path, env) != 0)
 		return (-1);
 	return (0);
@@ -69,7 +67,7 @@ int	ft_cd(char **tab, t_env *env)
 	int		i;
 
 	i = 0;
-	printf("%s\n", tab[1]);
+	ft_memset(path, 0, PATH_MAX);
 	if (!tab[1])
 	{
 		while (ft_strncmp(env[i].name, "HOME", 4) != 0)
@@ -78,13 +76,16 @@ int	ft_cd(char **tab, t_env *env)
 		{
 			ft_pathcpy(path, env[i].data, ft_strlen(env[i].data));
 			newdir = ft_strdup(path);
+			if (!newdir)
+				return (-1);
 			if (ft_change_dir_and_pwd(newdir, path, env) == -1)
 				printf("error\n"); //error
+			free(newdir);
 		}
 		// else --> message erreur "HOME not set";
 	}
 	else
 		if (ft_change_dir_and_pwd(tab[1], path, env) == -1)
-			printf("error\n"); //error
+			printf("No such file or directory\n");
 	return (0);
 }
