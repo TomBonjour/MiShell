@@ -81,13 +81,13 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "echo";
+	char	*input = "unset UKRAINE";
 	t_list	*line;
 	int		i;
-	int		j;
+	// int		j;
 
-	 i = 0;
-	 j = 1;
+	i = 0;
+	// j = 1;
 	
 
 	// Copie de la liste de variables d'env (char **envp)
@@ -143,16 +143,17 @@ int	main(int ac, char **av, char **envp)
 
 	//TEST COMMANDES 
 	
-	// ft_env(env);
-	// ft_pwd();
-	ft_echo(line->args);
+	//ft_env(env);
+	//ft_pwd();
+	//ft_echo(line->args);
 	// ft_cd(line->args, env);
-	
-
-	//FREE
-	ft_free_env(env);
-	ft_free_list(&line);
-	
+	env = ft_unset(line->args[1], env);
+	while (env[i].name != NULL)
+	{
+		printf("%s=%s\n", env[i].name, env[i].data);
+		i++;
+	}
+	// TODO FREE moi ca 
 	return (0);
 }
 

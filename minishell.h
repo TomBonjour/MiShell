@@ -1,6 +1,16 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/19 08:09:33 by tobourge          #+#    #+#             */
+/*   Updated: 2025/03/12 14:49:14 by jnauroy          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 # include <signal.h>
 # include <linux/limits.h>
@@ -33,6 +43,7 @@ int		ft_cd(char **tab, t_env *env);
 void	ft_sigint_handler(int sig);
 void	ft_sigquit_handler(int sig);
 void	setup_signals(void);
+t_env	*ft_unset(char *var, t_env *env);
 
 //------ PARSING UTILS ------//
 void	ft_parsing(char *input);
