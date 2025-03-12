@@ -1,3 +1,6 @@
 *.o
 minishell
 .gitignore
+dir_tmp
+compile_commands.json
+libft/libft.a

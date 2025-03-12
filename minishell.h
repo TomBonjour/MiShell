@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 08:09:33 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/09 12:57:41 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/12 14:49:14 by jnauroy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		ft_pwd(void);
 int		ft_env(char **envp);
 void	ft_echo(char **tab);
 int		ft_cd(char **tab, t_env *env);
-
+t_env	*ft_unset(char *var, t_env *env);
 
 //------ PARSING UTILS ------//
 void	ft_parsing(char *input);

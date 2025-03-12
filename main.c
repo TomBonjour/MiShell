@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 14:50:54 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/09 11:59:17 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/12 15:41:39 by jnauroy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "cd builtin";
+	char	*input = "unset UKRAINE";
 	t_list	*line;
-	// int		i;
+	int		i;
 	// int		j;
 
-	// i = 0;
+	i = 0;
 	// j = 1;
 	
 
@@ -142,7 +142,13 @@ int	main(int ac, char **av, char **envp)
 	//ft_env(env);
 	//ft_pwd();
 	//ft_echo(line->args);
-	ft_cd(line->args, env);
+	// ft_cd(line->args, env);
+	env = ft_unset(line->args[1], env);
+	while (env[i].name != NULL)
+	{
+		printf("%s=%s\n", env[i].name, env[i].data);
+		i++;
+	}
 	return (0);
 }
 
