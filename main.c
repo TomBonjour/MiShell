@@ -93,7 +93,6 @@ int	main(int ac, char **av, char **envp)
 	// Copie de la liste de variables d'env (char **envp)
 	// dans un tableau de structure (t_env *env)
 
-	// ENVIRONNEMENT
 	env = ft_set_env(envp);
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
@@ -110,7 +109,8 @@ int	main(int ac, char **av, char **envp)
 		}
 		add_history(input);*/
 		line = ft_tokenize(input);
-	
+		if (ft_syntax_and_expand(line, env) == -1)
+			ft_syntax_error(&line, NULL);
 	
 			
 		//PRINT LISTE CHAINEE

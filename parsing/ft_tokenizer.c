@@ -99,8 +99,6 @@ t_list	*ft_tokenize(char *input)
 	if (input == NULL)
 		return (NULL);
 	line = ft_split_line(input, line);
-	if (ft_syntaxer(line) == -1)
-		ft_syntax_error(&line, NULL);
 	if (!line)
 		return (NULL);
 	return (line);

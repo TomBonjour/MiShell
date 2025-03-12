@@ -11,9 +11,7 @@ int	ft_env(t_env *env)
 		return (-1);
 	while (env[i].name != NULL)
 	{
-		printf("%s", env[i].name);
-		printf("=");
-		printf("%s\n", env[i].data);
+		printf("%s=%s\n", env[i].name, env[i].data);
 		i++;
 	}
 	return (0);

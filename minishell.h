@@ -1,7 +1,6 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-
 # include <signal.h>
 # include <linux/limits.h>
 # include <stdlib.h>
@@ -47,7 +46,8 @@ char	*ft_redir_substr(char *cmd, int *i);
 char	*ft_arg_substr(char *cmd, int *i);
 char	*ft_realloc_char(char *str, char c);
 t_list	*ft_tokenize(char *s);
-int		ft_syntaxer(t_list *line);
+int		ft_syntax_and_expand(t_list *line, t_env *env);
+void	ft_expander(char *str, t_env *env);
 
 //------ LISTS UTILS ------//
 t_list	*ft_lst_new_node(char *s);

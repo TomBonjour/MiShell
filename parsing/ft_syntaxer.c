@@ -17,20 +17,26 @@ int	ft_check_redir_syntax(char *redir)
 	return (0);
 }
 
-int	ft_syntaxer(t_list *line)
+int	ft_syntax_and_expand(t_list *line, t_env *env)
 {
 	int	i;
 
 	while (line != NULL)
 	{
-		i = 0;
 		if (line->args[0] == NULL && line->redir[0] == NULL)
 			return (-1);
 		i = 0;
-		while (line->redir[i] != NULL)
+		while (line->args[i])
+		{
+			ft_expander(line->args[i], env);
+			i++;
+		}
+		i = 0;
+		while (line->redir[i])
 		{
 			if (ft_check_redir_syntax(line->redir[i]) == -1)
 				return (-1);
+			ft_expander(line->redir[i], env);
 			i++;
 		}
 		line = line->next;
