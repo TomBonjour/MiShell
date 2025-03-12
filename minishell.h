@@ -49,6 +49,7 @@ char	*ft_realloc_char(char *str, char c);
 t_list	*ft_tokenize(char *s);
 int		ft_syntax_and_expand(t_list *line, t_env *env);
 void	ft_expander(char *str, t_env *env);
+int		ft_env_var_len(char *str, int i);
 
 //------ LISTS UTILS ------//
 t_list	*ft_lst_new_node(char *s);

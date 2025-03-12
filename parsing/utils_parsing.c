@@ -24,6 +24,19 @@ void	ft_find_end_quote(char *s, int *i, char c)
 		ft_syntax_error(NULL, "missing quote");
 }
 
+int	ft_env_var_len(char *str, int i)
+{
+	int size;
+
+	size = 0;
+	while (str[i] == '_' || ft_isalpha(str[i]) == 1)
+	{
+		size++;
+		i++;
+	}
+	return (size);
+}
+
 /*void	ft_remove_quote(t_list *line)
 {
 	
