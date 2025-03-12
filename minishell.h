@@ -32,6 +32,7 @@ int		ft_cd(char **tab, t_env *env);
 void	ft_sigint_handler(int sig);
 void	ft_sigquit_handler(int sig);
 void	setup_signals(void);
+t_env	*ft_unset(char *var, t_env *env);
 
 //------ PARSING UTILS ------//
 void	ft_parsing(char *input);
