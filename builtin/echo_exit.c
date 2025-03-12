@@ -1,20 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   echo_exit.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/05 09:34:38 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/09 12:46:29 by tobourge         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 
 
-// ECHO-2 : Regarde si un argument de echo est une option -n
-// 		
+// ECHO-util1 : Regarde si un argument de echo est une option -n	
 int	ft_is_option(char *str)
 {
 	int	i;
@@ -34,9 +21,27 @@ int	ft_is_option(char *str)
 	return (0);
 }
 
+int	ft_skip_options(char **tab, int *i)
+{
+	int opt;
+
+	opt = ft_is_option(tab[1]);
+	if (opt == 1)
+	{
+		*i = 2;
+		while (tab[*i] != NULL && ft_is_option(tab[*i]) == 1)
+			(*i)++;
+	}
+	if (opt == 1 && !tab[*i])
+	{
+		printf("");
+		return (-1);
+	}
+	return (opt);
+}
 
 // COMMANDE ECHO
-// 		Regarde si le 1er arg de echo, puis les suivants sont des -n avec ECHO-2
+// 		Regarde si le 1er arg de echo, et les suivants sont des -n avec ECHO-util1
 //		Print les arguments séparés par un espace, puis \n si il n'y a pas d'option
 void	ft_echo(char **tab)
 {
@@ -46,15 +51,16 @@ void	ft_echo(char **tab)
 
 	i = 1;
 	size = 0;
+	if (!tab[1])
+	{
+		printf("\n");
+		return ;
+	}
 	while (tab[size] != NULL)
 		size++;
-	opt = ft_is_option(tab[1]);
-	if (opt == 1)
-	{
-		i = 2;
-		while (ft_is_option(tab[i]) == 1)
-			i++;
-	}
+	opt = ft_skip_options(tab, &i);
+	if (opt == -1)
+		return ;
 	while (tab[i] != NULL)
 	{
 		printf("%s", tab[i]);

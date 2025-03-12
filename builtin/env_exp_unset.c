@@ -1,29 +1,19 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env_exp_unset.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/08 21:38:10 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/09 12:36:33 by tobourge         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../minishell.h"
 
 
 // COMMANDE ENV : imprime la copie du tableau de variables d'environnement
-int	ft_env(char **env)
+int	ft_env(t_env *env)
 {
 	int	i;
 
 	i = 0;
-	if (!env || !env[i])
+	if (!env)
 		return (-1);
-	while (env[i] != NULL)
+	while (env[i].name != NULL)
 	{
-		printf("%s\n", env[i]);
+		printf("%s", env[i].name);
+		printf("=");
+		printf("%s\n", env[i].data);
 		i++;
 	}
 	return (0);

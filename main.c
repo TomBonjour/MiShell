@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/15 14:50:54 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/09 11:59:17 by tobourge         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "minishell.h" 
 
 
@@ -46,7 +34,7 @@ void	ft_copy_env_name(char **envp, t_env *env, int j, int *i)
 
 
 // Création du nouveau tableau de variables d'environnement
-// --> un tableau de structures {char **name ; char **data}
+// --> un tableau de structures {char *name ; char *data}
 t_env	*ft_set_env(char **envp)
 {
 	int		i;
@@ -57,7 +45,7 @@ t_env	*ft_set_env(char **envp)
 	j = 0;
 	while (envp[j] != NULL)
 		j++;
-	env = malloc(sizeof(t_env) * j);
+	env = malloc(sizeof(t_env) * (j + 1));
 	j = 0;
 	while (envp[j] != NULL)
 	{
@@ -73,23 +61,39 @@ t_env	*ft_set_env(char **envp)
 	return (env);
 }
 
+void	ft_free_env(t_env *env)
+{
+	int	j;
+
+	j = 0;
+	while (env[j].name != NULL)
+	{
+		free(env[j].name);
+		free(env[j].data);
+		j++;
+	}
+	free(env);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "cd builtin";
+	char	*input = "echo";
 	t_list	*line;
-	// int		i;
-	// int		j;
+	int		i;
+	int		j;
 
-	// i = 0;
-	// j = 1;
+	 i = 0;
+	 j = 1;
 	
 
 	// Copie de la liste de variables d'env (char **envp)
 	// dans un tableau de structure (t_env *env)
+
+	// ENVIRONNEMENT
 	env = ft_set_env(envp);
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
@@ -106,8 +110,9 @@ int	main(int ac, char **av, char **envp)
 		}
 		add_history(input);*/
 		line = ft_tokenize(input);
-
-
+	
+	
+			
 		//PRINT LISTE CHAINEE
 
 		/*while (line != NULL)
@@ -132,17 +137,22 @@ int	main(int ac, char **av, char **envp)
 			line = line->next;
 			j++;
 		}
-		printf("NULL");
-		ft_free_list(&line);
-	}*/
+		printf("NULL\n");*/
+	//}
 	
 
 	//TEST COMMANDES 
 	
-	//ft_env(env);
-	//ft_pwd();
-	//ft_echo(line->args);
-	ft_cd(line->args, env);
+	// ft_env(env);
+	// ft_pwd();
+	ft_echo(line->args);
+	// ft_cd(line->args, env);
+	
+
+	//FREE
+	ft_free_env(env);
+	ft_free_list(&line);
+	
 	return (0);
 }
 
