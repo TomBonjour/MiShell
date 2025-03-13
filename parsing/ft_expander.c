@@ -26,6 +26,7 @@ char	*ft_replace_env_var(char *str, int i, char *expand_var, int var_size)
 		i++;
 	}
 	free(str);
+	free(expand_var);
 	return (new);
 }
 
@@ -46,10 +47,28 @@ char	*ft_expand_env_var(char *var, t_env *env)
 		data = ft_strdup(env[i].data);
 		//protection retour de fonction
 	}
+	free(var);
 	return (data);
 }
 
-void	ft_expander(char *str, t_env *env)
+/*char	*ft_expand_quote(char *str, int i, t_env *env)
+{
+	char	quote;
+	
+	quote = str[i];
+	while (str[i] != quote)
+	{
+		if (str[i] == '$')
+		{
+
+		}
+		i++;
+	}
+
+}*/
+
+
+char	*ft_expander(char *str, t_env *env)
 {
 	int		i;
 	int		var_size;
@@ -60,7 +79,7 @@ void	ft_expander(char *str, t_env *env)
 	while (ft_is_quote(str[i]) == 0 && str[i] != '$' && str[i] != '\0')
 		i++;
 	if (str[i] == '\0')
-		return ;
+		return (str);
 	if (str[i] == '$')
 	{
 		var_size = ft_env_var_len(str, i + 1);
@@ -68,6 +87,8 @@ void	ft_expander(char *str, t_env *env)
 		expand_var = ft_expand_env_var(var, env);
 		str = ft_replace_env_var(str, i, expand_var, var_size);
 	}
-	/*if (ft_is_quote(str[i]) == 1)
-		ft_remove_quote(str, &i);*/
+	// if (ft_is_quote(str[i]) == 1)
+		// str = ft_expand_quote(str, i, env);
+		// ft_remove_quote(str, &i);
+	return (str);
 }

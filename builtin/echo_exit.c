@@ -43,7 +43,7 @@ int	ft_skip_options(char **tab, int *i)
 // COMMANDE ECHO
 // 		Regarde si le 1er arg de echo, et les suivants sont des -n avec ECHO-util1
 //		Print les arguments séparés par un espace, puis \n si il n'y a pas d'option
-void	ft_echo(char **tab)
+void	ft_echo(char **arg)
 {
 	int	i;
 	int	opt;
@@ -51,19 +51,19 @@ void	ft_echo(char **tab)
 
 	i = 1;
 	size = 0;
-	if (!tab[1])
+	if (!arg[1])
 	{
 		printf("\n");
 		return ;
 	}
-	while (tab[size] != NULL)
+	while (arg[size] != NULL)
 		size++;
-	opt = ft_skip_options(tab, &i);
+	opt = ft_skip_options(arg, &i);
 	if (opt == -1)
 		return ;
-	while (tab[i] != NULL)
+	while (arg[i] != NULL)
 	{
-		printf("%s", tab[i]);
+		printf("%s", arg[i]);
 		if (i < size - 1)
 			printf(" ");
 		i++;

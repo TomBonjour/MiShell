@@ -48,8 +48,9 @@ char	*ft_arg_substr(char *cmd, int *i);
 char	*ft_realloc_char(char *str, char c);
 t_list	*ft_tokenize(char *s);
 int		ft_syntax_and_expand(t_list *line, t_env *env);
-void	ft_expander(char *str, t_env *env);
+char	*ft_expander(char *str, t_env *env);
 int		ft_env_var_len(char *str, int i);
+int		ft_need_to_expand(char *str);
 
 //------ LISTS UTILS ------//
 t_list	*ft_lst_new_node(char *s);
@@ -66,6 +67,5 @@ int		ft_is_quote(char c);
 char	*ft_extract_quote(char *cmd, int *i, char *str, char quote);
 char	*ft_extract_str(char *cmd, int *i, char *str);
 char	*ft_pathcpy(char s[PATH_MAX], char *src, int size);
-
 
 #endif

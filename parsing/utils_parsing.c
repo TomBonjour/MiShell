@@ -37,6 +37,19 @@ int	ft_env_var_len(char *str, int i)
 	return (size);
 }
 
+int	ft_need_to_expand(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (ft_is_quote(str[i]) == 0 && str[i] != '$' && str[i] != '\0')
+		i++;
+	if (str[i] == '\0')
+		return (0);
+	else
+		return (1);
+}
+
 /*void	ft_remove_quote(t_list *line)
 {
 	

@@ -32,7 +32,6 @@ void	ft_copy_env_name(char **envp, t_env *env, int j, int *i)
 	}
 }
 
-
 // Création du nouveau tableau de variables d'environnement
 // --> un tableau de structures {char *name ; char *data}
 t_env	*ft_set_env(char **envp)
@@ -81,7 +80,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "unset UKRAINE";
+	char	*input = "echo $HOME";
 	t_list	*line;
 	int		i;
 	// int		j;
@@ -145,15 +144,16 @@ int	main(int ac, char **av, char **envp)
 	
 	//ft_env(env);
 	//ft_pwd();
-	//ft_echo(line->args);
+	ft_echo(line->args);
 	// ft_cd(line->args, env);
-	env = ft_unset(line->args[1], env);
-	while (env[i].name != NULL)
+	// env = ft_unset(line->args[1], env);
+	/*while (env[i].name != NULL)
 	{
 		printf("%s=%s\n", env[i].name, env[i].data);
 		i++;
-	}
-	// TODO FREE moi ca 
+	}*/
+	ft_free_env(env);
+	ft_free_list(&line);
 	return (0);
 }
 
