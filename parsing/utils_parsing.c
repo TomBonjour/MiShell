@@ -24,9 +24,10 @@ void	ft_find_end_quote(char *s, int *i, char c)
 		ft_syntax_error(NULL, "missing quote");
 }
 
+// Renvoie la longueur du nom d'une variable d'env
 int	ft_env_var_len(char *str, int i)
 {
-	int size;
+	int	size;
 
 	size = 0;
 	while (str[i] == '_' || ft_isalpha(str[i]) == 1)
@@ -37,6 +38,7 @@ int	ft_env_var_len(char *str, int i)
 	return (size);
 }
 
+// Regarde dans une string si il y a une variable d'env ou des quotes
 int	ft_need_to_expand(char *str)
 {
 	int	i;
@@ -50,7 +52,29 @@ int	ft_need_to_expand(char *str)
 		return (1);
 }
 
-/*void	ft_remove_quote(t_list *line)
+// Realloc une string en enlevant deux quotes
+char	*ft_remove_quotes(char *str, char quote)
 {
-	
-}*/
+	int		i;
+	int		j;
+	char	*new;
+	int		nb_quote;
+
+	i = 0;
+	j = 0;
+	nb_quote = 0;
+	new = malloc(sizeof(char) * (ft_strlen(str) - 2 + 1));
+	while (str[i] != '\0')
+	{
+		if (str[i] == quote && nb_quote < 2)
+		{
+			i++;
+			nb_quote += 1;
+		}
+		if (str[i] != '\0')
+			new[j++] = str[i++];
+	}
+	new[j] = '\0';
+	free(str);
+	return (new);
+}

@@ -51,6 +51,7 @@ int		ft_syntax_and_expand(t_list *line, t_env *env);
 char	*ft_expander(char *str, t_env *env);
 int		ft_env_var_len(char *str, int i);
 int		ft_need_to_expand(char *str);
+char	*ft_remove_quotes(char *str, char quote);
 
 //------ LISTS UTILS ------//
 t_list	*ft_lst_new_node(char *s);
