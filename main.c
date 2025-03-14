@@ -80,13 +80,13 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "echo \"$HOME\"";
+	char	*input = "echo coucou le$'HOME'ca va ou quoi";
 	t_list	*line;
 	int		i;
-	// int		j;
+	int		j;
 
 	i = 0;
-	// j = 1;
+	j = 1;
 	
 
 	// Copie de la liste de variables d'env (char **envp)
@@ -136,8 +136,8 @@ int	main(int ac, char **av, char **envp)
 			line = line->next;
 			j++;
 		}
-		printf("NULL\n");*/
-	//}
+		printf("NULL\n");
+	//}*/
 	
 
 	//TEST COMMANDES 

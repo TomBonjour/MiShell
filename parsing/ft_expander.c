@@ -1,8 +1,34 @@
 #include "../minishell.h"
 
+int	ft_find_var(t_env *env, char *var)
+{
+	int	j;
+	int	i;
+	int	size;
+
+	size = 0;
+	i = 0;
+	while (var[size] != '\0')
+		size++;
+	while (env[i].name != NULL)
+	{
+		if (size == ft_strlen(env[i].name))
+		{
+			j = 0;
+			while (var[j] == env[i].name[j]
+				&& (j < size || env[i].name[j] != '\0'))
+				j++;
+			if (var[j] == '\0' && env[i].name[j] == '\0')
+				return (i);
+		}
+		i++;
+	}
+	return (-1);
+}
+
 // Realloc la string en remplacant la variable d'environnement par son expansion
 // 		Utilisée dans expand_var_env
-char	*ft_replace_env_var(char *str, int *i, char *expand_var, int var_size)
+char	*ft_replace_env_var(char *str, int i, char *expand_var, int var_size)
 {
 	char	*new;
 	int		j;
@@ -12,23 +38,18 @@ char	*ft_replace_env_var(char *str, int *i, char *expand_var, int var_size)
 				- (var_size + 1) + ft_strlen(expand_var) + 1));
 	if (!new)
 		return (NULL);
-	while (++j < *i)
+	while (++j < i)
 		new[j] = str[j];
-	while (expand_var[j - *i] != '\0')
+	while (expand_var[j - i] != '\0')
 	{
-		new[j] = expand_var[j - *i];
+		new[j] = expand_var[j - i];
 		j++;
 	}
-	*i += var_size + 1;
-	while (str[*i] != '\0')
-	{
-		new[j] = str[*i];
-		j++;
-		(*i)++;
-	}
+	i += var_size + 1;
+	while (str[i] != '\0')
+		new[j++] = str[i++];
 	new[j] = '\0';
 	free(str);
-	free(expand_var);
 	return (new);
 }
 
@@ -36,20 +57,15 @@ char	*ft_replace_env_var(char *str, int *i, char *expand_var, int var_size)
 // 		Recupere le nom de la variable d'env
 // 		La retrouve dans le tableau d'env
 // 		Realloc la string dans laquelle elle se situe avec son vrai contenu
-char	*ft_expand_env_var(char *str, int *i, t_env *env)
+char	*ft_expand_env_var(char *str, int *i, int var_size, t_env *env)
 {
 	int		j;
 	char	*var;
-	int		var_size;
 	char	*expand_var;
 
-	var_size = ft_env_var_len(str, *i + 1);
 	var = ft_substr(str, *i + 1, var_size);
-	j = 0;
-	//INTEGRER LA FONCTION DE JOAN POUR LA RECHERCHE
-	while (ft_strncmp(env[j].name, var, ft_strlen(var)) != 0)
-		j++;
-	if (env[j].name == NULL)
+	j = ft_find_var(env, var);
+	if (j == -1)
 		expand_var = "";
 	else
 	{
@@ -57,7 +73,10 @@ char	*ft_expand_env_var(char *str, int *i, t_env *env)
 		//protection retour de fonction
 	}
 	free(var);
-	str = ft_replace_env_var(str, i, expand_var, var_size);
+	str = ft_replace_env_var(str, *i, expand_var, var_size);
+	*i += ft_strlen(expand_var);
+	if (expand_var[0] != '\0')
+		free(expand_var);
 	return (str);
 }
 
@@ -68,13 +87,22 @@ char	*ft_expand_env_var(char *str, int *i, t_env *env)
 char	*ft_expand_quote(char *str, int *i, t_env *env)
 {
 	char	quote;
+	int		var_size;
 
 	quote = str[*i];
 	(*i)++;
 	while (str[*i] != quote && str[*i] != '\0')
 	{
-		if (str[*i] == '$' && quote == '"')
-			str = ft_expand_env_var(str, i, env);
+		if (str[*i] == '$' && quote == '"' && ft_is_xpendable(str[*i + 1]) == 1)
+		{
+			if (str[*i + 1] == '?')
+				printf("exit status\n"); //ft_exit_status(A FAIRE);
+			else
+			{
+				var_size = ft_env_var_len(str, *i + 1);
+				str = ft_expand_env_var(str, i, var_size, env);
+			}
+		}
 		(*i)++;
 	}
 	str = ft_remove_quotes(str, quote);
@@ -82,12 +110,12 @@ char	*ft_expand_quote(char *str, int *i, t_env *env)
 	return (str);
 }
 
-
 //Expand les variables d'env et le contenu des quotes suivant le cas
 //	Fournit l'input prêt a être envoyé a l'exec
 char	*ft_expander(char *str, t_env *env)
 {
 	int		i;
+	int		var_size;
 
 	i = 0;
 	while (str[i] != '\0')
@@ -96,8 +124,18 @@ char	*ft_expander(char *str, t_env *env)
 			i++;
 		if (str[i] == '\0')
 			return (str);
-		if (str[i] == '$')
-			str = ft_expand_env_var(str, &i, env);
+		if (str[i] == '$' && ft_is_xpendable(str[i + 1]) == 1)
+		{
+			if (str[i + 1] == '?')
+				printf("exit status\n"); //ft_exit_status(A FAIRE);
+			if (ft_is_quote(str[i + 1]) == 1)
+				str = ft_remove_dollar(str, i);
+			else
+			{
+				var_size = ft_env_var_len(str, i + 1);
+				str = ft_expand_env_var(str, &i, var_size, env);
+			}
+		}
 		if (ft_is_quote(str[i]) == 1)
 			str = ft_expand_quote(str, &i, env);
 		if (str[i] != '\0')

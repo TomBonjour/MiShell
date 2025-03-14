@@ -111,3 +111,19 @@ int	ft_is_quote(char c)
 	else
 		return (0);
 }
+
+int	ft_is_env_var(char c)
+{
+	if (c == '_' || ft_isalpha(c) == 1)
+		return (1);
+	else
+		return (0);
+}
+
+int	ft_is_xpendable(char c)
+{
+	if (ft_isalpha(c) == 1 || c == '_' || c == '?' || c == '"' || c == '\'')
+		return (1);
+	else
+		return (0);
+}

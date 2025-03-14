@@ -52,6 +52,7 @@ char	*ft_expander(char *str, t_env *env);
 int		ft_env_var_len(char *str, int i);
 int		ft_need_to_expand(char *str);
 char	*ft_remove_quotes(char *str, char quote);
+char 	*ft_remove_dollar(char *str, int i);
 
 //------ LISTS UTILS ------//
 t_list	*ft_lst_new_node(char *s);
@@ -65,6 +66,8 @@ int		ft_count_words(char *cmd);
 int		ft_is_redir(char c);
 int		ft_is_blank(char c);
 int		ft_is_quote(char c);
+int		ft_is_env_var(char c);
+int		ft_is_xpendable(char c);
 char	*ft_extract_quote(char *cmd, int *i, char *str, char quote);
 char	*ft_extract_str(char *cmd, int *i, char *str);
 char	*ft_pathcpy(char s[PATH_MAX], char *src, int size);

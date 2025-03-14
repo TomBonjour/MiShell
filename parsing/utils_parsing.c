@@ -44,12 +44,15 @@ int	ft_need_to_expand(char *str)
 	int	i;
 
 	i = 0;
-	while (ft_is_quote(str[i]) == 0 && str[i] != '$' && str[i] != '\0')
-		i++;
-	if (str[i] == '\0')
-		return (0);
-	else
-		return (1);
+	while (str[i] != '\0')
+	{
+		if (ft_is_quote(str[i]) == 1
+			|| (str[i] == '$' && ft_is_xpendable(str[i + 1])))
+			return (1);
+		else
+			i++;
+	}
+	return (0);
 }
 
 // Realloc une string en enlevant deux quotes
@@ -71,9 +74,31 @@ char	*ft_remove_quotes(char *str, char quote)
 			i++;
 			nb_quote += 1;
 		}
-		if (str[i] != '\0')
+		if ((str[i] != quote || nb_quote >= 2) && str[i] != '\0')
 			new[j++] = str[i++];
+		else if (str[i] != '\0')
+			i++;
 	}
+	new[j] = '\0';
+	free(str);
+	return (new);
+}
+
+char 	*ft_remove_dollar(char *str, int i)
+{
+	int		j;
+	char	*new;
+
+	j = 0;
+	new = malloc (sizeof(char) * (ft_strlen(str) - 1 + 1));
+	while (j < i)
+	{
+		new[j] = str[j];
+		j++;
+	}
+	i++;
+	while (str[i] != '\0')
+		new[j++] = str[i++];
 	new[j] = '\0';
 	free(str);
 	return (new);
