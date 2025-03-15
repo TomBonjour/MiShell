@@ -74,7 +74,7 @@ char	*ft_expand_env_var(char *str, int *i, int var_size, t_env *env)
 	}
 	free(var);
 	str = ft_replace_env_var(str, *i, expand_var, var_size);
-	*i += ft_strlen(expand_var);
+	*i += ft_strlen(expand_var) - 1;
 	if (expand_var[0] != '\0')
 		free(expand_var);
 	return (str);
@@ -87,9 +87,11 @@ char	*ft_expand_env_var(char *str, int *i, int var_size, t_env *env)
 char	*ft_expand_quote(char *str, int *i, t_env *env)
 {
 	char	quote;
+	int		pos;
 	int		var_size;
 
 	quote = str[*i];
+	pos = *i;
 	(*i)++;
 	while (str[*i] != quote && str[*i] != '\0')
 	{
@@ -105,7 +107,7 @@ char	*ft_expand_quote(char *str, int *i, t_env *env)
 		}
 		(*i)++;
 	}
-	str = ft_remove_quotes(str, quote);
+	str = ft_remove_quotes(str, quote, pos);
 	(*i) -= 2;
 	return (str);
 }

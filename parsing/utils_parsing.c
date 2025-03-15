@@ -56,7 +56,7 @@ int	ft_need_to_expand(char *str)
 }
 
 // Realloc une string en enlevant deux quotes
-char	*ft_remove_quotes(char *str, char quote)
+char	*ft_remove_quotes(char *str, char quote, int pos)
 {
 	int		i;
 	int		j;
@@ -67,6 +67,8 @@ char	*ft_remove_quotes(char *str, char quote)
 	j = 0;
 	nb_quote = 0;
 	new = malloc(sizeof(char) * (ft_strlen(str) - 2 + 1));
+	while (i < pos)
+		new[j++] = str[i++];
 	while (str[i] != '\0')
 	{
 		if (str[i] == quote && nb_quote < 2)
