@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "echo coucou le$'HOME'ca va ou quoi";
+	char	*input = "echo 'coucou'$ 'yoyo'";
 	t_list	*line;
 	int		i;
 	int		j;
