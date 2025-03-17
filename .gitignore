@@ -1,8 +1,7 @@
 *.o
 minishell
-.gitignore
-dir_tmp
 compile_commands.json
 libft/libft.a
 todo.txt
 .nfs0000000001e9856c00000081
+.gitignore
