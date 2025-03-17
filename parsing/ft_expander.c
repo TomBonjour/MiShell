@@ -99,6 +99,8 @@ char	*ft_expand_quote(char *str, int *i, t_env *env)
 		{
 			if (str[*i + 1] == '?')
 				printf("exit status\n"); //ft_exit_status(A FAIRE);
+			else if (ft_is_quote(str[*i + 1]) == 1)
+				str = ft_remove_dollar(str, *i);
 			else
 			{
 				var_size = ft_env_var_len(str, *i + 1);
@@ -130,7 +132,7 @@ char	*ft_expander(char *str, t_env *env)
 		{
 			if (str[i + 1] == '?')
 				printf("exit status\n"); //ft_exit_status(A FAIRE);
-			if (ft_is_quote(str[i + 1]) == 1)
+			else if (ft_is_quote(str[i + 1]) == 1)
 				str = ft_remove_dollar(str, i);
 			else
 			{
