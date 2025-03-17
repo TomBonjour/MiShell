@@ -18,6 +18,8 @@ SRCS = main.c \
 	   builtin/env_exp_unset.c \
 	   builtin/pwd_cd.c \
 	   builtin/unset.c \
+	   builtin/export.c \
+	   builtin/utils_builtin.c \
 	   signals/signals.c
 
 #-------------------------------------------------------OBJECTS--------------------------------------------------#

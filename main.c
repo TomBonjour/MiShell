@@ -81,7 +81,10 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "unset UKRAINE";
+
+	// A FIX
+	// char	*input = "export coucou=";  -> ecrit coucou== au lieu de coucou=
+	char	*input = "export BON=1112 321=== BOBO===";  
 	t_list	*line;
 	int		i;
 	// int		j;
@@ -147,13 +150,15 @@ int	main(int ac, char **av, char **envp)
 	//ft_pwd();
 	//ft_echo(line->args);
 	// ft_cd(line->args, env);
-	env = ft_unset(line->args[1], env);
+	env = ft_export(line->args, env);
+	// env = ft_unset(line->args, env);
 	while (env[i].name != NULL)
 	{
 		printf("%s=%s\n", env[i].name, env[i].data);
 		i++;
 	}
-	// TODO FREE moi ca 
+	ft_free_env(env);
+	ft_free_list(&line);	
 	return (0);
 }
 
