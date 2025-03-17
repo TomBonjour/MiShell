@@ -145,7 +145,7 @@ int	main(int ac, char **av, char **envp)
 	
 	//ft_env(env);
 	//ft_pwd();
-	ft_echo(line->args);
+	//ft_echo(line->args);
 	// ft_cd(line->args, env);
 	// env = ft_unset(line->args[1], env);
 	/*while (env[i].name != NULL)
@@ -153,6 +153,7 @@ int	main(int ac, char **av, char **envp)
 		printf("%s=%s\n", env[i].name, env[i].data);
 		i++;
 	}*/
+	ft_exit(line->args, env);
 	ft_free_env(env);
 	ft_free_list(&line);
 	return (0);

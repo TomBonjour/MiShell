@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 10:49:58 by tobourge          #+#    #+#             */
-/*   Updated: 2025/03/15 18:33:42 by jnauroy          ###   ########.fr       */
+/*   Updated: 2025/03/17 15:03:24 by jnauroy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_strlen(const	char *str)
 	int	n;
 
 	n = 0;
-	while (str[n] != '\0')
+	while (str && str[n] != '\0')
 		n++;
 	return (n);
 }
