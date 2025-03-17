@@ -21,14 +21,17 @@ int	ft_get_command_and_redir(char *cmd, t_list **new_elem)
 	while (cmd[i] != '\0')
 	{
 		if (ft_is_redir(cmd[i]) == 1)
-			(*new_elem)->redir[++j] = ft_redir_substr(cmd, &i);
+		{
+			if (cmd[i] == '<' && cmd[i + 1] == '<')
+				printf("faire heredoc"); //A FAIRE : heredoc
+			else
+				(*new_elem)->redir[++j] = ft_redir_substr(cmd, &i);
+		}
 		else
 			(*new_elem)->args[++k] = ft_arg_substr(cmd, &i);
 	}
-	k++;
-	j++;
-	(*new_elem)->args[k] = NULL;
-	(*new_elem)->redir[j] = NULL;
+	(*new_elem)->args[++k] = NULL;
+	(*new_elem)->redir[++j] = NULL;
 	return (0);
 }
 
