@@ -57,12 +57,14 @@ char	*ft_replace_env_var(char *str, int i, char *expand_var, int var_size)
 // 		Recupere le nom de la variable d'env
 // 		La retrouve dans le tableau d'env
 // 		Realloc la string dans laquelle elle se situe avec son vrai contenu
-char	*ft_expand_env_var(char *str, int *i, int var_size, t_env *env)
+char	*ft_expand_env_var(char *str, int *i, t_env *env)
 {
 	int		j;
 	char	*var;
 	char	*expand_var;
+	int		var_size;
 
+	var_size = ft_env_var_len(str, *i + 1);
 	var = ft_substr(str, *i + 1, var_size);
 	j = ft_find_var(env, var);
 	if (j == -1)
@@ -87,11 +89,12 @@ char	*ft_expand_env_var(char *str, int *i, int var_size, t_env *env)
 char	*ft_expand_quote(char *str, int *i, t_env *env)
 {
 	char	quote;
+	int		nb_quote;
 	int		pos;
-	int		var_size;
 
 	quote = str[*i];
 	pos = *i;
+	nb_quote = 0;
 	(*i)++;
 	while (str[*i] != quote && str[*i] != '\0')
 	{
@@ -102,14 +105,11 @@ char	*ft_expand_quote(char *str, int *i, t_env *env)
 			else if (ft_is_quote(str[*i + 1]) == 1)
 				str = ft_remove_dollar(str, *i);
 			else
-			{
-				var_size = ft_env_var_len(str, *i + 1);
-				str = ft_expand_env_var(str, i, var_size, env);
-			}
+				str = ft_expand_env_var(str, i, env);
 		}
 		(*i)++;
 	}
-	str = ft_remove_quotes(str, quote, pos);
+	str = ft_remove_quotes(str, quote, pos, nb_quote);
 	(*i) -= 2;
 	return (str);
 }
@@ -119,7 +119,6 @@ char	*ft_expand_quote(char *str, int *i, t_env *env)
 char	*ft_expander(char *str, t_env *env)
 {
 	int		i;
-	int		var_size;
 
 	i = 0;
 	while (str[i] != '\0')
@@ -135,10 +134,7 @@ char	*ft_expander(char *str, t_env *env)
 			else if (ft_is_quote(str[i + 1]) == 1)
 				str = ft_remove_dollar(str, i);
 			else
-			{
-				var_size = ft_env_var_len(str, i + 1);
-				str = ft_expand_env_var(str, &i, var_size, env);
-			}
+				str = ft_expand_env_var(str, &i, env);
 		}
 		if (ft_is_quote(str[i]) == 1)
 			str = ft_expand_quote(str, &i, env);

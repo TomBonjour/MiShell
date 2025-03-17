@@ -85,13 +85,11 @@ char	*ft_redir_substr(char *cmd, int *i)
 		return (NULL);
 	str[0] = cmd[*i];
 	str[1] = '\0';
-	(*i)++;
-	if (ft_is_redir(cmd[*i]) == 1)
+	if (ft_is_redir(cmd[++(*i)]) == 1)
 	{
 		str = ft_realloc_char(str, cmd[*i]);
 		if (!str)
 			return (NULL);
-		(*i)++;
 	}
 	while (ft_is_blank(cmd[*i]) == 1 && cmd[*i] != '\0')
 		(*i)++;

@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "echo \"'\"$'\"'";
+	char	*input = "echo bon<jour\"yoy>>oyo$HOME'yo\"";
 	t_list	*line;
 	int		i;
 	int		j;

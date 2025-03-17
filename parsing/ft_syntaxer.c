@@ -1,7 +1,17 @@
 #include "../minishell.h"
 
+// A FINIR !!! Free la list et exit le programme en affichant syntax_error
+void	ft_syntax_error(t_list **args, char *mess)
+{
+	if (args == NULL)
+		(void)args;
+	if (mess == NULL)
+		(void)mess;
+	printf("Syntax error\n");
+	ft_free_list(args);
+	exit (0);
+}
 
-// 
 int	ft_check_redir_syntax(char *redir)
 {
 	if (ft_is_redir(redir[1]) == 1)

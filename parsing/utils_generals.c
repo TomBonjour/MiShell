@@ -13,7 +13,7 @@ void	ft_reverse_free(char **tab, int j)
 char	*ft_pathcpy(char str[PATH_MAX], char *src, int size)
 {
 	int	i;
-	
+
 	i = 0;
 	while (src[i] != '\0' && i < size)
 	{
@@ -44,7 +44,6 @@ char	*ft_realloc_char(char *str, char c)
 	free(str);
 	return (new);
 }
-
 
 // Extrait une chaine de caractère entre quotes
 char	*ft_extract_quote(char *cmd, int *i, char *str, char quote)

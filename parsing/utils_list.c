@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 // Malloc le nouveau node et remplit les tableaux de commandes et de redir
 t_list	*ft_lst_new_node(char *cmd)
 {

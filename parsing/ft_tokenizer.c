@@ -53,16 +53,8 @@ t_list	**ft_lst_new_add_back(char *s, int len, t_list **args)
 
 // 2. Enleve les blank et split par les pipes
 // 		Envoie chaque partie a lst_new_add_back(3) pour créer la liste chainee
-t_list	*ft_split_line(char *s, t_list *args)
+t_list	*ft_split_line(char *s, t_list *args, int len)
 {
-	int		len;
-	int		quote;
-
-	quote = 0;
-	while (ft_is_blank(*s) == 1)
-			s++;
-		if (*s == '\0')
-			return (NULL);
 	while (*s != '\0')
 	{
 		while (ft_is_blank(*s) == 1)
@@ -94,14 +86,18 @@ t_list	*ft_split_line(char *s, t_list *args)
 t_list	*ft_tokenize(char *input)
 {
 	t_list	*line;
+	int		len;
 
+	len = 0;
 	line = NULL;
 	if (input == NULL)
 		return (NULL);
-	line = ft_split_line(input, line);
+	while (ft_is_blank(*input) == 1)
+		input++;
+	if (*input == '\0')
+		return (NULL);
+	line = ft_split_line(input, line, len);
 	if (!line)
 		return (NULL);
 	return (line);
 }
-
-//PROCHAINES ETAPES : remove quote

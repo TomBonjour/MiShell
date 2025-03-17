@@ -1,17 +1,5 @@
 #include "../minishell.h"
 
-// A FINIR !!! Free la list et exit le programme en affichant syntax_error
-void	ft_syntax_error(t_list **args, char *mess)
-{
-	if (args == NULL)
-		(void)args;
-	if (mess == NULL)
-		(void)mess;
-	printf("Syntax error\n");
-	ft_free_list(args);
-	exit (0);
-}
-
 // Trouve la fin de la quote dans laquelle on est entré.
 // Renvoie syntax error si la quote n'a pas de fin.
 // 		Utilisée dès qu'on trouve une quote et qu'on veut la passer
@@ -56,16 +44,14 @@ int	ft_need_to_expand(char *str)
 }
 
 // Realloc une string en enlevant deux quotes
-char	*ft_remove_quotes(char *str, char quote, int pos)
+char	*ft_remove_quotes(char *str, char quote, int pos, int nb_quote)
 {
 	int		i;
 	int		j;
 	char	*new;
-	int		nb_quote;
 
 	i = 0;
 	j = 0;
-	nb_quote = 0;
 	new = malloc(sizeof(char) * (ft_strlen(str) - 2 + 1));
 	while (i < pos)
 		new[j++] = str[i++];
@@ -86,7 +72,7 @@ char	*ft_remove_quotes(char *str, char quote, int pos)
 	return (new);
 }
 
-char 	*ft_remove_dollar(char *str, int i)
+char	*ft_remove_dollar(char *str, int i)
 {
 	int		j;
 	char	*new;
