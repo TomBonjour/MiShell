@@ -27,12 +27,22 @@ int		ft_pwd(void);
 int		ft_env(t_env *env);
 void	ft_echo(char **tab);
 int		ft_cd(char **tab, t_env *env);
+int		ft_forbidd_char(char *var);
+int		ft_find_equal(char *var);
+int		ft_find_var(t_env *env, char *var, int *i);
+int		ft_export_fill_env(t_env *new, char *var, t_env *env);
+t_env	*ft_export(char **argv, t_env *env);
+char	*ft_fill_name(char *var, char c);
+char	*ft_fill_data(char *var, char c);
+t_env	*ft_unset(char **argv, t_env *env);
+void	ft_unset_fill_env(t_env *new, char *var, t_env *env, int i);
+int		ft_unset_find_var(char *var, t_env *env);
+t_env	*ft_realloc_env(int i);
 
 //------ SIGNALS UTILS ------//
 void	ft_sigint_handler(int sig);
 void	ft_sigquit_handler(int sig);
 void	setup_signals(void);
-t_env	*ft_unset(char *var, t_env *env);
 
 //------ PARSING UTILS ------//
 void	ft_parsing(char *input);

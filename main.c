@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "echo BON=1112 321=== BOBO===";
+	char	*input = "export BON=1112 321=== BOBO===";  
 	t_list	*line;
 	int		i;
 	int		j;
@@ -156,5 +156,3 @@ int	main(int ac, char **av, char **envp)
 	ft_free_list(&line);
 	return (0);
 }
-
-
