@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int	ft_find_var(t_env *env, char *var)
+int	ft_find_env_var(t_env *env, char *var)
 {
 	int	j;
 	int	i;
@@ -66,7 +66,7 @@ char	*ft_expand_env_var(char *str, int *i, t_env *env)
 
 	var_size = ft_env_var_len(str, *i + 1);
 	var = ft_substr(str, *i + 1, var_size);
-	j = ft_find_var(env, var);
+	j = ft_find_env_var(env, var);
 	if (j == -1)
 		expand_var = "";
 	else

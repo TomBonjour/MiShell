@@ -8,7 +8,7 @@ LIBFT = $(LIBFT_PATH)/libft.a
 
 #-------------------------------------------------------SRCS----------------------------------------------------#
 SRCS = main.c \
-	   parsing/ft_tokenize.c \
+	   parsing/ft_tokenizer.c \
 	   parsing/ft_syntaxer.c \
 	   parsing/ft_expander.c \
 	   parsing/utils_parsing.c \
