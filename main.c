@@ -80,8 +80,9 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "";  
+	char	*input = "<a<<y>b<<z>>c";  
 	t_list	*line;
+	t_list	*temp;
 	int		i;
 	int		j;
 
@@ -113,8 +114,8 @@ int	main(int ac, char **av, char **envp)
 	
 			
 		//PRINT LISTE CHAINEE
-
-		/*while (line != NULL)
+		temp = line;
+		while (line != NULL)
 		{
 			i = 0;
 			printf ("COMMANDE %d\n", j);
@@ -137,14 +138,15 @@ int	main(int ac, char **av, char **envp)
 			j++;
 		}
 		printf("NULL\n");
-	//}*/
+		line = temp;
+//	}
 	
 
 	//TEST COMMANDES 
 	
 	//ft_env(env);
 	//ft_pwd();
-	ft_echo(line->args);
+	// ft_echo(line->args);
 	// ft_cd(line->args, env);
 	// env = ft_unset(line->args[1], env);
 	/*while (env[i].name != NULL)

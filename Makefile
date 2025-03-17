@@ -11,6 +11,7 @@ SRCS = main.c \
 	   parsing/ft_tokenizer.c \
 	   parsing/ft_syntaxer.c \
 	   parsing/ft_expander.c \
+	   parsing/ft_heredoc.c \
 	   parsing/utils_parsing.c \
 	   parsing/utils_tokenize.c \
 	   parsing/utils_list.c \

@@ -47,7 +47,7 @@ int	ft_syntax_and_expand(t_list *line, t_env *env)
 		{
 			if (ft_check_redir_syntax(line->redir[i]) == -1)
 				return (-1);
-			if (ft_need_to_expand(line->args[i]) == 1)
+			if (ft_need_to_expand(line->redir[i]) == 1)
 				line->redir[i] = ft_expander(line->redir[i], env);
 			i++;
 		}

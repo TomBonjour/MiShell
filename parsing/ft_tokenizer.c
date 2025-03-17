@@ -10,12 +10,16 @@ int	ft_get_command_and_redir(char *cmd, t_list **new_elem)
 	int		i;
 	int		j;
 	int		k;
+	int		nb_arg;
+	int		nb_redir;
 
 	i = 0;
 	j = -1;
 	k = -1;
-	(*new_elem)->args = malloc(sizeof(char *) * (ft_count_args(cmd) + 1));
-	(*new_elem)->redir = malloc(sizeof(char *) * (ft_count_redir(cmd) + 1));
+	nb_arg = ft_count_args(cmd);
+	nb_redir = ft_count_redir(cmd);
+	(*new_elem)->args = malloc(sizeof(char *) * (nb_arg + 1));
+	(*new_elem)->redir = malloc(sizeof(char *) * (nb_redir + 1));
 	if (!(*new_elem)->args || !(*new_elem)->redir)
 		return (-1);
 	while (cmd[i] != '\0')
@@ -23,7 +27,13 @@ int	ft_get_command_and_redir(char *cmd, t_list **new_elem)
 		if (ft_is_redir(cmd[i]) == 1)
 		{
 			if (cmd[i] == '<' && cmd[i + 1] == '<')
-				printf("faire heredoc"); //A FAIRE : heredoc
+			{
+				(*new_elem)->redir[++j] = ft_redir_substr(cmd, &i);
+				(*new_elem)->redir = ft_heredoc_priority((*new_elem)->redir,
+						nb_redir, j, (*new_elem)->redir[j]);
+				if (!(*new_elem)->redir)
+					printf("EXIT\n"); // Gérer l'exit
+			}
 			else
 				(*new_elem)->redir[++j] = ft_redir_substr(cmd, &i);
 		}

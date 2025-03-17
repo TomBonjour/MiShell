@@ -30,12 +30,12 @@ int		ft_cd(char **tab, t_env *env);
 int		ft_forbidd_char(char *var);
 int		ft_find_equal(char *var);
 int		ft_find_var(t_env *env, char *var, int *i);
-int		ft_export_fill_env(t_env *new, char *var, t_env *env);
+int		ft_export_fill_env(t_env *new_tab, char *var, t_env *env);
 t_env	*ft_export(char **argv, t_env *env);
 char	*ft_fill_name(char *var, char c);
 char	*ft_fill_data(char *var, char c);
 t_env	*ft_unset(char **argv, t_env *env);
-void	ft_unset_fill_env(t_env *new, char *var, t_env *env, int i);
+void	ft_unset_fill_env(t_env *new_tab, char *var, t_env *env, int i);
 int		ft_unset_find_var(char *var, t_env *env);
 t_env	*ft_realloc_env(int i);
 
@@ -63,6 +63,7 @@ int		ft_env_var_len(char *str, int i);
 int		ft_need_to_expand(char *str);
 char	*ft_remove_quotes(char *str, char quote, int pos, int nb_quotes);
 char	*ft_remove_dollar(char *str, int i);
+char	**ft_heredoc_priority(char **redir_tab, int size, int j, char *heredoc);
 
 //------ LISTS UTILS ------//
 t_list	*ft_lst_new_node(char *s);
