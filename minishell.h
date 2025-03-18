@@ -63,7 +63,7 @@ int		ft_env_var_len(char *str, int i);
 int		ft_need_to_expand(char *str);
 char	*ft_remove_quotes(char *str, char quote, int pos, int nb_quotes);
 char	*ft_remove_dollar(char *str, int i);
-char	**ft_heredoc_priority(char **redir_tab, int size, int j, char *heredoc);
+char	**ft_heredoc_priority(char **redir_tab, int size);
 
 //------ LISTS UTILS ------//
 t_list	*ft_lst_new_node(char *s);

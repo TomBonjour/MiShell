@@ -92,7 +92,6 @@ char	*ft_redir_substr(char *cmd, int *i)
 			return (NULL);
 		(*i)++;
 	}
-
 	while (ft_is_blank(cmd[*i]) == 1 && cmd[*i] != '\0')
 		(*i)++;
 	while (ft_is_blank(cmd[*i]) == 0 && ft_is_redir(cmd[*i]) == 0 && cmd[*i])

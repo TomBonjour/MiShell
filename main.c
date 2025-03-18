@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "<a<<y>b<<z>>c";  
+	char	*input = "echo >>bonjour cat <<salut";  
 	t_list	*line;
 	t_list	*temp;
 	int		i;
