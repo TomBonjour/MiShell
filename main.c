@@ -80,10 +80,11 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
-	char	*input = "";  
+	char	*input = "exit"; //19 chiffes 
 	t_list	*line;
 	int		i;
 	int		j;
+	int		value_exit;
 
 	i = 0;
 	j = 1;
@@ -152,8 +153,8 @@ int	main(int ac, char **av, char **envp)
 		printf("%s=%s\n", env[i].name, env[i].data);
 		i++;
 	}*/
-	ft_exit(line->args, env);
+	value_exit = ft_exit(line->args, line, env);
 	ft_free_env(env);
 	ft_free_list(&line);
-	return (0);
+	return (value_exit);
 }

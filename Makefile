@@ -20,6 +20,7 @@ SRCS = main.c \
 	   builtin/pwd_cd.c \
 	   builtin/unset.c \
 	   builtin/export.c \
+	   builtin/exit.c \
 	   builtin/utils_builtin.c \
 	   signals/signals.c
 

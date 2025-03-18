@@ -1,5 +1,28 @@
 #include "../minishell.h"
 
+long long	ft_atoll(char *str)
+{
+	int			i;
+	long long	n;
+	int			sign;
+
+	i = 0;
+	n = 0;
+	sign = 1;
+	while ((str[i] >= '\t' && str[i] <= '\r') || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		if (str[i++] == '-')
+			sign *= -1;
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		if (ft_increment(&n, sign, str, i))
+			return (2);
+		i++;
+	}
+	return (n * sign);
+}
+
 void	ft_reverse_free(char **tab, int j)
 {
 	while (j > 0)
@@ -126,3 +149,4 @@ int	ft_is_xpendable(char c)
 	else
 		return (0);
 }
+
