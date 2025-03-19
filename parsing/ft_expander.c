@@ -45,6 +45,8 @@ char	*ft_replace_env_var(char *str, int i, char *expand_var, int var_size)
 		new[j] = expand_var[j - i];
 		j++;
 	}
+	if (str[i] == '$' && str[i + 1] == '?')
+		free(expand_var);
 	i += var_size + 1;
 	while (str[i] != '\0')
 		new[j++] = str[i++];

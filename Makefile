@@ -14,12 +14,10 @@ SRCS = main.c \
 	   parsing/ft_heredoc.c \
 	   parsing/utils_parsing.c \
 	   parsing/utils_tokenize.c \
-	   parsing/utils_expander.c \
 	   parsing/utils_list.c \
 	   parsing/utils_generals.c \
-	   builtin/echo_exit.c \
-	   builtin/env_exp_unset.c \
-	   builtin/pwd_cd.c \
+	   builtin/echo.c \
+	   builtin/env_pwd_cd.c \
 	   builtin/unset.c \
 	   builtin/export.c \
 	   builtin/exit.c \

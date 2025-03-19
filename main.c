@@ -81,7 +81,7 @@ int	main(int ac, char **av, char **envp)
 	(void)envp;
 	t_env 	*env;
 	t_data	data;
-	char	*input = "echo >>bonjour cat <<salut";  
+	char	*input = "echo '$?'";  
 	t_list	*line;
 	t_list	*temp;
 	int		i;
@@ -95,6 +95,7 @@ int	main(int ac, char **av, char **envp)
 	// Copie de la liste de variables d'env (char **envp)
 	// dans un tableau de structure (t_env *env)
 	ft_init_data(&data);
+	data.rvalue = 127;
 	env = ft_set_env(envp);
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
@@ -111,7 +112,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		add_history(input);*/
 		line = ft_tokenize(input);
-		if (ft_syntax_and_expand(line, env, data) == -1)
+		if (ft_syntax_and_expand(line, env, &data) == -1)
 			ft_syntax_error(&line, NULL);
 	
 			
