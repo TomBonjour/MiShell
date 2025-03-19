@@ -68,3 +68,8 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 	else
 		last->next = new;
 }
+
+void	ft_init_data(t_data *data)
+{
+	data->rvalue = 0;
+}
