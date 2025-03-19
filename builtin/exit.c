@@ -89,21 +89,19 @@ int	ft_parsing_exit(char **argv)
 	return (0);
 }
 
-int	ft_exit(char **argv, t_list *line, t_env *env)
+int	ft_exit(char **argv, t_list *line, t_env *env, t_data *data)
 {
-	unsigned char	numerror;
-
 	printf("exit\n");
-	numerror = ft_parsing_exit(argv);
-	if (numerror != 1)
+	data->rvalue = ft_parsing_exit(argv);
+	if (data->rvalue != 1)
 	{
-		if (numerror == 3)
-			numerror = 0;
-		else if (numerror < 1 || numerror > 3)
-			numerror = ft_atoll(line->args[1]);
+		if (data->rvalue == 3)
+			data->rvalue = 0;
+		else if (data->rvalue < 1 || data->rvalue > 3)
+			data->rvalue = ft_atoll(line->args[1]);
 		ft_free_env(env);
 		ft_free_list(&line);
-		exit (numerror);
+		exit (data->rvalue);
 	}
 	return (1);
 }

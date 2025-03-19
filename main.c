@@ -80,6 +80,7 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 	*env;
+	t_data	data;
 	char	*input = "echo >>bonjour cat <<salut";  
 	t_list	*line;
 	t_list	*temp;
@@ -93,7 +94,7 @@ int	main(int ac, char **av, char **envp)
 
 	// Copie de la liste de variables d'env (char **envp)
 	// dans un tableau de structure (t_env *env)
-
+	ft_init_data(&data);
 	env = ft_set_env(envp);
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
@@ -155,7 +156,7 @@ int	main(int ac, char **av, char **envp)
 		printf("%s=%s\n", env[i].name, env[i].data);
 		i++;
 	}*/
-	value_exit = ft_exit(line->args, line, env);
+	value_exit = ft_exit(line->args, line, env, &data);
 	ft_free_env(env);
 	ft_free_list(&line);
 	return (value_exit);

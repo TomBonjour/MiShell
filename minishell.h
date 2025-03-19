@@ -25,7 +25,7 @@ typedef struct s_env
 
 typedef struct s_data
 {
-	int			rvalue;
+	int				rvalue;
 }					t_data;
 
 //------ BUILTINS UTILS ------//
@@ -44,7 +44,7 @@ t_env		*ft_unset(char **argv, t_env *env);
 void		ft_unset_fill_env(t_env *new_tab, char *var, t_env *env, int i);
 int			ft_unset_find_var(char *var, t_env *env);
 t_env		*ft_realloc_env(int i);
-int			ft_exit(char **argv, t_list *line, t_env *env);
+int			ft_exit(char **argv, t_list *line, t_env *env, t_data *data);
 int			ft_parsing_exit(char **argv);
 long long	ft_atoll(char *str);
 int			ft_check_syntax(char *str);
@@ -81,6 +81,7 @@ t_list		*ft_lst_new_node(char *s);
 void		ft_free_list(t_list **line);
 void		ft_free_env(t_env *env);
 void		ft_lstadd_back(t_list **lst, t_list *new_node);
+void		ft_init_data(t_data *data);
 
 //------	 GENERAL UTILS ------//
 void		ft_reverse_free(char **tab, int j);
