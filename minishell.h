@@ -23,6 +23,11 @@ typedef struct s_env
 	char			*data;
 }					t_env;
 
+typedef struct s_data
+{
+	int			rvalue;
+}					t_data;
+
 //------ BUILTINS UTILS ------//
 int			ft_pwd(void);
 int			ft_env(t_env *env);
@@ -63,8 +68,8 @@ char		*ft_redir_substr(char *cmd, int *i);
 char		*ft_arg_substr(char *cmd, int *i);
 char		*ft_realloc_char(char *str, char c);
 t_list		*ft_tokenize(char *s);
-int			ft_syntax_and_expand(t_list *line, t_env *env);
-char		*ft_expander(char *str, t_env *env);
+int			ft_syntax_and_expand(t_list *line, t_env *env, t_data *data);
+char		*ft_expander(char *str, t_env *env, t_data *data);
 int			ft_env_var_len(char *str, int i);
 int			ft_need_to_expand(char *str);
 char		*ft_remove_quotes(char *str, char quote, int pos, int nb_quotes);

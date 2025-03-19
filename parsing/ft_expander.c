@@ -86,7 +86,7 @@ char	*ft_expand_env_var(char *str, int *i, t_env *env)
 // 		Cherche la fin de la quote et expand les variables d'env trouvées
 // 		en chemin seulement si on est entre double quotes ""
 // 		Realloc en enlevant les quotes
-char	*ft_expand_quote(char *str, int *i, t_env *env)
+char	*ft_expand_quote(char *str, int *i, t_env *env, t_data *data)
 {
 	char	quote;
 	int		nb_quote;
@@ -101,7 +101,7 @@ char	*ft_expand_quote(char *str, int *i, t_env *env)
 		if (str[*i] == '$' && quote == '"' && ft_is_xpendable(str[*i + 1]) == 1)
 		{
 			if (str[*i + 1] == '?')
-				printf("exit status\n"); //ft_exit_status(A FAIRE);
+				str = ft_replace_env_var(str, *i, ft_itoa(data->rvalue), 1);
 			else if (ft_is_quote(str[*i + 1]) == 1)
 				str = ft_remove_dollar(str, *i);
 			else
@@ -116,7 +116,7 @@ char	*ft_expand_quote(char *str, int *i, t_env *env)
 
 //Expand les variables d'env et le contenu des quotes suivant le cas
 //	Fournit l'input prêt a être envoyé a l'exec
-char	*ft_expander(char *str, t_env *env)
+char	*ft_expander(char *str, t_env *env, t_data *data)
 {
 	int		i;
 
@@ -129,15 +129,15 @@ char	*ft_expander(char *str, t_env *env)
 			return (str);
 		if (str[i] == '$' && ft_is_xpendable(str[i + 1]) == 1)
 		{
-			if (str[i + 1] == '?')
-				printf("exit status\n"); //ft_exit_status(A FAIRE);
+			if (str[i + 1] == '?')	
+				str = ft_replace_env_var(str, i, ft_itoa(data->rvalue), 1);
 			else if (ft_is_quote(str[i + 1]) == 1)
 				str = ft_remove_dollar(str, i);
 			else
 				str = ft_expand_env_var(str, &i, env);
 		}
 		if (ft_is_quote(str[i]) == 1)
-			str = ft_expand_quote(str, &i, env);
+			str = ft_expand_quote(str, &i, env, data);
 		if (str[i] != '\0')
 			i++;
 	}

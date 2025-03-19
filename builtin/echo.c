@@ -71,5 +71,3 @@ void	ft_echo(char **arg)
 	if (opt == 0)
 		printf("\n");
 }
-
-// + ft_exit

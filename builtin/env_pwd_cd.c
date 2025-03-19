@@ -11,6 +11,21 @@ int	ft_pwd(void)
 	return (0);
 }
 
+int	ft_env(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	if (!env)
+		return (-1);
+	while (env[i].name != NULL)
+	{
+		printf("%s=%s\n", env[i].name, env[i].data);
+		i++;
+	}
+	return (0);
+}
+
 // CD-3 : Remplace le contenu de la var. d'env. ~var avec le nouveau contenu ~path
 // 		Utilisée par CD-2 pour actualiser OLDPWD avant de changer de dir, 
 // 		et actualiser PWD après le changement de dir

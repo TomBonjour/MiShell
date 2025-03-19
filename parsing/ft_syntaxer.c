@@ -27,7 +27,7 @@ int	ft_check_redir_syntax(char *redir)
 	return (0);
 }
 
-int	ft_syntax_and_expand(t_list *line, t_env *env)
+int	ft_syntax_and_expand(t_list *line, t_env *env, t_data *data)
 {
 	int	i;
 
@@ -39,7 +39,7 @@ int	ft_syntax_and_expand(t_list *line, t_env *env)
 		while (line->args[i])
 		{
 			if (ft_need_to_expand(line->args[i]) == 1)
-				line->args[i] = ft_expander(line->args[i], env);
+				line->args[i] = ft_expander(line->args[i], env, data);
 			i++;
 		}
 		i = 0;
@@ -48,7 +48,7 @@ int	ft_syntax_and_expand(t_list *line, t_env *env)
 			if (ft_check_redir_syntax(line->redir[i]) == -1)
 				return (-1);
 			if (ft_need_to_expand(line->redir[i]) == 1)
-				line->redir[i] = ft_expander(line->redir[i], env);
+				line->redir[i] = ft_expander(line->redir[i], env, data);
 			i++;
 		}
 		line = line->next;

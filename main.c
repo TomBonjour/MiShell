@@ -110,7 +110,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		add_history(input);*/
 		line = ft_tokenize(input);
-		if (ft_syntax_and_expand(line, env) == -1)
+		if (ft_syntax_and_expand(line, env, data) == -1)
 			ft_syntax_error(&line, NULL);
 	
 			

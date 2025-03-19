@@ -14,6 +14,7 @@ SRCS = main.c \
 	   parsing/ft_heredoc.c \
 	   parsing/utils_parsing.c \
 	   parsing/utils_tokenize.c \
+	   parsing/utils_expander.c \
 	   parsing/utils_list.c \
 	   parsing/utils_generals.c \
 	   builtin/echo_exit.c \
