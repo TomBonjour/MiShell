@@ -43,7 +43,6 @@ t_env	*ft_set_env(char **envp, t_data *data)
 {
 	int		i;
 	int		j;
-	int		size;
 	t_env	*env;
 
 	j = 0;
@@ -58,8 +57,7 @@ t_env	*ft_set_env(char **envp, t_data *data)
 		i = 0;
 		if (ft_copy_env_name(envp, env, j, &i) == -1)
 			return (ft_set_error(data, 1));
-		size = ft_strlen(env[j].name);
-		i = size + 2;
+		i = ft_strlen(env[j].name) + 2;
 		if (ft_copy_env_data(envp, env, j, &i) == -1)
 			return (ft_set_error(data, 1));
 		j++;
@@ -90,7 +88,7 @@ int	main(int ac, char **av, char **envp)
 	(void)envp;
 	t_env 	*env;
 	t_data	data;
-	char	*input = "bonjour >infle\"'$HOME'\"<<cbien       ";  
+	char	*input = "echo arg1 \"arg 2\" arg3";  
 	t_list	*line;
 	t_list	*temp;
 	int		i;

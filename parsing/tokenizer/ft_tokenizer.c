@@ -82,6 +82,7 @@ t_list	*ft_split_line(char *s, t_list *args, int len, t_data *data)
 {
 	while (*s != '\0')
 	{
+		len = 0;
 		while (s[len] != '|' && s[len] != '\0')
 		{
 			if (ft_is_quote(s[len]) == 1)

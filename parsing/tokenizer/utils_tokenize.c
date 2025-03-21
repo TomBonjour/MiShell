@@ -41,6 +41,8 @@ char	*ft_arg_substr(char *cmd, int *i, t_data *data)
 	if (!str)
 		return (ft_set_error(data, 1));
 	str[0] = '\0';
+	while (ft_is_blank(cmd[*i]) == 1 && cmd[*i] != '\0')
+		(*i)++;
 	while (ft_is_blank(cmd[*i]) == 0 && ft_is_redir(cmd[*i]) == 0 && cmd[*i])
 	{
 		if (ft_is_quote(cmd[*i]) == 1)
