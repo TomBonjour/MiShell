@@ -1,13 +1,14 @@
 #include "minishell.h" 
 
-
 // Copie du contenu de la variable dans la partie "data" de la structure t_env
-void	ft_copy_env_data(char **envp, t_env *env, int j, int *i)
+int	ft_copy_env_data(char **envp, t_env *env, int j, int *i)
 {
 	while (envp[j][*i] != '\0')
 		(*i)++;
 	(*i) -= ft_strlen(env[j].name) + 1;
 	env[j].data = malloc(sizeof(char) * (*i + 1));
+	if (!env[j].data)
+		return (-1);
 	env[j].data[*i] = '\0';
 	(*i)--;
 	while (*i >= 0)
@@ -15,14 +16,17 @@ void	ft_copy_env_data(char **envp, t_env *env, int j, int *i)
 		env[j].data[*i] = envp[j][*i + ft_strlen(env[j].name) + 1];
 		(*i)--;
 	}
+	return (0);
 }
 
 // Copie du nom de la variable dans la partie "name" de la structure
-void	ft_copy_env_name(char **envp, t_env *env, int j, int *i)
+int	ft_copy_env_name(char **envp, t_env *env, int j, int *i)
 {
 	while (envp[j][*i] != '=')
 		(*i)++;
 	env[j].name = malloc(sizeof(char) * (*i + 1));
+	if (!env[j].name)
+		return (-1);
 	env[j].name[*i] = '\0';
 	(*i)--;
 	while (*i >= 0)
@@ -30,11 +34,12 @@ void	ft_copy_env_name(char **envp, t_env *env, int j, int *i)
 		env[j].name[*i] = envp[j][*i];
 		(*i)--;
 	}
+	return (0);
 }
 
 // Création du nouveau tableau de variables d'environnement
 // --> un tableau de structures {char *name ; char *data}
-t_env	*ft_set_env(char **envp)
+t_env	*ft_set_env(char **envp, t_data *data)
 {
 	int		i;
 	int		j;
@@ -45,14 +50,18 @@ t_env	*ft_set_env(char **envp)
 	while (envp[j] != NULL)
 		j++;
 	env = malloc(sizeof(t_env) * (j + 1));
+	if (!env)
+		return (ft_set_error(data, 1));
 	j = 0;
 	while (envp[j] != NULL)
 	{
 		i = 0;
-		ft_copy_env_name(envp, env, j, &i);
+		if (ft_copy_env_name(envp, env, j, &i) == -1)
+			return (ft_set_error(data, 1));
 		size = ft_strlen(env[j].name);
 		i = size + 2;
-		ft_copy_env_data(envp, env, j, &i);
+		if (ft_copy_env_data(envp, env, j, &i) == -1)
+			return (ft_set_error(data, 1));
 		j++;
 	}
 	env[j].name = NULL;
@@ -81,22 +90,26 @@ int	main(int ac, char **av, char **envp)
 	(void)envp;
 	t_env 	*env;
 	t_data	data;
-	char	*input = "echo '$?'";  
+	char	*input = "bonjour >infle\"'$HOME'\"<<cbien       ";  
 	t_list	*line;
 	t_list	*temp;
 	int		i;
 	int		j;
-	int		value_exit;
+	// int		value_exit;
 
 	i = 0;
 	j = 1;
-	
 
 	// Copie de la liste de variables d'env (char **envp)
 	// dans un tableau de structure (t_env *env)
 	ft_init_data(&data);
-	data.rvalue = 127;
-	env = ft_set_env(envp);
+	env = ft_set_env(envp, &data);
+	if (data.err != 0)
+	{
+		ft_error_manager(&data, &line, env);
+		return (0);
+	}
+
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
 	/*setup_signals();
@@ -111,10 +124,18 @@ int	main(int ac, char **av, char **envp)
 			break;
 		}
 		add_history(input);*/
-		line = ft_tokenize(input);
-		if (ft_syntax_and_expand(line, env, &data) == -1)
-			ft_syntax_error(&line, NULL);
-	
+		line = ft_tokenize(input, &data);
+		if (data.err != 0)
+		{
+			ft_error_manager(&data, &line, env);
+			return (0);
+		}
+		ft_syntax_and_expand(line, env, &data);
+		if (data.err != 0)
+		{
+			ft_error_manager(&data, &line, env);
+			return (0);
+		}
 			
 		//PRINT LISTE CHAINEE
 		temp = line;
@@ -157,8 +178,9 @@ int	main(int ac, char **av, char **envp)
 		printf("%s=%s\n", env[i].name, env[i].data);
 		i++;
 	}*/
-	value_exit = ft_exit(line->args, line, env, &data);
+	// value_exit = ft_exit(line->args, line, env, &data);
 	ft_free_env(env);
 	ft_free_list(&line);
-	return (value_exit);
+	return (0);
+	//return (value_exit);
 }

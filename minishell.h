@@ -26,6 +26,7 @@ typedef struct s_env
 typedef struct s_data
 {
 	int				rvalue;
+	int				err;
 }					t_data;
 
 //------ BUILTINS UTILS ------//
@@ -57,27 +58,31 @@ void		setup_signals(void);
 
 //------	 PARSING UTILS ------//
 void		ft_parsing(char *input);
-int			ft_get_command_and_redir(char *s, t_list **new_elem);
+void		*ft_get_cmd_and_redir(char *s, int i, t_list **new_e, t_data *data);
 int			ft_arg_len(char *cmd, int i);
-void		ft_redir_len(char *cmd, int *i);
-void		ft_syntax_error(t_list **args, char *mess);
-void		ft_find_end_quote(char *s, int *len, char c);
+int			ft_redir_len(char *cmd, int *i);
+void		ft_syntax_error(t_list **args, t_data *data);
+int			ft_find_end_quote(char *s, int *len, char c);
 int			ft_count_redir(char *cmd);
-int			ft_count_args(char *cmd);
-char		*ft_redir_substr(char *cmd, int *i);
-char		*ft_arg_substr(char *cmd, int *i);
-char		*ft_realloc_char(char *str, char c);
-t_list		*ft_tokenize(char *s);
-int			ft_syntax_and_expand(t_list *line, t_env *env, t_data *data);
+int			ft_count_args(char *cmd, int i);
+char		*ft_redir_substr(char *cmd, int *i, t_data *data);
+char		*ft_arg_substr(char *cmd, int *i, t_data *data);
+char		*ft_realloc_char(char *str, char c, t_data *data);
+t_list		*ft_tokenize(char *s, t_data *data);
+void		*ft_syntax_and_expand(t_list *line, t_env *env, t_data *data);
 char		*ft_expander(char *str, t_env *env, t_data *data);
 int			ft_env_var_len(char *str, int i);
 int			ft_need_to_expand(char *str);
-char		*ft_remove_quotes(char *str, char quote, int pos, int nb_quotes);
-char		*ft_remove_dollar(char *str, int i);
-char		**ft_heredoc_priority(char **redir_tab, int size);
+char		*ft_expand_env_var(char *str, int *i, t_env *env, t_data *data);
+void		*ft_expand_question_mark(char *str, int i, t_data *data);
+char		*ft_expand_quote(char *str, int *i, t_env *env, t_data *data);
+char		*ft_replace_env_var(char *str, int i, char *exp_var, t_data *data);
+char		*ft_remove_quotes(char *str, char quote, int pos, t_data *data);
+char		*ft_remove_dollar(char *str, int i, t_data *data);
+char		**ft_heredoc_prio(char **redir_tab, int size, t_data *data);
 
 //------	 LISTS UTILS ------//
-t_list		*ft_lst_new_node(char *s);
+t_list		*ft_lst_new_node(char *s, t_data *data);
 void		ft_free_list(t_list **line);
 void		ft_free_env(t_env *env);
 void		ft_lstadd_back(t_list **lst, t_list *new_node);
@@ -91,8 +96,11 @@ int			ft_is_blank(char c);
 int			ft_is_quote(char c);
 int			ft_is_env_var(char c);
 int			ft_is_xpendable(char c);
-char		*ft_extract_quote(char *cmd, int *i, char *str, char quote);
-char		*ft_extract_str(char *cmd, int *i, char *str);
+char		*ft_extract_quote(char *cmd, int *i, char *str, t_data *data);
+char		*ft_extract_str(char *cmd, int *i, char *str, t_data *data);
 char		*ft_pathcpy(char s[PATH_MAX], char *src, int size);
+void		*ft_set_error(t_data *data, int n);
+void		ft_error_manager(t_data *data, t_list **line, t_env *env);
+void		ft_free_and_exit(t_list *line, t_env *env);
 
 #endif

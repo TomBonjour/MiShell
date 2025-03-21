@@ -8,21 +8,23 @@ LIBFT = $(LIBFT_PATH)/libft.a
 
 #-------------------------------------------------------SRCS----------------------------------------------------#
 SRCS = main.c \
-	   parsing/ft_tokenizer.c \
-	   parsing/ft_syntaxer.c \
-	   parsing/ft_expander.c \
-	   parsing/ft_heredoc.c \
-	   parsing/utils_parsing.c \
-	   parsing/utils_tokenize.c \
-	   parsing/utils_list.c \
-	   parsing/utils_generals.c \
+	   parsing/tokenizer/ft_tokenizer.c \
+	   parsing/tokenizer/utils_tokenize.c \
+	   parsing/tokenizer/token_redir.c \
+	   parsing/expander/ft_syntaxer.c \
+	   parsing/expander/ft_expander.c \
+	   parsing/tokenizer/token_heredoc.c \
+	   parsing/expander/utils_expand.c \
+	   parsing/expander/utils_quote.c \
 	   builtin/echo.c \
 	   builtin/env_pwd_cd.c \
 	   builtin/unset.c \
 	   builtin/export.c \
 	   builtin/exit.c \
 	   builtin/utils_builtin.c \
-	   signals/signals.c
+	   signals/signals.c \
+	   utils/utils_generals.c \
+	   utils/utils_list.c
 
 #-------------------------------------------------------OBJECTS--------------------------------------------------#
 OBJ = $(SRCS:.c=.o)

@@ -38,7 +38,7 @@ char	**ft_replace_redir(char **redir_tab, char **new_tab, int size, int *j)
 	return (new_tab);
 }
 
-char	**ft_heredoc_priority(char **redir_tab, int size)
+char	**ft_heredoc_prio(char **redir_tab, int size, t_data *data)
 {
 	char	**new_tab;
 	int		j;
@@ -46,9 +46,19 @@ char	**ft_heredoc_priority(char **redir_tab, int size)
 	j = 0;
 	new_tab = malloc(sizeof(char *) * (size + 1));
 	if (!new_tab)
-		return (NULL);
+		return (ft_set_error(data, 1));
 	new_tab = ft_replace_heredoc(redir_tab, new_tab, size, &j);
+	if (!new_tab)
+	{
+		ft_reverse_free(redir_tab, size);
+		return (ft_set_error(data, 1));
+	}
 	new_tab = ft_replace_redir(redir_tab, new_tab, size, &j);
+	if (!new_tab)
+	{
+		ft_reverse_free(redir_tab, size);
+		return (ft_set_error(data, 1));
+	}
 	new_tab[j] = NULL;
 	ft_reverse_free(redir_tab, size);
 	return (new_tab);

@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 18:58:22 by tobourge          #+#    #+#             */
-/*   Updated: 2024/10/25 14:08:56 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/03/19 13:38:01 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	*ft_itoa(int n)
 	len = ft_intlen(n);
 	str = malloc(sizeof(char) * (len + 1));
 	if (!str)
-		return (0);
+		return (NULL);
 	str = ft_reverse_dup(str, n, len);
 	return (str);
 }

@@ -23,6 +23,21 @@ long long	ft_atoll(char *str)
 	return (n * sign);
 }
 
+void	ft_error_manager(t_data *data, t_list **line, t_env *env)
+{
+	if (data->err == 1)
+		ft_free_and_exit(*line, env);
+	if (data->err == 2)
+		ft_syntax_error(line, data);
+}
+
+void	*ft_set_error(t_data *data, int n)
+{
+	data->err = n;
+	data->rvalue = 2;
+	return (NULL);
+}
+
 void	ft_reverse_free(char **tab, int j)
 {
 	while (j > 0)
@@ -31,6 +46,13 @@ void	ft_reverse_free(char **tab, int j)
 		j--;
 	}
 	free(tab);
+}
+
+void	ft_free_and_exit(t_list *line, t_env *env)
+{
+	ft_free_env(env);
+	ft_free_list(&line);
+	exit (2);
 }
 
 char	*ft_pathcpy(char str[PATH_MAX], char *src, int size)
@@ -47,7 +69,7 @@ char	*ft_pathcpy(char str[PATH_MAX], char *src, int size)
 }
 
 // Re-malloc +1 une chaine de caractere et rajoute le char ~c
-char	*ft_realloc_char(char *str, char c)
+char	*ft_realloc_char(char *str, char c, t_data *data)
 {
 	char	*new;
 	int		i;
@@ -55,7 +77,7 @@ char	*ft_realloc_char(char *str, char c)
 	i = 0;
 	new = malloc(sizeof(char) * (ft_strlen(str) + 2));
 	if (!new)
-		return (NULL);
+		return (ft_set_error(data, 1));
 	while (str[i] != '\0')
 	{
 		new[i] = str[i];
@@ -69,43 +91,44 @@ char	*ft_realloc_char(char *str, char c)
 }
 
 // Extrait une chaine de caractère entre quotes
-char	*ft_extract_quote(char *cmd, int *i, char *str, char quote)
+char	*ft_extract_quote(char *cmd, int *i, char *str, t_data *data)
 {
-	if (quote == '\0')
-		quote = cmd[*i];
-	str = ft_realloc_char(str, cmd[*i]);
-	if (!str)
+	int	quote;
+	
+	quote = cmd[*i];
+	str = ft_realloc_char(str, cmd[*i], data);
+	if (data->err == 1)
 		return (NULL);
 	(*i)++;
 	while (cmd[*i] != quote)
 	{
-		str = ft_realloc_char(str, cmd[*i]);
-		if (!str)
+		str = ft_realloc_char(str, cmd[*i], data);
+		if (data->err == 1)
 			return (NULL);
 		(*i)++;
 	}
-	str = ft_realloc_char(str, cmd[*i]);
-	if (!str)
+	str = ft_realloc_char(str, cmd[*i], data);
+	if (data->err == 1)
 		return (NULL);
 	(*i)++;
 	return (str);
 }
 
 // Extrait un argument entier
-char	*ft_extract_str(char *cmd, int *i, char *str)
+char	*ft_extract_str(char *cmd, int *i, char *str, t_data *data)
 {
 	while (ft_is_blank(cmd[*i]) == 0 && ft_is_redir(cmd[*i]) == 0
 		&& cmd[*i])
 	{
 		if (ft_is_quote(cmd[*i]) == 1)
-			str = ft_extract_quote(cmd, i, str, cmd[*i]);
+			str = ft_extract_quote(cmd, i, str, data);
 		else
 		{
-			str = ft_realloc_char(str, cmd[*i]);
-			if (!str)
-				return (NULL);
+			str = ft_realloc_char(str, cmd[*i], data);
 			(*i)++;
 		}
+		if (data->err == 1)
+			return (NULL);
 	}
 	return (str);
 }

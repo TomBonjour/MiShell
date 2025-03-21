@@ -1,17 +1,19 @@
 #include "../minishell.h"
 
 // Malloc le nouveau node et remplit les tableaux de commandes et de redir
-t_list	*ft_lst_new_node(char *cmd)
+t_list	*ft_lst_new_node(char *cmd, t_data *data)
 {
 	t_list	*new_elem;
+	int 	i;
 
+	i = 0;
 	new_elem = malloc(sizeof(t_list) * 1);
 	if (!new_elem)
-		return (0);
+		return (ft_set_error(data, 1));
 	new_elem->args = NULL;
 	new_elem->redir = NULL;
-	if (ft_get_command_and_redir(cmd, &new_elem) == -1)
-		return (0);
+	if (ft_get_cmd_and_redir(cmd, i, &new_elem, data) == NULL && data->err == 1)
+		return (NULL);
 	new_elem->next = NULL;
 	return (new_elem);
 }
@@ -72,4 +74,5 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 void	ft_init_data(t_data *data)
 {
 	data->rvalue = 0;
+	data->err = 0;
 }
