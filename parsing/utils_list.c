@@ -69,7 +69,9 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		last->next = new;
 }
 
-void	ft_init_data(t_data *data)
+void	ft_init_data(t_data *data, t_env *env, t_list *line)
 {
+	data->line = line;
+	data->env = env;
 	data->rvalue = 0;
 }

@@ -23,7 +23,8 @@ SRCS = main.c \
 	   builtin/export.c \
 	   builtin/exit.c \
 	   builtin/utils_builtin.c \
-	   signals/signals.c
+	   signals/signals.c \
+	   signals/heredoc.c
 
 #-------------------------------------------------------OBJECTS--------------------------------------------------#
 OBJ = $(SRCS:.c=.o)

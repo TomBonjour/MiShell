@@ -29,7 +29,7 @@ int	ft_check_for_long_minmax(char *str)
 	int	count;
 
 	i = 0;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		j = 0;
 		count = 0;
@@ -44,7 +44,6 @@ int	ft_check_for_long_minmax(char *str)
 		}
 		if (count > 19)
 			return (1);
-		i++;
 	}
 	return (0);
 }
@@ -76,12 +75,17 @@ int	ft_parsing_exit(char **argv)
 		i++;
 	if (i == 1)
 		return (3);
-	if (ft_check_syntax(argv[1]) || ft_check_for_long_minmax(argv[1]))
+	if (ft_check_syntax(argv[1]))
 	{
 		printf("exit: %s: numeric argument required\n", argv[1]);
 		return (2);
 	}
-	if (i > 2)
+	else if (ft_check_for_long_minmax(argv[1]))
+	{
+		printf("exit: %s: numeric argument required\n", argv[1]);
+		return (2);
+	}
+	else if (i > 2)
 	{
 		printf("exit: too many arguments\n"); /*ne quitte pas le prgm*/
 		return (1);

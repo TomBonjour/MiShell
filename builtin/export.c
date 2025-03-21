@@ -29,6 +29,14 @@ int	ft_forbidd_char(char *var)
 	return (0);
 }
 
+void	ft_replace_data(t_env *env, char *var, int *i, int j)
+{
+	free(env[*i].data);
+	env[*i].data = ft_strdup(var + j + 1);
+	if (!env[*i].data)
+		printf("malloc fail\n");
+}
+
 int	ft_find_var(t_env *env, char *var, int *i)
 {
 	int	j;
@@ -47,8 +55,7 @@ int	ft_find_var(t_env *env, char *var, int *i)
 				j++;
 			if (var[j] == '=' && env[*i].name[j] == '\0')
 			{
-				free(env[*i].data);
-				env[*i].data = ft_strdup(var + j + 1);
+				ft_replace_data(env, var, i, j);
 				return (1);
 			}
 		}
@@ -71,10 +78,16 @@ int	ft_export_fill_env(t_env *new, char *var, t_env *env)
 	}
 	new[j].name = ft_fill_name(var, '=');
 	if (!new[j].name)
+	{
+		printf("malloc fail\n");
 		return (1);
+	}
 	new[j].data = ft_fill_data(var, '=');
 	if (!new[j].data)
+	{
+		printf("malloc fail\n");
 		return (1);
+	}
 	return (0);
 }
 
@@ -97,6 +110,7 @@ t_env	*ft_export(char **argv, t_env *env)
 	int		j;
 
 	j = 1;
+	new = NULL;
 	while (argv[j])
 	{
 		i = 0;
@@ -104,8 +118,7 @@ t_env	*ft_export(char **argv, t_env *env)
 		{
 			while (env[i].name != NULL)
 				i++;
-			new = ft_realloc_env(i + 1);
-			if (!new)
+			if (!ft_alloc_newenv(new, i + 1))
 				return (NULL);
 			ft_export_fill_env(new, argv[j], env);
 			free(env);
@@ -114,4 +127,15 @@ t_env	*ft_export(char **argv, t_env *env)
 		j++;
 	}
 	return (env);
+}
+
+int ft_alloc_newenv(t_env *new, int i)
+{
+	new = ft_realloc_env(i);
+	if (!new)
+	{
+		printf("malloc fail\n");
+		return (0);
+	}
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: jnauroy <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 16:20:17 by jnauroy           #+#    #+#             */
-/*   Updated: 2025/03/17 14:28:46 by jnauroy          ###   ########.fr       */
+/*   Updated: 2025/03/20 14:27:35 by jnauroy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ t_env	*ft_realloc_env(int i)
 
 	new = malloc(sizeof(t_env) * (i + 1));
 	if (!new)
+	{
+		printf("malloc fail\n");
 		return (NULL);
+	}
 	new[i].name = NULL;
 	new[i].data = NULL;
 	return (new);
@@ -96,6 +99,7 @@ t_env	*ft_unset(char **argv, t_env *env)
 	t_env	*new;
 
 	j = 1;
+	new = NULL;
 	while (argv[j])
 	{
 		i = 0;
@@ -103,9 +107,8 @@ t_env	*ft_unset(char **argv, t_env *env)
 		{
 			while (env[i].name != NULL)
 				i++;
-			new = ft_realloc_env(i - 1);
-			if (!new)
-				return (0);
+			if (!ft_alloc_newenv(new, i - 1))
+				return (NULL);
 			ft_unset_fill_env(new, argv[j], env, i - 1);
 			free(env);
 			env = new;
