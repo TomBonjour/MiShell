@@ -4,7 +4,7 @@
 t_list	*ft_lst_new_node(char *cmd, t_data *data)
 {
 	t_list	*new_elem;
-	int 	i;
+	int		i;
 
 	i = 0;
 	new_elem = malloc(sizeof(t_list) * 1);
@@ -71,8 +71,10 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		last->next = new;
 }
 
-void	ft_init_data(t_data *data)
+void	ft_init_data(t_data *data, t_env *env, t_list *line)
 {
+	data->line = line;
+	data->env = env;
 	data->rvalue = 0;
 	data->err = 0;
 }

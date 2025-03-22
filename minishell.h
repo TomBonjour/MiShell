@@ -1,6 +1,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include <fcntl.h>
 # include <signal.h>
 # include <linux/limits.h>
 # include <stdlib.h>
@@ -25,9 +26,20 @@ typedef struct s_env
 
 typedef struct s_data
 {
-	int				rvalue;
-	int				err;
-}					t_data;
+	t_list	*line;
+	t_env	*env;
+	int		err;
+	int		rvalue;
+}		t_data;
+
+typedef struct s_heredoc
+{
+	char	*eof;
+	char	*str;
+	char	*filename;
+	int		size;
+	int		fd;
+}			t_heredoc;
 
 //------ BUILTINS UTILS ------//
 int			ft_pwd(void);
@@ -50,11 +62,14 @@ int			ft_parsing_exit(char **argv);
 long long	ft_atoll(char *str);
 int			ft_check_syntax(char *str);
 int			ft_increment(long long *n, int sign, char *str, int i);
+int			ft_alloc_newenv(t_env *env, int i);
 
 //------ SIGNALS UTILS ------//
 void		ft_sigint_handler(int sig);
 void		ft_sigquit_handler(int sig);
 void		setup_signals(void);
+int			ft_heredoc(t_list *line);
+void		ft_init_var(t_heredoc *infos, int *idoc, int flag);
 
 //------	 PARSING UTILS ------//
 void		ft_parsing(char *input);
@@ -86,7 +101,7 @@ t_list		*ft_lst_new_node(char *s, t_data *data);
 void		ft_free_list(t_list **line);
 void		ft_free_env(t_env *env);
 void		ft_lstadd_back(t_list **lst, t_list *new_node);
-void		ft_init_data(t_data *data);
+void		ft_init_data(t_data *data, t_env *env, t_list *line);
 
 //------	 GENERAL UTILS ------//
 void		ft_reverse_free(char **tab, int j);
