@@ -1,9 +1,6 @@
 #include "../../minishell.h"
 
-//2 choses diffèrent avec le parsing de base :
-//On ne remove pas les quotes
-//On expand toujours les variables d'env
-
+//rajouter env et data
 char	*ft_expand_heredoc(char *str, t_env *env, t_data *data)
 {
 	int		i;

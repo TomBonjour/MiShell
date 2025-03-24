@@ -11,7 +11,7 @@ int	ft_malloc_strdup_eof(t_heredoc *infos, t_list *line)
 	return (1);
 }
 
-int	ft_reading_line(t_heredoc *infos)
+int	ft_reading_line(t_heredoc *infos, t_env *env, t_data *data)
 {
 	char	*tmp;
 
@@ -28,8 +28,7 @@ int	ft_reading_line(t_heredoc *infos)
 		printf("join str '\n' fail\n");
 		return (0);
 	}
-	//EXPAND
-	ft_expand_heredoc(infos->str, env, data);
+	infos->str = ft_expand_heredoc(infos->str, env, data);
 	infos->size = ft_strlen(infos->str);
 	return (1);
 }
@@ -75,7 +74,7 @@ int	ft_copy_herefile(t_heredoc *infos, int idoc)
 	return (1);
 }
 
-int	ft_heredoc(t_list *line)
+int	ft_heredoc(t_list *line, t_env *env, t_data *data)
 {
 	t_heredoc	infos;
 	static int	idoc;
@@ -87,7 +86,7 @@ int	ft_heredoc(t_list *line)
 		return (1);
 	while (1)
 	{
-		if (!ft_reading_line(&infos))
+		if (!ft_reading_line(&infos, env, data))
 			return (1);
 		if (!ft_strncmp(infos.eof, infos.str, infos.size))
 			break ;

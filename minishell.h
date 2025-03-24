@@ -67,7 +67,7 @@ int			ft_alloc_newenv(t_env *env, int i);
 void		ft_sigint_handler(int sig);
 void		ft_sigquit_handler(int sig);
 void		setup_signals(void);
-int			ft_heredoc(t_list *line);
+int			ft_heredoc(t_list *line, t_env *env, t_data *data);
 void		ft_init_var(t_heredoc *infos, int *idoc, int flag);
 
 //------	 PARSING UTILS ------//

@@ -88,9 +88,9 @@ int	main(int ac, char **av, char **envp)
 	(void)envp;
 	t_env 	*env;
 	t_data	data;
-	char	*input = "echo arg1 \"arg 2\" arg3";  
+	char	*input = "<<eof";  
 	t_list	*line;
-	t_list	*temp;
+	// t_list	*temp;
 	int		i;
 	int		j;
 	// int		value_exit;
@@ -136,7 +136,7 @@ int	main(int ac, char **av, char **envp)
 		}
 			
 		//PRINT LISTE CHAINEE
-		temp = line;
+		/*temp = line;
 		while (line != NULL)
 		{
 			i = 0;
@@ -160,7 +160,7 @@ int	main(int ac, char **av, char **envp)
 			j++;
 		}
 		printf("NULL\n");
-		line = temp;
+		line = temp;*/
 //	}
 	
 
@@ -171,6 +171,7 @@ int	main(int ac, char **av, char **envp)
 	// ft_echo(line->args);
 	// ft_cd(line->args, env);
 	// env = ft_unset(line->args[1], env);
+	ft_heredoc(line, env, &data);
 	/*while (env[i].name != NULL)
 	{
 		printf("%s=%s\n", env[i].name, env[i].data);
