@@ -1,22 +1,18 @@
 #include "../../minishell.h"
 
-int	ft_find_env_var(t_env *env, char *var)
+int	ft_find_env_var(t_env *env, char *var, int var_size)
 {
 	int	j;
 	int	i;
-	int	size;
 
-	size = 0;
 	i = 0;
-	while (var[size] != '\0')
-		size++;
 	while (env[i].name != NULL)
 	{
-		if (size == ft_strlen(env[i].name))
+		if (var_size == ft_strlen(env[i].name))
 		{
 			j = 0;
 			while (var[j] == env[i].name[j]
-				&& (j < size || env[i].name[j] != '\0'))
+				&& (j < var_size || env[i].name[j] != '\0'))
 				j++;
 			if (var[j] == '\0' && env[i].name[j] == '\0')
 				return (i);
@@ -66,12 +62,12 @@ char	*ft_expand_env_var(char *str, int *i, t_env *env, t_data *data)
 	char	*expand_var;
 	int		var_size;
 
-	j = 0;
 	var_size = ft_env_var_len(str, *i + 1);
 	var = ft_substr(str, *i + 1, var_size);
 	if (!var)
 		return (ft_set_error(data, 1));
-	if (ft_find_env_var(env, var) == -1)
+	j = ft_find_env_var(env, var, var_size);
+	if (j == -1)
 		expand_var = "";
 	else
 		expand_var = ft_strdup(env[j].data);

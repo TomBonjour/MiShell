@@ -1,8 +1,8 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 /* resize the keyword by exluding the doubles chevron (<<).*/
 
-int	ft_malloc_strdup_eof(t_heredoc *infos, t_list *line)
+int	ft_malloc_strdup_eof(t_hdoc *infos, t_list *line)
 {
 	infos->eof = ft_strjoin(line->redir[0] + 2, "\n");
 	if (!infos->eof)
@@ -15,7 +15,7 @@ int	ft_malloc_strdup_eof(t_heredoc *infos, t_list *line)
 
 /* read what we write in the heredoc and add a \n to the string.*/
 
-int	ft_reading_line(t_heredoc *infos)
+int	ft_reading_line(t_hdoc *infos, t_env *env, t_data *data)
 {
 	char	*tmp;
 
@@ -32,13 +32,14 @@ int	ft_reading_line(t_heredoc *infos)
 		printf("join str '\n' fail\n");
 		return (0);
 	}
+	infos->str = ft_expand_heredoc(infos->str, env, data);
 	infos->size = ft_strlen(infos->str);
 	return (1);
 }
 
 /* write the random string into the filename tab */
 
-int	ft_dup_filename(t_heredoc *infos, char *buff, int *i)
+int	ft_dup_filename(t_hdoc *infos, char *buff, int *i)
 {
 	int	j;
 
@@ -60,7 +61,7 @@ int	ft_dup_filename(t_heredoc *infos, char *buff, int *i)
 
 /* open the random file and read 10 characters from it. */
 
-int	ft_init_random(t_heredoc *infos, int *i)
+int	ft_init_random(t_hdoc *infos, int *i)
 {
 	int		rdmfd;
 	char	buff[11];
@@ -88,7 +89,7 @@ int	ft_init_random(t_heredoc *infos, int *i)
 
 /* write a random filename and open it */
 
-int	ft_copy_herefile(t_heredoc *infos)
+int	ft_copy_herefile(t_hdoc *infos)
 {
 	static int	i;
 
@@ -117,7 +118,7 @@ int	ft_copy_herefile(t_heredoc *infos)
  * when the keyword (eof) is written and keep the filename
  * in a double tab to unlink them at the end of the cmd line. */
 
-int	ft_heredoc(t_list *line, t_heredoc *infos)
+int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 {
 	if (!ft_malloc_strdup_eof(infos, line))
 		return (1);
@@ -125,7 +126,7 @@ int	ft_heredoc(t_list *line, t_heredoc *infos)
 		return (1);
 	while (1)
 	{
-		if (!ft_reading_line(infos))
+		if (!ft_reading_line(infos, env, data))
 			return (1);
 		if (!ft_strncmp(infos->eof, infos->str, infos->size))
 			break ;

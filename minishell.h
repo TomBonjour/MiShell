@@ -37,7 +37,7 @@ typedef struct s_heredoc
 	char	**filename;
 	int		size;
 	int		fd;
-}			t_heredoc;
+}			t_hdoc;
 
 //------ BUILTINS UTILS ------//
 int			ft_pwd(void);
@@ -66,8 +66,8 @@ int			ft_alloc_newenv(t_env *env, int i);
 void		ft_sigint_handler(int sig);
 void		ft_sigquit_handler(int sig);
 void		setup_signals(void);
-int			ft_heredoc(t_list *line, t_heredoc *infos);
-void		ft_init_var(t_heredoc *infos, int flag);
+void		ft_init_var(t_hdoc *infos, int flag);
+int			ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data);
 
 //------	 PARSING UTILS ------//
 void		ft_parsing(char *input);
@@ -93,6 +93,7 @@ char		*ft_replace_env_var(char *str, int i, char *exp_var, t_data *data);
 char		*ft_remove_quotes(char *str, char quote, int pos, t_data *data);
 char		*ft_remove_dollar(char *str, int i, t_data *data);
 char		**ft_heredoc_prio(char **redir_tab, int size, t_data *data);
+char		*ft_expand_heredoc(char *str, t_env *env, t_data *data);
 
 //------	 LISTS UTILS ------//
 t_list		*ft_lst_new_node(char *s, t_data *data);
@@ -109,6 +110,7 @@ int			ft_is_blank(char c);
 int			ft_is_quote(char c);
 int			ft_is_env_var(char c);
 int			ft_is_xpendable(char c);
+int			ft_is_heredoc_xpendable(char c);
 char		*ft_extract_quote(char *cmd, int *i, char *str, t_data *data);
 char		*ft_extract_str(char *cmd, int *i, char *str, t_data *data);
 char		*ft_pathcpy(char s[PATH_MAX], char *src, int size);
