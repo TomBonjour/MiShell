@@ -6,7 +6,7 @@
  * and free the data I malloc before, exept for the filename.
  * It will be free at the end of the entire cmd line. */
 
-void	ft_init_var(t_heredoc *infos, int flag)
+void	ft_init_var(t_hdoc *infos, int flag)
 {
 	if (flag == 1)
 	{

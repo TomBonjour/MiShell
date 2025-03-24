@@ -75,4 +75,5 @@ void	ft_init_data(t_data *data)
 {
 	data->rvalue = 0;
 	data->err = 0;
+	data->hdoc = 0;
 }
