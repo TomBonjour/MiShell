@@ -1,6 +1,12 @@
 #include "../minishell.h"
 
-void	ft_init_var(t_heredoc *infos, int *idoc, int flag)
+/* initialising all the data I need in the heredoc to NULL/0,
+ * so I can send them into my functions without problems.
+ * If the flag is different than 1, this function close the fd
+ * and free the data I malloc before, exept for the filename.
+ * It will be free at the end of the entire cmd line. */
+
+void	ft_init_var(t_heredoc *infos, int flag)
 {
 	if (flag == 1)
 	{
@@ -8,15 +14,13 @@ void	ft_init_var(t_heredoc *infos, int *idoc, int flag)
 		infos->size = 0;
 		infos->str = NULL;
 		infos->eof = NULL;
-		infos->filename = NULL;
-		*idoc = 0;
+		infos->filename = malloc(sizeof(char *) * 5);
+		infos->filename[4] = NULL;
 	}
 	else
 	{
-		unlink(infos->filename);
 		free(infos->str);
 		free(infos->eof);
-		free(infos->filename);
 		close(infos->fd);
 	}
 }

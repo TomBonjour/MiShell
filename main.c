@@ -86,13 +86,14 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	(void)envp;
-	t_env 	*env;
-	t_data	data;
-	char	*input = "echo arg1 \"arg 2\" arg3";  
-	t_list	*line;
-	t_list	*temp;
-	int		i;
-	int		j;
+	t_heredoc	infos;
+	t_env 		*env;
+	t_data		data;
+	char		*input = "<<mdp";  
+	t_list		*line;
+	t_list		*temp;
+	int			i;
+	int			j;
 	// int		value_exit;
 
 	i = 0;
@@ -107,7 +108,8 @@ int	main(int ac, char **av, char **envp)
 		ft_error_manager(&data, &line, env);
 		return (0);
 	}
-
+	ft_init_var(&infos, 1);
+// 
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
 	/*setup_signals();
@@ -162,10 +164,7 @@ int	main(int ac, char **av, char **envp)
 		printf("NULL\n");
 		line = temp;
 //	}
-	
-
 	//TEST COMMANDES 
-	
 	//ft_env(env);
 	//ft_pwd();
 	// ft_echo(line->args);
@@ -177,6 +176,7 @@ int	main(int ac, char **av, char **envp)
 		i++;
 	}*/
 	// value_exit = ft_exit(line->args, line, env, &data);
+	ft_heredoc(line, &infos);
 	ft_free_env(env);
 	ft_free_list(&line);
 	return (0);

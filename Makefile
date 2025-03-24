@@ -24,6 +24,7 @@ SRCS = main.c \
 	   builtin/utils_builtin.c \
 	   signals/signals.c \
 	   signals/heredoc.c \
+	   signals/signals_init.c \
 	   utils/utils_generals.c \
 	   utils/utils_list.c
 
