@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 int	ft_malloc_strdup_eof(t_heredoc *infos, t_list *line)
 {
@@ -28,6 +28,8 @@ int	ft_reading_line(t_heredoc *infos)
 		printf("join str '\n' fail\n");
 		return (0);
 	}
+	//EXPAND
+	ft_expand_heredoc(infos->str, env, data);
 	infos->size = ft_strlen(infos->str);
 	return (1);
 }

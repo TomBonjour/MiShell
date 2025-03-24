@@ -1,4 +1,4 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void	ft_syntax_error(t_list **line, t_data *data)
 {

@@ -173,3 +173,11 @@ int	ft_is_xpendable(char c)
 		return (0);
 }
 
+int	ft_is_heredoc_xpendable(char c)
+{
+	if (ft_isalpha(c) == 1 || c == '_' || c == '?')
+		return (1);
+	else
+		return (0);
+}
+

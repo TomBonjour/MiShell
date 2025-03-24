@@ -11,11 +11,13 @@ SRCS = main.c \
 	   parsing/tokenizer/ft_tokenizer.c \
 	   parsing/tokenizer/utils_tokenize.c \
 	   parsing/tokenizer/token_redir.c \
+	   parsing/tokenizer/token_heredoc.c \
 	   parsing/expander/ft_syntaxer.c \
 	   parsing/expander/ft_expander.c \
-	   parsing/tokenizer/token_heredoc.c \
 	   parsing/expander/utils_expand.c \
 	   parsing/expander/utils_quote.c \
+	   parsing/heredoc/heredoc.c \
+	   parsing/heredoc/expand_heredoc.c \
 	   builtin/echo.c \
 	   builtin/env_pwd_cd.c \
 	   builtin/unset.c \
@@ -23,7 +25,7 @@ SRCS = main.c \
 	   builtin/exit.c \
 	   builtin/utils_builtin.c \
 	   signals/signals.c \
-	   signals/heredoc.c \
+	   signals/signals_init.c \
 	   utils/utils_generals.c \
 	   utils/utils_list.c
 

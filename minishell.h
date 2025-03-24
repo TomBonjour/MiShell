@@ -27,7 +27,6 @@ typedef struct s_env
 typedef struct s_data
 {
 	t_list	*line;
-	t_env	*env;
 	int		err;
 	int		rvalue;
 }		t_data;
@@ -95,13 +94,14 @@ char		*ft_replace_env_var(char *str, int i, char *exp_var, t_data *data);
 char		*ft_remove_quotes(char *str, char quote, int pos, t_data *data);
 char		*ft_remove_dollar(char *str, int i, t_data *data);
 char		**ft_heredoc_prio(char **redir_tab, int size, t_data *data);
+char		*ft_expand_heredoc(char *str, t_env *env, t_data *data);
 
 //------	 LISTS UTILS ------//
 t_list		*ft_lst_new_node(char *s, t_data *data);
 void		ft_free_list(t_list **line);
 void		ft_free_env(t_env *env);
 void		ft_lstadd_back(t_list **lst, t_list *new_node);
-void		ft_init_data(t_data *data, t_env *env, t_list *line);
+void		ft_init_data(t_data *data);
 
 //------	 GENERAL UTILS ------//
 void		ft_reverse_free(char **tab, int j);
@@ -111,6 +111,7 @@ int			ft_is_blank(char c);
 int			ft_is_quote(char c);
 int			ft_is_env_var(char c);
 int			ft_is_xpendable(char c);
+int			ft_is_heredoc_xpendable(char c);
 char		*ft_extract_quote(char *cmd, int *i, char *str, t_data *data);
 char		*ft_extract_str(char *cmd, int *i, char *str, t_data *data);
 char		*ft_pathcpy(char s[PATH_MAX], char *src, int size);
