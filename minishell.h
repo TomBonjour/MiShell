@@ -16,6 +16,7 @@ typedef struct s_list
 	char			**args;
 	char			**redir;
 	int				hdoc;
+	char			*pathname;
 	struct s_list	*next;
 }					t_list;
 
@@ -29,6 +30,7 @@ typedef struct s_data
 {
 	int		err;
 	int		rvalue;
+	char	**paths;
 }		t_data;
 
 typedef struct s_heredoc
@@ -96,6 +98,7 @@ char		*ft_remove_dollar(char *str, int i, t_data *data);
 char		**ft_heredoc_prio(char **redir_tab, int size, t_list **new_node,
 				t_data *data);
 char		*ft_expand_heredoc(char *str, t_env *env, t_data *data);
+int			ft_find_env_var(t_env *env, char *var, int var_size);
 
 //------	 LISTS UTILS ------//
 t_list		*ft_lst_new_node(char *s, t_data *data);
@@ -119,5 +122,11 @@ char		*ft_pathcpy(char s[PATH_MAX], char *src, int size);
 void		*ft_set_error(t_data *data, int n);
 void		ft_error_manager(t_data *data, t_list **line, t_env *env);
 void		ft_free_and_exit(t_list *line, t_env *env);
+
+//------	 EXEC UTILS ------//
+int			ft_exec_cmd(t_list *line, t_env *env, t_data *data);
+int			ft_test_path(t_list *line);
+int			ft_fill_pathnames(t_data *data, t_list *line);
+int			ft_pars_env(t_env *env, t_data *data);
 
 #endif

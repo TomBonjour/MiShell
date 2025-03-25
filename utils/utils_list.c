@@ -13,6 +13,7 @@ t_list	*ft_lst_new_node(char *cmd, t_data *data)
 	new_elem->args = NULL;
 	new_elem->redir = NULL;
 	new_elem->hdoc = 0;
+	new_elem->pathname = NULL;
 	if (ft_get_cmd_and_redir(cmd, i, &new_elem, data) == NULL && data->err == 1)
 		return (NULL);
 	new_elem->next = NULL;
