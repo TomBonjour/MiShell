@@ -28,6 +28,7 @@ typedef struct s_data
 {
 	int		err;
 	int		rvalue;
+	int		hdoc;
 }		t_data;
 
 typedef struct s_heredoc

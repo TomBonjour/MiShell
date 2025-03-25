@@ -1,5 +1,21 @@
 #include "../../minishell.h"
 
+/* resize the keyword by exluding the doubles chevron (<<).*/
+
+int	ft_malloc_strdup_eof(t_hdoc *infos, t_list *line)
+{
+	static int	i = -1;
+
+	i += 1;
+	infos->eof = ft_strjoin(line->redir[i] + 2, "\n");
+	if (!infos->eof)
+	{
+		printf("malloc fail\n");
+		return (0);
+	}
+	return (1);
+}
+
 /* read what we write in the heredoc and add a \n to the string.*/
 
 int	ft_reading_line(t_hdoc *infos, t_env *env, t_data *data)
@@ -20,6 +36,8 @@ int	ft_reading_line(t_hdoc *infos, t_env *env, t_data *data)
 		return (0);
 	}
 	infos->str = ft_expand_heredoc(infos->str, env, data);
+	if (data->err == 1)
+		return (-1);
 	infos->size = ft_strlen(infos->str);
 	return (1);
 }
@@ -110,24 +128,27 @@ int	ft_copy_herefile(t_hdoc *infos)
 
 int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 {
-	infos->eof = ft_strjoin(line->redir[0] + 2, "\n");
-	if (!infos->eof)
+	int	i;
+
+	i = 1;
+	while (i <= data->hdoc)
 	{
-		printf("malloc fail\n");
-		return (1);
-	}
-	if (!ft_copy_herefile(infos))
-		return (1);
-	while (1)
-	{
-		if (!ft_reading_line(infos, env, data))
+		if (ft_malloc_strdup_eof(infos, line))
 			return (1);
-		if (!ft_strncmp(infos->eof, infos->str, infos->size))
-			break ;
-		ft_putstr_fd(infos->str, infos->fd);
-		free(infos->str);
+		if (!ft_copy_herefile(infos))
+			return (1);
+		while (1)
+		{
+			if (!ft_reading_line(infos, env, data))
+				return (1);
+			if (!ft_strncmp(infos->eof, infos->str, infos->size))
+				break ;
+			ft_putstr_fd(infos->str, infos->fd);
+			free(infos->str);
+		}
+		printf("filename: %s\n", infos->filename[0]);
+		ft_init_var(infos, 0);
+		i++;
 	}
-	printf("filename: %s\n", infos->filename[0]);
-	ft_init_var(infos, 0);
 	return (0);
 }
