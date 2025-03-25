@@ -15,6 +15,7 @@ typedef struct s_list
 {
 	char			**args;
 	char			**redir;
+	int				hdoc;
 	struct s_list	*next;
 }					t_list;
 
