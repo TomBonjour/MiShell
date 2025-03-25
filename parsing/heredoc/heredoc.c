@@ -133,7 +133,7 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 	int	i;
 
 	i = 1;
-	while (i <= data->hdoc)
+	while (i <= line->hdoc)
 	{
 		if (!ft_malloc_strdup_eof(infos, line))
 			return (1);

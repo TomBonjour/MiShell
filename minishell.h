@@ -29,7 +29,6 @@ typedef struct s_data
 {
 	int		err;
 	int		rvalue;
-	int		hdoc;
 }		t_data;
 
 typedef struct s_heredoc
@@ -94,7 +93,8 @@ char		*ft_expand_quote(char *str, int *i, t_env *env, t_data *data);
 char		*ft_replace_env_var(char *str, int i, char *exp_var, t_data *data);
 char		*ft_remove_quotes(char *str, char quote, int pos, t_data *data);
 char		*ft_remove_dollar(char *str, int i, t_data *data);
-char		**ft_heredoc_prio(char **redir_tab, int size, t_data *data);
+char		**ft_heredoc_prio(char **redir_tab, int size, t_list **new_node,
+				t_data *data);
 char		*ft_expand_heredoc(char *str, t_env *env, t_data *data);
 
 //------	 LISTS UTILS ------//

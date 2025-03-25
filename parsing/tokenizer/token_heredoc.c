@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-char	**ft_replace_hdoc(char **redir_tab, char **new_tab, int size, t_data *data)
+char	**ft_replace_hdoc(char **redir_tab, char **new_tab, int size, t_list **new)
 {
 	int	i;
 	int	j;
@@ -11,7 +11,7 @@ char	**ft_replace_hdoc(char **redir_tab, char **new_tab, int size, t_data *data)
 	{
 		if (redir_tab[i][0] == '<' && redir_tab[i][1] == '<')
 		{
-			data->hdoc += 1;
+			(*new)->hdoc += 1;
 			new_tab[j] = ft_strdup(redir_tab[i]);
 			if (!new_tab[j])
 				return (NULL);
@@ -41,28 +41,28 @@ char	**ft_replace_redir(char **redir_tab, char **new_tab, int size, int *j)
 	return (new_tab);
 }
 
-char	**ft_heredoc_prio(char **redir_tab, int size, t_data *data)
+char	**ft_heredoc_prio(char **redir_tab, int nb, t_list **new, t_data *data)
 {
 	char	**new_tab;
 	int		j;
 
-	new_tab = malloc(sizeof(char *) * (size + 1));
+	new_tab = malloc(sizeof(char *) * (nb + 1));
 	if (!new_tab)
 		return (ft_set_error(data, 1));
-	new_tab = ft_replace_hdoc(redir_tab, new_tab, size, data);
+	new_tab = ft_replace_hdoc(redir_tab, new_tab, nb, new);
 	if (!new_tab)
 	{
-		ft_reverse_free(redir_tab, size);
+		ft_reverse_free(redir_tab, nb);
 		return (ft_set_error(data, 1));
 	}
-	j = data->hdoc;
-	new_tab = ft_replace_redir(redir_tab, new_tab, size, &j);
+	j = (*new)->hdoc;
+	new_tab = ft_replace_redir(redir_tab, new_tab, nb, &j);
 	if (!new_tab)
 	{
-		ft_reverse_free(redir_tab, size);
+		ft_reverse_free(redir_tab, nb);
 		return (ft_set_error(data, 1));
 	}
 	new_tab[j] = NULL;
-	ft_reverse_free(redir_tab, size);
+	ft_reverse_free(redir_tab, nb);
 	return (new_tab);
 }

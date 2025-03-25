@@ -12,6 +12,7 @@ t_list	*ft_lst_new_node(char *cmd, t_data *data)
 		return (ft_set_error(data, 1));
 	new_elem->args = NULL;
 	new_elem->redir = NULL;
+	new_elem->hdoc = 0;
 	if (ft_get_cmd_and_redir(cmd, i, &new_elem, data) == NULL && data->err == 1)
 		return (NULL);
 	new_elem->next = NULL;
@@ -75,5 +76,4 @@ void	ft_init_data(t_data *data)
 {
 	data->rvalue = 0;
 	data->err = 0;
-	data->hdoc = 0;
 }

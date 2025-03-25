@@ -91,7 +91,7 @@ int	main(int ac, char **av, char **envp)
 	t_data		data;
 	char		*input = ">infile>outfile<<mdp <<eof <<coucou";  
 	t_list		*line;
-	t_list		*temp;
+	// t_list		*temp;
 	int			i;
 	int			j;
 	// int		value_exit;
@@ -138,7 +138,7 @@ int	main(int ac, char **av, char **envp)
 		}
 			
 		//PRINT LISTE CHAINEE
-		temp = line;
+		/*temp = line;
 		while (line != NULL)
 		{
 			i = 0;
@@ -162,7 +162,7 @@ int	main(int ac, char **av, char **envp)
 			j++;
 		}
 		printf("NULL\n");
-		line = temp;
+		line = temp;*/
 //	}
 	//TEST COMMANDES 
 	//ft_env(env);
@@ -176,9 +176,14 @@ int	main(int ac, char **av, char **envp)
 		i++;
 	}*/
 	// value_exit = ft_exit(line->args, line, env, &data);
-	printf("%d\n", data.hdoc);
-	if (data.hdoc != 0)
+	printf("%d\n", line->hdoc);
+	if (line->hdoc != 0)
 		ft_heredoc(line, &infos, env, &data);
+	if (data.err != 0)
+	{
+			ft_error_manager(&data, &line, env);
+			return (0);
+	}
 	ft_free_env(env);
 	ft_free_list(&line);
 	return (0);
