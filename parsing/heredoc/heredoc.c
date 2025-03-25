@@ -1,18 +1,5 @@
 #include "../../minishell.h"
 
-/* resize the keyword by exluding the doubles chevron (<<).*/
-
-int	ft_malloc_strdup_eof(t_hdoc *infos, t_list *line)
-{
-	infos->eof = ft_strjoin(line->redir[0] + 2, "\n");
-	if (!infos->eof)
-	{
-		printf("malloc fail\n");
-		return (0);
-	}
-	return (1);
-}
-
 /* read what we write in the heredoc and add a \n to the string.*/
 
 int	ft_reading_line(t_hdoc *infos, t_env *env, t_data *data)
@@ -52,8 +39,10 @@ int	ft_dup_filename(t_hdoc *infos, char *buff, int *i)
 	}
 	while (j < 10)
 	{
-		if (!ft_isprint(infos->filename[*i][j]))
-			infos->filename[*i][j] = j + 48;
+		if (infos->filename[*i][j] < 0)
+			infos->filename[*i][j] *= (-1);
+		if (!ft_isalpha((int)infos->filename[*i][j]))
+			infos->filename[*i][j] = infos->filename[*i][j] % ('z' - 'a') + 'a';
 		j++;
 	}
 	return (1);
@@ -113,15 +102,20 @@ int	ft_copy_herefile(t_hdoc *infos)
 	return (1);
 }
 
-/* This heredoc funtion create a file with random name,
+/* This heredoc function resize the keyword by exluding the
+ * doubles chevron (<<), create a file with random name,
  * write into this file with readline, stop the writing
  * when the keyword (eof) is written and keep the filename
  * in a double tab to unlink them at the end of the cmd line. */
 
 int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 {
-	if (!ft_malloc_strdup_eof(infos, line))
+	infos->eof = ft_strjoin(line->redir[0] + 2, "\n");
+	if (!infos->eof)
+	{
+		printf("malloc fail\n");
 		return (1);
+	}
 	if (!ft_copy_herefile(infos))
 		return (1);
 	while (1)
