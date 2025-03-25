@@ -91,7 +91,7 @@ int	main(int ac, char **av, char **envp)
 	t_data		data;
 	char		*input = ">infile>outfile<<mdp <<eof <<coucou";  
 	t_list		*line;
-	// t_list		*temp;
+	t_list		*temp;
 	int			i;
 	int			j;
 	// int		value_exit;

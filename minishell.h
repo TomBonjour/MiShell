@@ -35,7 +35,7 @@ typedef struct s_heredoc
 {
 	char	*eof;
 	char	*str;
-	char	**filename;
+	char	*filename;
 	int		size;
 	int		fd;
 }			t_hdoc;

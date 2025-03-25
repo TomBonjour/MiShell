@@ -44,23 +44,23 @@ int	ft_reading_line(t_hdoc *infos, t_env *env, t_data *data)
 
 /* write the random string into the filename tab */
 
-int	ft_dup_filename(t_hdoc *infos, char *buff, int *i)
+int	ft_dup_filename(t_hdoc *infos, char *buff)
 {
 	int	j;
 
 	j = 0;
-	infos->filename[*i] = ft_strdup(buff);
-	if (!infos->filename[*i])
+	infos->filename = ft_strdup(buff);
+	if (!infos->filename)
 	{
 		printf("dup filename and buff fail\n");
 		return (0);
 	}
 	while (j < 10)
 	{
-		if (infos->filename[*i][j] < 0)
-			infos->filename[*i][j] *= (-1);
-		if (!ft_isalpha((int)infos->filename[*i][j]))
-			infos->filename[*i][j] = infos->filename[*i][j] % ('z' - 'a') + 'a';
+		if (infos->filename[j] < 0)
+			infos->filename[j] *= (-1);
+		if (!ft_isalpha((int)infos->filename[j]))
+			infos->filename[j] = infos->filename[j] % ('z' - 'a') + 'a';
 		j++;
 	}
 	return (1);
@@ -68,7 +68,7 @@ int	ft_dup_filename(t_hdoc *infos, char *buff, int *i)
 
 /* open the random file and read 10 characters from it. */
 
-int	ft_init_random(t_hdoc *infos, int *i)
+int	ft_init_random(t_hdoc *infos)
 {
 	int		rdmfd;
 	char	buff[11];
@@ -89,7 +89,7 @@ int	ft_init_random(t_hdoc *infos, int *i)
 	}
 	buff[10] = '\0';
 	close(rdmfd);
-	if (!ft_dup_filename(infos, buff, i))
+	if (!ft_dup_filename(infos, buff))
 		return (0);
 	return (1);
 }
@@ -98,16 +98,18 @@ int	ft_init_random(t_hdoc *infos, int *i)
 
 int	ft_copy_herefile(t_hdoc *infos)
 {
-	static int	i;
+	static int	i = 0;
 
-	i = 0;
-	if (!ft_init_random(infos, &i))
+	if (i == 0)
 	{
-		free(infos->str);
-		free(infos->eof);
-		return (0);
+		if (!ft_init_random(infos))
+		{
+			free(infos->str);
+			free(infos->eof);
+			return (0);
+		}
 	}
-	infos->fd = open(infos->filename[i], O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	infos->fd = open(infos->filename, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (infos->fd == -1)
 	{
 		free(infos->filename);
@@ -133,7 +135,7 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 	i = 1;
 	while (i <= data->hdoc)
 	{
-		if (ft_malloc_strdup_eof(infos, line))
+		if (!ft_malloc_strdup_eof(infos, line))
 			return (1);
 		if (!ft_copy_herefile(infos))
 			return (1);
@@ -146,7 +148,7 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 			ft_putstr_fd(infos->str, infos->fd);
 			free(infos->str);
 		}
-		printf("filename: %s\n", infos->filename[0]);
+		printf("filename: %s\n", infos->filename);
 		ft_init_var(infos, 0);
 		i++;
 	}
