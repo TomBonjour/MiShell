@@ -14,8 +14,7 @@ void	ft_init_var(t_hdoc *infos, int flag)
 		infos->size = 0;
 		infos->str = NULL;
 		infos->eof = NULL;
-		infos->filename = malloc(sizeof(char *) * 5);
-		infos->filename[4] = NULL;
+		infos->filename = NULL;
 	}
 	else
 	{
