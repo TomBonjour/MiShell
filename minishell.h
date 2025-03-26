@@ -30,6 +30,8 @@ typedef struct s_data
 {
 	int		err;
 	int		rvalue;
+	int		pid;
+	int		fdtmp;
 	char	**paths;
 }		t_data;
 
@@ -128,5 +130,6 @@ int			ft_exec_cmd(t_list *line, t_env *env, t_data *data);
 int			ft_test_path(t_list *line);
 int			ft_fill_pathnames(t_data *data, t_list *line);
 int			ft_pars_env(t_env *env, t_data *data);
+char		**ft_convert_env(t_env *env, t_data *data);
 
 #endif

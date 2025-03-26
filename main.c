@@ -86,10 +86,9 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	(void)envp;
-	t_hdoc	infos;
 	t_env 		*env;
 	t_data		data;
-	char		*input = ">infile>outfile<<mdp <<eof <<coucou";  
+	char		*input;  
 	t_list		*line;
 	// t_list		*temp;
 	int			i;
@@ -108,11 +107,10 @@ int	main(int ac, char **av, char **envp)
 		ft_error_manager(&data, &line, env);
 		return (0);
 	}
-	ft_init_var(&infos, 1);
 // 
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
-	/*setup_signals();
+	setup_signals();
 	
 
 	while (1)
@@ -123,7 +121,7 @@ int	main(int ac, char **av, char **envp)
 			write(2, "Exit\n", 5);
 			break;
 		}
-		add_history(input);*/
+		add_history(input);
 		line = ft_tokenize(input, &data);
 		if (data.err != 0)
 		{
@@ -168,7 +166,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		printf("NULL\n");
 		line = temp;*/
-//	}
+	}
 	//TEST COMMANDES 
 	//ft_env(env);
 	//ft_pwd();
