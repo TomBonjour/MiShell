@@ -27,7 +27,7 @@ SRCS = main.c \
 	   signals/signals.c \
 	   signals/signals_init.c \
 	   utils/utils_generals.c \
-	   utils/utils_list.c
+	   utils/utils_list.c \
 
 #-------------------------------------------------------OBJECTS--------------------------------------------------#
 OBJ = $(SRCS:.c=.o)

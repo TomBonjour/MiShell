@@ -86,10 +86,10 @@ int	main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	(void)envp;
-	t_hdoc	infos;
 	t_env 		*env;
+	char		**envtab;
 	t_data		data;
-	char		*input = ">infile>outfile<<mdp <<eof <<coucou";  
+	// char		*input = ">infile>outfile<<mdp <<eof <<coucou";  
 	t_list		*line;
 	// t_list		*temp;
 	int			i;
@@ -108,8 +108,12 @@ int	main(int ac, char **av, char **envp)
 		ft_error_manager(&data, &line, env);
 		return (0);
 	}
-	ft_init_var(&infos, 1);
-// 
+	envtab = ft_convert_env(env, &data);
+	while (envtab[i] != NULL)
+	{
+		printf("%s\n", envtab[i]);
+		i++;
+	}
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
 	/*setup_signals();
@@ -123,7 +127,7 @@ int	main(int ac, char **av, char **envp)
 			write(2, "Exit\n", 5);
 			break;
 		}
-		add_history(input);*/
+		add_history(input);
 		line = ft_tokenize(input, &data);
 		if (data.err != 0)
 		{
@@ -143,7 +147,7 @@ int	main(int ac, char **av, char **envp)
 			return (0);
 		}
 		//PRINT LISTE CHAINEE
-		/*temp = line;
+		temp = line;
 		while (line != NULL)
 		{
 			i = 0;
@@ -183,7 +187,7 @@ int	main(int ac, char **av, char **envp)
 	// value_exit = ft_exit(line->args, line, env, &data);
 	
 	ft_free_env(env);
-	ft_free_list(&line);
+	// ft_free_list(&line);
 	return (0);
 	//return (value_exit);
 }
