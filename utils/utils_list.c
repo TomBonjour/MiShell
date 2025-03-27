@@ -31,14 +31,14 @@ void	ft_free_list(t_list **line)
 	{
 		temp = (*line)->next;
 		i = 0;
-		while ((*line)->args[i] != NULL)
+		while ((*line)->args && (*line)->args[i] != NULL)
 		{
 			free((*line)->args[i]);
 			i++;
 		}
 		free((*line)->args);
 		i = 0;
-		while ((*line)->redir[i] != NULL)
+		while ((*line)->redir && (*line)->redir[i] != NULL)
 		{
 			free((*line)->redir[i]);
 			i++;
@@ -77,4 +77,5 @@ void	ft_init_data(t_data *data)
 {
 	data->rvalue = 0;
 	data->err = 0;
+	data->fdtmp = 0;
 }

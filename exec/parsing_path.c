@@ -1,9 +1,9 @@
 #include "../minishell.h"
 
-void	ft_cmd_not_found(t_list *line, char *cmdash, int i)
+void	ft_cmd_not_found(t_list *line, char *cmdash)
 {
 	line->pathname = NULL;
-	ft_reverse_free(line->args, i);
+	ft_free_tab(line->args);
 	line->args = NULL;
 	printf("command not found: %s\n", cmdash);
 }
@@ -62,7 +62,7 @@ int	ft_fill_pathnames(t_data *data, t_list *line)
 		}
 	}
 	if (!data->paths || !data->paths[i])
-		ft_cmd_not_found(line, cmdash, i);
+		ft_cmd_not_found(line, cmdash);
 	free(cmdash);
 	return (0);
 }

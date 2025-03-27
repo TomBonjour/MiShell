@@ -87,9 +87,8 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	(void)envp;
 	t_env 		*env;
-	char		**envtab;
 	t_data		data;
-	// char		*input = ">infile>outfile<<mdp <<eof <<coucou";  
+	char		*input;  
 	t_list		*line;
 	// t_list		*temp;
 	int			i;
@@ -108,23 +107,16 @@ int	main(int ac, char **av, char **envp)
 		ft_error_manager(&data, &line, env);
 		return (0);
 	}
-	envtab = ft_convert_env(env, &data);
-	while (envtab[i] != NULL)
-	{
-		printf("%s\n", envtab[i]);
-		i++;
-	}
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
-	/*setup_signals();
-	
+	setup_signals();
 
 	while (1)
 	{
 		input = readline("mangeducrabe> ");
 		if (!input)
 		{
-			write(2, "Exit\n", 5);
+			//write(2, "Exit\n", 5);
 			break;
 		}
 		add_history(input);
@@ -134,6 +126,7 @@ int	main(int ac, char **av, char **envp)
 			ft_error_manager(&data, &line, env);
 			return (0);
 		}
+		free(input);
 		ft_syntax_and_expand(line, env, &data);
 		if (data.err != 0)
 		{
@@ -147,7 +140,7 @@ int	main(int ac, char **av, char **envp)
 			return (0);
 		}
 		//PRINT LISTE CHAINEE
-		temp = line;
+		/*temp = line;
 		while (line != NULL)
 		{
 			i = 0;
@@ -172,7 +165,7 @@ int	main(int ac, char **av, char **envp)
 		}
 		printf("NULL\n");
 		line = temp;*/
-//	}
+	}
 	//TEST COMMANDES 
 	//ft_env(env);
 	//ft_pwd();
@@ -187,7 +180,7 @@ int	main(int ac, char **av, char **envp)
 	// value_exit = ft_exit(line->args, line, env, &data);
 	
 	ft_free_env(env);
-	// ft_free_list(&line);
+	ft_free_list(&line);
 	return (0);
 	//return (value_exit);
 }

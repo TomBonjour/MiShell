@@ -48,6 +48,19 @@ void	ft_reverse_free(char **tab, int j)
 	free(tab);
 }
 
+void	ft_free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
 void	ft_free_and_exit(t_list *line, t_env *env)
 {
 	ft_free_env(env);

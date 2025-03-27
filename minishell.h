@@ -30,6 +30,8 @@ typedef struct s_data
 {
 	int		err;
 	int		rvalue;
+	int		pid;
+	int		fdtmp;
 	char	**paths;
 }		t_data;
 
@@ -122,11 +124,13 @@ char		*ft_pathcpy(char s[PATH_MAX], char *src, int size);
 void		*ft_set_error(t_data *data, int n);
 void		ft_error_manager(t_data *data, t_list **line, t_env *env);
 void		ft_free_and_exit(t_list *line, t_env *env);
+void		ft_free_tab(char **tab);
 
 //------	 EXEC UTILS ------//
 int			ft_exec_cmd(t_list *line, t_env *env, t_data *data);
 int			ft_test_path(t_list *line);
 int			ft_fill_pathnames(t_data *data, t_list *line);
 int			ft_pars_env(t_env *env, t_data *data);
+char		**ft_convert_env(t_env *env, t_data *data);
 
 #endif
