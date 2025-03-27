@@ -146,6 +146,21 @@ char	*ft_extract_str(char *cmd, int *i, char *str, t_data *data)
 	return (str);
 }
 
+int	ft_find_word(char *s, char *word)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strlen(word) == ft_strlen(s))
+	{
+		while (word[i] == s[i] && word[i] != '\0' && s[i] != '\0')
+			i++;
+		if (word[i] == '\0' && s[i] == '\0')
+			return (1);
+	}
+	return (-1);
+}
+
 int	ft_is_blank(char c)
 {
 	if ((c >= '\t' && c <= '\r') || c == ' ')

@@ -125,5 +125,6 @@ t_list	*ft_tokenize(char *s, t_data *data)
 	line = ft_split_line(s, line, len, data);
 	if (!line)
 		return (NULL);
+	data->nodes = ft_count_nodes(line);
 	return (line);
 }

@@ -56,3 +56,19 @@ char	*ft_arg_substr(char *cmd, int *i, t_data *data)
 		(*i)++;
 	return (str);
 }
+
+int	ft_count_nodes(t_list *line)
+{
+	int		n;
+	t_list	*temp;
+
+	n = 1;
+	temp = line;
+	while (line != NULL)
+	{
+		line = line->next;
+		n++;
+	}
+	line = temp;
+	return (n);
+}

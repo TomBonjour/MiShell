@@ -13,6 +13,7 @@ t_list	*ft_lst_new_node(char *cmd, t_data *data)
 	new_elem->args = NULL;
 	new_elem->redir = NULL;
 	new_elem->hdoc = 0;
+	new_elem->builtin = 0;
 	new_elem->pathname = NULL;
 	if (ft_get_cmd_and_redir(cmd, i, &new_elem, data) == NULL && data->err == 1)
 		return (NULL);
@@ -78,4 +79,6 @@ void	ft_init_data(t_data *data)
 	data->rvalue = 0;
 	data->err = 0;
 	data->fdtmp = 0;
+	data->nodes = 1;
+	data->node_pos = 1;
 }
