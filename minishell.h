@@ -10,6 +10,7 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 # include <limits.h>
+# include <sys/wait.h>
 
 typedef struct s_list
 {
@@ -138,6 +139,7 @@ int			ft_test_path(t_list *line);
 int			ft_fill_pathnames(t_data *data, t_list *line);
 int			ft_pars_env(t_env *env, t_data *data);
 char		**ft_convert_env(t_env *env, t_data *data);
+int			ft_wait_pid(t_data *data);
 int			ft_is_builtin(t_list *line);
 
 #endif

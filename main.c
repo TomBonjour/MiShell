@@ -90,6 +90,7 @@ int	main(int ac, char **av, char **envp)
 	t_data		data;
 	char		*input;  
 	t_list		*line;
+	int			exit_status;
 	// t_list		*temp;
 	int			i;
 	int			j;
@@ -182,6 +183,7 @@ while (line->redir[i] != NULL)
 	
 	ft_free_env(env);
 	ft_free_list(&line);
+	exit_status = ft_wait_pid(&data);
 	return (0);
 	//return (value_exit);
 }
