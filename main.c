@@ -108,6 +108,7 @@ int	main(int ac, char **av, char **envp)
 		ft_error_manager(&data, &line, env);
 		return (0);
 	}
+	data.env = env;
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
 	setup_signals();

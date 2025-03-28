@@ -1,5 +1,21 @@
 #include "../minishell.h"
 
+int	ft_is_builtin(t_list *line)
+{
+	if (ft_find_word(line->args[0], "cd") == 1
+		|| ft_find_word(line->args[0], "pwd") == 1
+		|| ft_find_word(line->args[0], "env") == 1
+		|| ft_find_word(line->args[0], "echo") == 1
+		|| ft_find_word(line->args[0], "exit") == 1
+		|| ft_find_word(line->args[0], "unset") == 1
+		|| ft_find_word(line->args[0], "export") == 1)
+	{
+		line->builtin = 1;
+		return (1);
+	}
+	return (-1);
+}
+
 char	*ft_strjoin_equal(char *s1, char *s2, t_data *data)
 {
 	int		i;

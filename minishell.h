@@ -17,6 +17,7 @@ typedef struct s_list
 	char			**args;
 	char			**redir;
 	int				hdoc;
+	int				builtin;
 	char			*pathname;
 	struct s_list	*next;
 }					t_list;
@@ -29,6 +30,7 @@ typedef struct s_env
 
 typedef struct s_data
 {
+	t_env		*env;
 	int		err;
 	int		rvalue;
 	int		pid;
@@ -104,6 +106,7 @@ char		**ft_heredoc_prio(char **redir_tab, int size, t_list **new_node,
 				t_data *data);
 char		*ft_expand_heredoc(char *str, t_env *env, t_data *data);
 int			ft_find_env_var(t_env *env, char *var, int var_size);
+int			ft_count_nodes(t_list *line);
 
 //------	 LISTS UTILS ------//
 t_list		*ft_lst_new_node(char *s, t_data *data);
@@ -128,6 +131,7 @@ void		*ft_set_error(t_data *data, int n);
 void		ft_error_manager(t_data *data, t_list **line, t_env *env);
 void		ft_free_and_exit(t_list *line, t_env *env);
 void		ft_free_tab(char **tab);
+int			ft_find_word(char *s, char *word);
 
 //------	 EXEC UTILS ------//
 int			ft_exec_cmd(t_list *line, t_env *env, t_data *data);
@@ -136,5 +140,6 @@ int			ft_fill_pathnames(t_data *data, t_list *line);
 int			ft_pars_env(t_env *env, t_data *data);
 char		**ft_convert_env(t_env *env, t_data *data);
 int			ft_wait_pid(t_data *data);
+int			ft_is_builtin(t_list *line);
 
 #endif

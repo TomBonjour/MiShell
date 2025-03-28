@@ -14,6 +14,25 @@ int	ft_wait_pid(t_data *data)
 	return (exitstatus);
 }
 
+void	ft_exec_builtin(t_list *line, t_data *data)
+{
+	printf("builtin mon gars\n");
+	if (ft_find_word(line->args[0], "cd") == 1)
+		ft_cd(line->args, data->env);
+	if (ft_find_word(line->args[0], "pwd") == 1)
+		ft_pwd();
+	if (ft_find_word(line->args[0], "env") == 1)
+		ft_env(data->env);
+	if (ft_find_word(line->args[0], "echo") == 1)
+		ft_echo(line->args);
+	if (ft_find_word(line->args[0], "exit") == 1)
+		data->rvalue = ft_exit(line->args, line, data->env, data);
+	if (ft_find_word(line->args[0], "unset") == 1)
+		data->env = ft_unset(line->args, data->env);
+	if (ft_find_word(line->args[0], "export") == 1)
+		data->env = ft_export(line->args, data->env);
+}
+
 int	ft_init_exe(t_data *data, int *fd)
 {
 	if (pipe(fd) == -1)
@@ -61,12 +80,12 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 			break ;
 		close(tmpread);
 		close(fd[1]);
-		if (line->pathname && line->args)
+		if (line->builtin == 1)
+			ft_exec_builtin(line, data);
+		else if (line->pathname && line->args)
 			execve(line->pathname, line->args, envtab);
 		break ;
 	}
-	close(tmpread);
-	close(fd[1]);
 	ft_reverse_free(envtab, i);
 }
 
@@ -110,10 +129,12 @@ int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
 			ft_init_var(&infos, 1);
 			ft_heredoc(line, &infos, env, data);
 		}
-		if (ft_test_path(line))
-			ft_fill_pathnames(data, line);
+		if (ft_is_builtin(line) == -1)
+			if (ft_test_path(line))
+				ft_fill_pathnames(data, line);
 		ft_exe(line, temp, env, data);
 		line = line->next;
+		data->node_pos += 1;
 	}
 	ft_free_tab(data->paths);
 	line = temp;
