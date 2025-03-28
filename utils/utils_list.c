@@ -78,4 +78,7 @@ void	ft_init_data(t_data *data)
 	data->rvalue = 0;
 	data->err = 0;
 	data->fdtmp = 0;
+	data->node_pos = 1;
+	data->pid = 0;
+	data->nodes = 0;
 }
