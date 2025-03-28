@@ -35,6 +35,8 @@ void	ft_exec_builtin(t_list *line, t_data *data)
 
 int	ft_init_exe(t_data *data, int *fd)
 {
+	if (data->fdtmp == 0)
+		data->fdtmp = STDIN_FILENO;
 	if (pipe(fd) == -1)
 	{
 		printf("init pipe fail\n");
@@ -51,14 +53,15 @@ int	ft_init_exe(t_data *data, int *fd)
 	return (0);
 }
 
-int	ft_multiples_nodes(t_data *data, int *tmpread, int **fd)
+int	ft_multiples_nodes(t_data *data, int *tmpread, int *fd)
 {
 	if (data->nodes > 1)
 	{
-		if (dup2(*tmpread, STDIN_FILENO) == -1)
-			return (1);
+		if (data->node_pos != 1)
+			if (dup2(*tmpread, STDIN_FILENO) == -1)
+				return (1);
 		if (data->node_pos != data->nodes)
-			if (dup2(*fd[1], STDOUT_FILENO) == -1)
+			if (dup2(fd[1], STDOUT_FILENO) == -1)
 				return (1);
 	}
 	return (0);
@@ -76,9 +79,10 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 	tmpread = data->fdtmp;
 	while (1)
 	{
-		if (ft_multiples_nodes(data, &tmpread, &fd))
+		if (ft_multiples_nodes(data, &tmpread, fd))
 			break ;
-		close(tmpread);
+		if (tmpread != 0)
+			close(tmpread);
 		close(fd[1]);
 		if (line->builtin == 1)
 			ft_exec_builtin(line, data);
@@ -102,6 +106,7 @@ int	ft_exe(t_list *line, t_list *temp, t_env *env, t_data *data)
 		if (envtab)
 			ft_child_process(line, envtab, data, fd);
 		close(fd[1]);
+		close(fd[0]);
 		ft_free_list(&temp);
 		ft_free_env(env);
 		ft_free_tab(data->paths);
@@ -122,6 +127,7 @@ int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
 	temp = line;
 	if (ft_pars_env(env, data))
 		return (1);
+	data->node_pos = 1;
 	while (line != NULL)
 	{
 		if (line->hdoc != 0)
@@ -136,6 +142,8 @@ int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
 		line = line->next;
 		data->node_pos += 1;
 	}
+	close(data->fdtmp);
+	data->fdtmp = 0;
 	ft_free_tab(data->paths);
 	line = temp;
 	return (0);

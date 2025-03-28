@@ -62,7 +62,7 @@ int	ft_count_nodes(t_list *line)
 	int		n;
 	t_list	*temp;
 
-	n = 1;
+	n = 0;
 	temp = line;
 	while (line != NULL)
 	{
