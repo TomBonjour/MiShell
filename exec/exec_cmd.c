@@ -129,7 +129,7 @@ int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
 			ft_init_var(&infos, 1);
 			ft_heredoc(line, &infos, env, data);
 		}
-		if (ft_is_builtin(line) == -1)
+		if (ft_is_builtin(line) == -1 && line->args[0])
 			if (ft_test_path(line))
 				ft_fill_pathnames(data, line);
 		ft_exe(line, temp, env, data);

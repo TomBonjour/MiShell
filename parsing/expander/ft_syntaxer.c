@@ -4,6 +4,7 @@ void	ft_syntax_error(t_list **line, t_data *data)
 {
 	printf("syntax error\n");
 	data->rvalue = 2;
+	data->err = 0;
 	ft_free_list(line);
 }
 

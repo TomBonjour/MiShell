@@ -124,23 +124,16 @@ int	main(int ac, char **av, char **envp)
 		add_history(input);
 		line = ft_tokenize(input, &data);
 		if (data.err != 0)
-		{
 			ft_error_manager(&data, &line, env);
-			return (0);
-		}
 		free(input);
 		ft_syntax_and_expand(line, env, &data);
 		if (data.err != 0)
-		{
 			ft_error_manager(&data, &line, env);
-			return (0);
-		}
 		ft_exec_cmd(line, env, &data);
 		if (data.err != 0)
-		{
 			ft_error_manager(&data, &line, env);
-			return (0);
-		}
+		exit_status = ft_wait_pid(&data);
+		ft_free_list(&line);
 		//PRINT LISTE CHAINEE
 		/*temp = line;
 		while (line != NULL)
@@ -182,8 +175,6 @@ while (line->redir[i] != NULL)
 	// value_exit = ft_exit(line->args, line, env, &data);
 	
 	ft_free_env(env);
-	ft_free_list(&line);
-	exit_status = ft_wait_pid(&data);
 	return (0);
 	//return (value_exit);
 }

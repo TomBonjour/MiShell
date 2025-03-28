@@ -24,26 +24,28 @@ int	ft_find_env_var(t_env *env, char *var, int var_size)
 
 // Realloc la string en remplacant la variable d'environnement par son expansion
 // 		Utilisée dans expand_var_env
-char	*ft_replace_env_var(char *str, int i, char *expand_var, t_data *data)
+char	*ft_replace_env_var(char *str, int i, char *exp, t_data *data)
 {
 	char	*new;
 	int		j;
-	int		var_size;
+	int		len;
 
-	var_size = ft_env_var_len(str, i + 1);
+	if (str[i + 1] == '?')
+		len = 1;
+	else
+		len = ft_env_var_len(str, i + 1);
 	j = -1;
-	new = malloc(sizeof(char *) * (ft_strlen(str)
-				- (var_size + 1) + ft_strlen(expand_var) + 1));
+	new = malloc(sizeof(char *) * (ft_strlen(str) - len + ft_strlen(exp) + 2));
 	if (!new)
 		return (ft_set_error(data, 1));
 	while (++j < i)
 		new[j] = str[j];
-	while (expand_var[j - i] != '\0')
+	while (exp[j - i] != '\0')
 	{
-		new[j] = expand_var[j - i];
+		new[j] = exp[j - i];
 		j++;
 	}
-	i += var_size + 1;
+	i += len + 1;
 	while (str[i] != '\0')
 		new[j++] = str[i++];
 	new[j] = '\0';
