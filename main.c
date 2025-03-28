@@ -154,7 +154,7 @@ int	main(int ac, char **av, char **envp)
 			printf("\n");
 			i = 0;
 			printf("\nREDIRECTIONS %d\n", j);
-			while (line->redir[i] != NULL)
+while (line->redir[i] != NULL)
 			{
 				printf("|%s|", line->redir[i]);
 				i++;
