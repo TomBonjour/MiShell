@@ -17,6 +17,10 @@ typedef struct s_list
 	char			**args;
 	char			**redir;
 	int				hdoc;
+	int				inf;
+	int				fd_infile;
+	int				outf;
+	int				fd_outfile;
 	int				builtin;
 	char			*pathname;
 	struct s_list	*next;

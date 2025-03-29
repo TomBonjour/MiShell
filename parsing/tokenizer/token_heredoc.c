@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-char	**ft_replace_hdoc(char **redir_tab, char **new_tab, int size, t_list **new)
+char	**ft_replace_hdoc(char **tab, char **new_tab, int size, t_list **new)
 {
 	int	i;
 	int	j;
@@ -9,14 +9,19 @@ char	**ft_replace_hdoc(char **redir_tab, char **new_tab, int size, t_list **new)
 	j = 0;
 	while (i < size)
 	{
-		if (redir_tab[i][0] == '<' && redir_tab[i][1] == '<')
+		if (tab[i][0] == '<' && tab[i][1] == '<')
 		{
 			(*new)->hdoc += 1;
-			new_tab[j] = ft_strdup(redir_tab[i]);
+			new_tab[j] = ft_strdup(tab[i]);
 			if (!new_tab[j])
 				return (NULL);
 			j++;
 		}
+		if (ft_find_word(tab[i], "<") == 1)
+			(*new)->inf += 1;
+		if (ft_find_word(tab[i], ">") == 1
+			|| ft_find_word(tab[i], ">") == 1)
+			(*new)->outf += 1;
 		i++;
 	}
 	return (new_tab);
