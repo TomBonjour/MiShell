@@ -134,7 +134,6 @@ int	main(int ac, char **av, char **envp)
 			ft_error_manager(&data, &line, env);
 		exit_status = ft_wait_pid(&data);
 		ft_free_list(&line);
-			return (0);
 		//PRINT LISTE CHAINEE
 		/*temp = line;
 		while (line != NULL)

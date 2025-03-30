@@ -30,7 +30,8 @@ SRCS = main.c \
 	   utils/utils_list.c \
 	   exec/exec_cmd.c \
 	   exec/exec_utils.c \
-	   exec/parsing_path.c
+	   exec/parsing_path.c \
+	   exec/exec_redir.c
 #-------------------------------------------------------OBJECTS--------------------------------------------------#
 OBJ = $(SRCS:.c=.o)
 OBJ_PATH = obj/

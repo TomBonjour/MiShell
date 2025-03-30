@@ -17,10 +17,9 @@ char	**ft_replace_hdoc(char **tab, char **new_tab, int size, t_list **new)
 				return (NULL);
 			j++;
 		}
-		if (ft_find_word(tab[i], "<") == 1)
+		else if (tab[i][0] == '<')
 			(*new)->inf += 1;
-		if (ft_find_word(tab[i], ">") == 1
-			|| ft_find_word(tab[i], ">") == 1)
+		else if (tab[i][0] == '>')
 			(*new)->outf += 1;
 		i++;
 	}

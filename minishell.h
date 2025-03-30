@@ -145,5 +145,7 @@ int			ft_pars_env(t_env *env, t_data *data);
 char		**ft_convert_env(t_env *env, t_data *data);
 int			ft_wait_pid(t_data *data);
 int			ft_is_builtin(t_list *line);
+int			ft_open_redir(t_list *line, t_hdoc *infos, t_env *env, t_data *data);
+
 
 #endif
