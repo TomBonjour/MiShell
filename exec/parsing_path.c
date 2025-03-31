@@ -14,6 +14,7 @@ int	ft_pars_env(t_env *env, t_data *data)
 	int		i;
 
 	i = ft_find_env_var(env, "PATH", 4);
+	data->node_pos = 1;
 	if (i != -1)
 	{
 		data->paths = ft_split(env[i].data, ':');

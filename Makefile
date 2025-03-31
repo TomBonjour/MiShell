@@ -27,7 +27,11 @@ SRCS = main.c \
 	   signals/signals.c \
 	   signals/signals_init.c \
 	   utils/utils_generals.c \
+	   utils/utils_generals2.c \
+	   utils/utils_generals3.c \
+	   utils/utils_generals4.c \
 	   utils/utils_list.c \
+	   utils/utils_list2.c \
 	   exec/exec_cmd.c \
 	   exec/exec_utils.c \
 	   exec/parsing_path.c \

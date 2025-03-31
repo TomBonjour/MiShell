@@ -34,7 +34,7 @@ typedef struct s_env
 
 typedef struct s_data
 {
-	t_env		*env;
+	t_env	*env;
 	int		err;
 	int		rvalue;
 	int		pid;
@@ -118,6 +118,7 @@ void		ft_free_list(t_list **line);
 void		ft_free_env(t_env *env);
 void		ft_lstadd_back(t_list **lst, t_list *new_node);
 void		ft_init_data(t_data *data);
+t_env		*ft_set_env(char **envp, t_data *data);
 
 //------	 GENERAL UTILS ------//
 void		ft_reverse_free(char **tab, int j);
@@ -136,6 +137,7 @@ void		ft_error_manager(t_data *data, t_list **line, t_env *env);
 void		ft_free_and_exit(t_list *line, t_env *env);
 void		ft_free_tab(char **tab);
 int			ft_find_word(char *s, char *word);
+void		ft_close_fds(t_data *data, int i);
 
 //------	 EXEC UTILS ------//
 int			ft_exec_cmd(t_list *line, t_env *env, t_data *data);
@@ -146,6 +148,5 @@ char		**ft_convert_env(t_env *env, t_data *data);
 int			ft_wait_pid(t_data *data);
 int			ft_is_builtin(t_list *line);
 int			ft_open_redir(t_list *line, t_hdoc *infos, t_env *env, t_data *data);
-
 
 #endif
