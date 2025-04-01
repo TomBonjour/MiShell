@@ -150,6 +150,6 @@ int			ft_wait_pid(t_data *data);
 int			ft_is_builtin(t_list *line);
 int			ft_open_redir(t_list *line, t_hdoc *infos, t_env *env, t_data *data);
 int			ft_exec_infiles(t_list *line);
-int			ft_last_infile(t_list *line);
+int			ft_last_infile(t_list *line, int nb_redir);
 
 #endif

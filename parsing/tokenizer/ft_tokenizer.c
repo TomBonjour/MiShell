@@ -45,7 +45,7 @@ void	*ft_get_cmd_and_redir(char *cmd, int i, t_list **new, t_data *data)
 	}
 	if (nb_redir > 0)
 	{
-		(*new)->last_infile = ft_last_infile(*new);
+		(*new)->last_infile = ft_last_infile(*new, nb_redir);
 		(*new)->redir = ft_heredoc_prio((*new)->redir, nb_redir, new, data);
 	}
 	if (data->err != 0)

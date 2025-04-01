@@ -71,14 +71,14 @@ int	ft_open_redir(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 // Find the last redir type. Return : 
 // 0 if last redir is heredoc
 // 1 if last redir is infile
-int	ft_last_infile(t_list *line)
+int	ft_last_infile(t_list *line, int nb_redir)
 {
 	int	i;
 	int	last;
 
 	i = 0;
 	last = 0;
-	while (line->redir[i] != NULL)
+	while (i < nb_redir)
 	{
 		if (line->redir[i][0] == '<' && line->redir[i][1] == '<')
 			last = 2;
