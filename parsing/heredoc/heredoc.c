@@ -96,7 +96,7 @@ int	ft_init_random(t_hdoc *infos)
 
 /* write a random filename and open it */
 
-int	ft_copy_herefile(t_hdoc *infos)
+int	ft_copy_herefile(t_list *line, t_hdoc *infos)
 {
 	static int	i = 0;
 
@@ -109,8 +109,8 @@ int	ft_copy_herefile(t_hdoc *infos)
 			return (0);
 		}
 	}
-	infos->fd = open(infos->filename, O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	if (infos->fd == -1)
+	line->fd_hdoc = open(infos->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (line->fd_hdoc == -1)
 	{
 		free(infos->filename);
 		free(infos->str);
@@ -137,7 +137,7 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 	{
 		if (!ft_malloc_strdup_eof(infos, line))
 			return (1);
-		if (!ft_copy_herefile(infos))
+		if (!ft_copy_herefile(line, infos))
 			return (1);
 		while (1)
 		{
@@ -145,7 +145,7 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 				return (1);
 			if (!ft_strncmp(infos->eof, infos->str, infos->size))
 				break ;
-			ft_putstr_fd(infos->str, infos->fd);
+			ft_putstr_fd(infos->str, line->fd_hdoc);
 			free(infos->str);
 		}
 		printf("filename: %s\n", infos->filename);

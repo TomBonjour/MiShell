@@ -10,7 +10,6 @@ void	ft_init_var(t_hdoc *infos, int flag)
 {
 	if (flag == 1)
 	{
-		infos->fd = 0;
 		infos->size = 0;
 		infos->str = NULL;
 		infos->eof = NULL;
@@ -20,6 +19,5 @@ void	ft_init_var(t_hdoc *infos, int flag)
 	{
 		free(infos->str);
 		free(infos->eof);
-		close(infos->fd);
 	}
 }

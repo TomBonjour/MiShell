@@ -17,8 +17,10 @@ typedef struct s_list
 	char			**args;
 	char			**redir;
 	int				hdoc;
+	int				fd_hdoc;
 	int				inf;
 	int				fd_infile;
+	int				last_infile;
 	int				outf;
 	int				fd_outfile;
 	int				builtin;
@@ -50,7 +52,6 @@ typedef struct s_heredoc
 	char	*str;
 	char	*filename;
 	int		size;
-	int		fd;
 }			t_hdoc;
 
 //------ BUILTINS UTILS ------//
@@ -146,6 +147,8 @@ char		**ft_convert_env(t_env *env, t_data *data);
 int			ft_wait_pid(t_data *data);
 int			ft_is_builtin(t_list *line);
 int			ft_open_redir(t_list *line, t_hdoc *infos, t_env *env, t_data *data);
+int			ft_exec_infiles(t_list *line);
+int			ft_last_infile(t_list *line);
 
 
 #endif

@@ -7,7 +7,7 @@ int	ft_open_infile(t_list *line, t_data *data)
 	i = 0;
 	while (line->redir[i] != NULL)
 	{
-		if (line->redir[i][0] == '<')
+		if (line->redir[i][0] == '<' && line->redir[i][1] != '<')
 		{
 			if (line->fd_infile != 0)
 				close(line->fd_infile);
@@ -64,6 +64,53 @@ int	ft_open_redir(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 	{
 		if (ft_open_outfile(line) == -1)
 			return (-1);
+	}
+	return (0);
+}
+
+// Find the last redir type. Return : 
+// 0 if last redir is heredoc
+// 1 if last redir is infile
+int	ft_last_infile(t_list *line)
+{
+	int	i;
+
+	i = 0;
+	while (line->redir[i] != NULL)
+	{
+		if (line->redir[i][0] == '<' && line->redir[i][1] == '<')
+			return (2);
+		else if (line->redir[i][0] == '<')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_exec_infiles(t_list *line)
+{
+	if (line->hdoc == 0)
+	{
+		if (dup2(line->fd_infile, STDIN_FILENO) == -1)
+			return (1);
+	}
+	if (line->inf == 0)
+	{
+		if (dup2(line->fd_hdoc, STDIN_FILENO) == -1)
+			return (1);
+	}
+	if (line->hdoc != 0 && line->inf != 0)
+	{
+		if (line->last_infile == 1)
+		{
+			if (dup2(line->fd_infile, STDIN_FILENO) == -1)
+				return (1);
+		}
+		if (line->last_infile == 2)
+		{
+			if (dup2(line->fd_hdoc, STDIN_FILENO) == -1)
+				return (1);
+		}
 	}
 	return (0);
 }
