@@ -90,8 +90,7 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 	{
 		if (ft_multiples_nodes(line, data, &tmpread, fd))
 			break ;
-		if (tmpread != 0)
-			close(tmpread);
+		ft_close_fds(data, 0);
 		close(fd[1]);
 		if (line->builtin == 1)
 			ft_exec_builtin(line, data);
@@ -138,7 +137,6 @@ int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
 	temp = line;
 	if (ft_pars_env(env, data))
 		return (1);
-	data->node_pos = 1;
 	while (line != NULL)
 	{
 		if (ft_open_redir(line, &infos, env, data) == -1)
@@ -147,6 +145,9 @@ int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
 			if (ft_test_path(line))
 				ft_fill_pathnames(data, line);
 		ft_exe(line, temp, env, data);
+		if (line->pathname)
+			free(line->pathname);
+		ft_close_fds(data, 1);
 		line = line->next;
 		data->node_pos += 1;
 	}
