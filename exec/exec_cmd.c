@@ -67,11 +67,13 @@ int	ft_multiples_nodes(t_list *line, t_data *data, int *tmpread, int *fd)
 	{
 		if (ft_exec_infiles(line) == 1)
 			return (1);
+		close(line->fd_infile);
 	}
 	if (line->outf)
 	{
 		if (dup2(line->fd_outfile, STDOUT_FILENO) == -1)
 			return (1);
+		close(line->fd_outfile);
 	}
 	return (0);
 }
@@ -90,7 +92,8 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 	{
 		if (ft_multiples_nodes(line, data, &tmpread, fd))
 			break ;
-		ft_close_fds(data, 0);
+		if (tmpread != 0)
+			close(tmpread);
 		close(fd[1]);
 		if (line->builtin == 1)
 			ft_exec_builtin(line, data);
