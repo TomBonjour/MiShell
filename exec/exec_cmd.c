@@ -63,12 +63,12 @@ int	ft_multiples_nodes(t_list *line, t_data *data, int *tmpread, int *fd)
 			if (dup2(fd[1], STDOUT_FILENO) == -1)
 				return (1);
 	}
-	if (line->hdoc != 0 || line->inf != 0)
+	if (line->hdoc || line->inf)
 	{
 		if (ft_exec_infiles(line) == 1)
 			return (1);
 	}
-	if (line->outf != 0)
+	if (line->outf)
 	{
 		if (dup2(line->fd_outfile, STDOUT_FILENO) == -1)
 			return (1);

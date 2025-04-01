@@ -50,7 +50,6 @@ char	**ft_heredoc_prio(char **redir_tab, int nb, t_list **new, t_data *data)
 	char	**new_tab;
 	int		j;
 
-	(*new)->last_infile = ft_last_infile(*new);
 	new_tab = malloc(sizeof(char *) * (nb + 1));
 	if (!new_tab)
 		return (ft_set_error(data, 1));
