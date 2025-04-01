@@ -74,17 +74,19 @@ int	ft_open_redir(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 int	ft_last_infile(t_list *line)
 {
 	int	i;
+	int	last;
 
 	i = 0;
+	last = 0;
 	while (line->redir[i] != NULL)
 	{
 		if (line->redir[i][0] == '<' && line->redir[i][1] == '<')
-			return (2);
+			last = 2;
 		else if (line->redir[i][0] == '<')
-			return (1);
+			last = 1;
 		i++;
 	}
-	return (0);
+	return (last);
 }
 
 int	ft_exec_infiles(t_list *line)
