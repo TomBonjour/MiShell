@@ -2,12 +2,9 @@
 
 /* resize the keyword by exluding the doubles chevron (<<).*/
 
-int	ft_malloc_strdup_eof(t_hdoc *infos, t_list *line)
+int	ft_malloc_strdup_eof(t_hdoc *infos, char *str)
 {
-	static int	i = -1;
-
-	i += 1;
-	infos->eof = ft_strjoin(line->redir[i] + 2, "\n");
+	infos->eof = ft_strjoin(str + 2, "\n");
 	if (!infos->eof)
 	{
 		printf("malloc fail\n");
@@ -98,9 +95,7 @@ int	ft_init_random(t_hdoc *infos)
 
 int	ft_copy_herefile(t_list *line, t_hdoc *infos)
 {
-	static int	i = 0;
-
-	if (i == 0)
+	if (!infos->filename)
 	{
 		if (!ft_init_random(infos))
 		{
@@ -118,7 +113,6 @@ int	ft_copy_herefile(t_list *line, t_hdoc *infos)
 		printf("heredoc fd fail\n");
 		return (0);
 	}
-	i++;
 	return (1);
 }
 
@@ -151,7 +145,7 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 	i = 1;
 	while (i <= line->hdoc)
 	{
-		if (!ft_malloc_strdup_eof(infos, line))
+		if (!ft_malloc_strdup_eof(infos, line->redir[i - 1]))
 			return (1);
 		if (!ft_copy_herefile(line, infos))
 			return (1);
@@ -164,7 +158,7 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 			ft_putstr_fd(infos->str, line->fd_hdoc);
 			free(infos->str);
 		}
-		printf("filename: %s\n", infos->filename);
+		// printf("filename: %s\n", infos->filename);
 		ft_init_var(infos, 0);
 		i++;
 	}
