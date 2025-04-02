@@ -79,6 +79,8 @@ while (line->redir[i] != NULL)
 		}
 		printf("NULL\n");
 		line = temp;*/
+		dup2(STDOUT_FILENO, 1);
+		dup2(STDIN_FILENO, 0);
 	}
 	//TEST COMMANDES 
 	//ft_env(env);
