@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_forbidd_char(char *var)
 {
@@ -67,9 +67,7 @@ int	ft_find_var(t_env *env, char *var, int *i)
 int	ft_export_fill_env(t_env *new, char *var, t_env *env)
 {
 	int	j;
-	int	c;
-
-	c = 0;
+	
 	j = 0;
 	while (env[j].name != NULL)
 	{

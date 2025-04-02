@@ -160,10 +160,16 @@ int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
 	{
 		if (ft_open_redir(line, &infos, env, data) == -1)
 			return (1);
-		if (ft_is_builtin(line) == -1 && line->args[0])
+		if (ft_is_builtin(line) == 1 && data->nodes == 1)
+			ft_exec_builtin(line, data);
+		else if (line->args[0])
+		{
 			if (ft_test_path(line))
+			{
 				ft_fill_pathnames(data, line);
-		ft_exe(line, temp, env, data);
+				ft_exe(line, temp, env, data);
+			}
+		}
 		ft_clear_node(line, data, &infos);
 		line = line->next;
 	}

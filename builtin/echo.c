@@ -1,6 +1,5 @@
 #include "../minishell.h"
 
-
 // ECHO-util1 : Regarde si un argument de echo est une option -n	
 int	ft_is_option(char *str)
 {
@@ -23,7 +22,7 @@ int	ft_is_option(char *str)
 
 int	ft_skip_options(char **tab, int *i)
 {
-	int opt;
+	int	opt;
 
 	opt = ft_is_option(tab[1]);
 	if (opt == 1)
