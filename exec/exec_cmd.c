@@ -24,8 +24,6 @@ void	ft_exec_builtin(t_list *line, t_data *data)
 		ft_env(data->env);
 	if (ft_find_word(line->args[0], "echo") == 1)
 		ft_echo(line->args);
-	if (ft_find_word(line->args[0], "exit") == 1)
-		data->rvalue = ft_exit(line->args, line, data->env, data);
 	if (ft_find_word(line->args[0], "unset") == 1)
 		data->env = ft_unset(line->args, data->env);
 	if (ft_find_word(line->args[0], "export") == 1)
@@ -160,7 +158,7 @@ int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
 	{
 		if (ft_open_redir(line, &infos, env, data) == -1)
 			return (1);
-		if (ft_is_builtin(line) == -1 && line->args[0])
+		if (ft_is_builtin(line, env, data) == -1 && line->args[0])
 			if (ft_test_path(line))
 				ft_fill_pathnames(data, line);
 		ft_exe(line, temp, env, data);
