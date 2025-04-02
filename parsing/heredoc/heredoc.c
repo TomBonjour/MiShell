@@ -122,6 +122,22 @@ int	ft_copy_herefile(t_list *line, t_hdoc *infos)
 	return (1);
 }
 
+int	ft_reopen_hdoc(t_list *line, t_hdoc *infos)
+{
+	close(line->fd_hdoc);
+	line->fd_hdoc = open(infos->filename, O_RDONLY, 0644);
+	if (line->fd_hdoc == -1)
+	{
+		unlink(infos->filename);
+		free(infos->filename);
+		free(infos->str);
+		free(infos->eof);
+		printf("reopen hd fail\n");
+		return (0);
+	}
+	return (1);
+}
+
 /* This heredoc function resize the keyword by exluding the
  * doubles chevron (<<), create a file with random name,
  * write into this file with readline, stop the writing
@@ -152,5 +168,7 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 		ft_init_var(infos, 0);
 		i++;
 	}
+	if (!ft_reopen_hdoc(line, infos))
+		return (1);
 	return (0);
 }

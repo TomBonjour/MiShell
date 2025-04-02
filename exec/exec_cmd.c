@@ -67,7 +67,10 @@ int	ft_multiples_nodes(t_list *line, t_data *data, int *tmpread, int *fd)
 	{
 		if (ft_exec_infiles(line) == 1)
 			return (1);
-		close(line->fd_infile);
+		if (line->fd_infile != 0 && line->fd_infile != -1)
+			close(line->fd_infile);
+		if (line->fd_hdoc != 0 && line->fd_hdoc != -1)
+			close(line->fd_hdoc);
 	}
 	if (line->outf)
 	{
@@ -132,6 +135,19 @@ int	ft_exe(t_list *line, t_list *temp, t_env *env, t_data *data)
 	return (0);
 }
 
+void	ft_clear_node(t_list *line, t_data *data, t_hdoc *infos)
+{
+	if (line->pathname)
+		free(line->pathname);
+	if (line->hdoc != 0)
+	{
+		unlink(infos->filename);
+		free(infos->filename);
+	}
+	ft_close_fds(data, 1);
+	data->node_pos += 1;
+}
+
 int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
 {
 	t_hdoc	infos;
@@ -148,11 +164,8 @@ int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
 			if (ft_test_path(line))
 				ft_fill_pathnames(data, line);
 		ft_exe(line, temp, env, data);
-		if (line->pathname)
-			free(line->pathname);
-		ft_close_fds(data, 1);
+		ft_clear_node(line, data, &infos);
 		line = line->next;
-		data->node_pos += 1;
 	}
 	close(data->fdtmp);
 	data->fdtmp = 0;
