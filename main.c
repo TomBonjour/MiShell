@@ -51,7 +51,8 @@ int	main(int ac, char **av, char **envp)
 		ft_exec_cmd(line, env, &data);
 		if (data.err != 0)
 			ft_error_manager(&data, &line, env);
-		exit_status = ft_wait_pid(&data);
+		if (data.pid != 0)
+			exit_status = ft_wait_pid(&data);
 		ft_free_list(&line);
 		//PRINT LISTE CHAINEE
 		/*temp = line;
