@@ -81,33 +81,13 @@ int	ft_exec_builtin(t_list *line, t_data *data)
 	else if (ft_find_word(line->args[0], "echo") == 1)
 		ft_echo(line->args);
 	else if (ft_find_word(line->args[0], "exit") == 1)
-		data->rvalue = ft_exit(line->args, line, data->env, data);
+		data->rvalue = ft_exit(line, data->env, data);
 	else if (ft_find_word(line->args[0], "unset") == 1)
 		data->env = ft_unset(line->args, data->env);
 	else if (ft_find_word(line->args[0], "export") == 1)
 		data->env = ft_export(line->args, data->env);
 	if (dup2(STDOUT_FILENO, 1) == -1 || dup2(STDIN_FILENO, 0) == -1)
 		return (1);
-	return (0);
-}
-
-int	ft_init_exe(t_data *data, int *fd)
-{
-	if (data->fdtmp == 0)
-		data->fdtmp = STDIN_FILENO;
-	if (pipe(fd) == -1)
-	{
-		printf("init pipe fail\n");
-		return (1);
-	}
-	data->pid = fork();
-	if (data->pid == -1)
-	{
-		close(fd[0]);
-		close(fd[1]);
-		printf("init fork fail\n");
-		return (1);
-	}
 	return (0);
 }
 
@@ -194,7 +174,7 @@ int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
 			ft_exec_builtin(line, data);
 		else if (line->args[0])
 		{
-			if (ft_test_path(line))
+			if (ft_is_builtin(line, env, data) == -1 && ft_test_path(line))
 				ft_fill_pathnames(data, line);
 			ft_exe(line, temp, env, data);
 			ft_clear_node(line, data, &infos);
