@@ -13,6 +13,7 @@ t_list	*ft_lst_new_node(char *cmd, t_data *data)
 	new_elem->args = NULL;
 	new_elem->redir = NULL;
 	new_elem->hdoc = 0;
+	new_elem->fd_hdoc = 0;
 	new_elem->builtin = 0;
 	new_elem->inf = 0;
 	new_elem->fd_infile = 0;
@@ -83,6 +84,7 @@ void	ft_init_data(t_data *data)
 	data->rvalue = 0;
 	data->err = 0;
 	data->fdtmp = 0;
+	data->pid = 0;
 	data->nodes = 1;
 	data->node_pos = 1;
 }
