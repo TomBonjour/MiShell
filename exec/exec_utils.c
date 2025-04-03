@@ -1,12 +1,12 @@
 #include "../minishell.h"
 
-int	ft_is_builtin(t_list *line, t_env *env, t_data *data)
+int	ft_is_builtin(t_list *line, t_data *data)
 {
 	if (ft_find_word(line->args[0], "exit") == 1)
 	{
 		line->builtin = 1;
 		if (data->nodes == 1)
-			ft_exit(line, env, data);
+			ft_exit(line, data->env, data);
 		return (1);
 	}
 	if (ft_find_word(line->args[0], "cd") == 1
@@ -49,7 +49,7 @@ char	*ft_strjoin_equal(char *s1, char *s2, t_data *data)
 	return (str);
 }
 
-char	**ft_convert_env(t_env *env, t_data *data)
+char	**ft_convert_env(t_data *data)
 {
 	char	**envtab;
 	int		i;
@@ -57,15 +57,15 @@ char	**ft_convert_env(t_env *env, t_data *data)
 
 	i = 0;
 	size = 0;
-	while (env[i].name != NULL)
+	while (data->env[i].name != NULL)
 		i++;
 	envtab = malloc(sizeof(char *) * (i + 1));
 	if (!envtab)
 		return (ft_set_error(data, 1));
 	i = 0;
-	while (env[i].name != NULL)
+	while (data->env[i].name != NULL)
 	{
-		envtab[i] = ft_strjoin_equal(env[i].name, env[i].data, data);
+		envtab[i] = ft_strjoin_equal(data->env[i].name, data->env[i].data, data);
 		if (data->err == 1)
 			return (NULL);
 		i++;

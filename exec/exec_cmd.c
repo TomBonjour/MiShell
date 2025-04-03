@@ -15,26 +15,6 @@ int	ft_wait_pid(t_data *data)
 	return (exitstatus);
 }
 
-int	ft_init_exe(t_data *data, int *fd)
-{
-	if (data->fdtmp == 0)
-		data->fdtmp = STDIN_FILENO;
-	if (pipe(fd) == -1)
-	{
-		printf("init pipe fail\n");
-		return (1);
-	}
-	data->pid = fork();
-	if (data->pid == -1)
-	{
-		close(fd[0]);
-		close(fd[1]);
-		printf("init fork fail\n");
-		return (1);
-	}
-	return (0);
-}
-
 int	ft_multiples_nodes(t_list *line, t_data *data, int *tmpread, int *fd)
 {
 	if (data->nodes > 1)
@@ -81,7 +61,7 @@ int	ft_exec_builtin(t_list *line, t_data *data)
 	else if (ft_find_word(line->args[0], "echo") == 1)
 		ft_echo(line->args);
 	else if (ft_find_word(line->args[0], "exit") == 1)
-		data->rvalue = ft_exit(line->args, line, data->env, data);
+		data->rvalue = ft_exit(line, data->env, data);
 	else if (ft_find_word(line->args[0], "unset") == 1)
 		data->env = ft_unset(line->args, data->env);
 	else if (ft_find_word(line->args[0], "export") == 1)
@@ -130,14 +110,14 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 		close(fd[1]);
 		if (line->builtin == 1)
 			ft_exec_builtin(line, data);
-		else if (line->pathname && line->args)
+		if (line->pathname && line->args)
 			execve(line->pathname, line->args, envtab);
 		break ;
 	}
 	ft_reverse_free(envtab, i);
 }
 
-int	ft_exe(t_list *line, t_list *temp, t_env *env, t_data *data)
+int	ft_exe(t_list *line, t_list *temp, t_data *data)
 {
 	int		fd[2];
 	char	**envtab;
@@ -146,7 +126,7 @@ int	ft_exe(t_list *line, t_list *temp, t_env *env, t_data *data)
 		return (1);
 	if (data->pid == 0)
 	{
-		envtab = ft_convert_env(env, data);
+		envtab = ft_convert_env(data);
 		if (envtab)
 			ft_child_process(line, envtab, data, fd);
 		close(fd[1]);
@@ -154,7 +134,7 @@ int	ft_exe(t_list *line, t_list *temp, t_env *env, t_data *data)
 		close(line->fd_infile);
 		close(line->fd_outfile);
 		ft_free_list(&temp);
-		ft_free_env(env);
+		ft_free_env(data->env);
 		ft_free_tab(data->paths);
 		exit(127);
 	}
@@ -178,33 +158,33 @@ void	ft_clear_node(t_list *line, t_data *data, t_hdoc *infos)
 	data->node_pos += 1;
 }
 
-int	ft_exec_cmd(t_list *line, t_env *env, t_data *data)
+int	ft_exec_cmd(t_list *line, t_data *data)
 {
 	t_hdoc	infos;
 	t_list	*temp;
 
 	temp = line;
-	if (ft_pars_env(env, data))
+	if (ft_pars_env(data))
 		return (1);
 	while (line != NULL)
 	{
-		if (ft_open_redir(line, &infos, env, data) == -1)
+		if (ft_open_redir(line, &infos, data) == -1)
 			return (1);
-		if (ft_is_builtin(line, env, data) == 1 && data->nodes == 1)
+		if (ft_is_builtin(line, data) == 1 && data->nodes == 1)
 			ft_exec_builtin(line, data);
 		else if (line->args[0])
 		{
 			if (ft_test_path(line))
 				ft_fill_pathnames(data, line);
-			ft_exe(line, temp, env, data);
+			ft_exe(line, temp, data);
 			ft_clear_node(line, data, &infos);
 		}
 		line = line->next;
 	}
+	ft_free_tab(data->paths);
 	if (data->fdtmp > 2)
 		close(data->fdtmp);
 	data->fdtmp = 0;
-	ft_free_tab(data->paths);
 	line = temp;
 	return (0);
 }

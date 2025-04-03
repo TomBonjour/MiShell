@@ -138,7 +138,7 @@ int	ft_reopen_hdoc(t_list *line, t_hdoc *infos)
  * when the keyword (eof) is written and keep the filename
  * in a double tab to unlink them at the end of the cmd line. */
 
-int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
+int	ft_heredoc(t_list *line, t_hdoc *infos, t_data *data)
 {
 	int	i;
 
@@ -151,14 +151,13 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
 			return (1);
 		while (1)
 		{
-			if (!ft_reading_line(infos, env, data))
+			if (!ft_reading_line(infos, data->env, data))
 				return (1);
 			if (!ft_strncmp(infos->eof, infos->str, infos->size))
 				break ;
 			ft_putstr_fd(infos->str, line->fd_hdoc);
 			free(infos->str);
 		}
-		// printf("filename: %s\n", infos->filename);
 		ft_init_var(infos, 0);
 		i++;
 	}

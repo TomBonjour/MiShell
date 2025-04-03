@@ -48,7 +48,7 @@ int	main(int ac, char **av, char **envp)
 		ft_syntax_and_expand(line, env, &data);
 		if (data.err != 0)
 			ft_error_manager(&data, &line, env);
-		ft_exec_cmd(line, env, &data);
+		ft_exec_cmd(line, &data);
 		if (data.err != 0)
 			ft_error_manager(&data, &line, env);
 		if (data.pid != 0)

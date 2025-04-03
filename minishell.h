@@ -75,14 +75,14 @@ int			ft_parsing_exit(char **argv);
 long long	ft_atoll(char *str);
 int			ft_check_syntax(char *str);
 int			ft_increment(long long *n, int sign, char *str, int i);
-int			ft_alloc_newenv(t_env *env, int i);
+int			ft_alloc_newenv(t_env **env, int i);
 
 //------ SIGNALS UTILS ------//
 void		ft_sigint_handler(int sig);
 void		ft_sigquit_handler(int sig);
 void		setup_signals(void);
 void		ft_init_var(t_hdoc *infos, int flag);
-int			ft_heredoc(t_list *line, t_hdoc *infos, t_env *env, t_data *data);
+int			ft_heredoc(t_list *line, t_hdoc *infos, t_data *data);
 
 //------	 PARSING UTILS ------//
 void		ft_parsing(char *input);
@@ -141,14 +141,14 @@ int			ft_find_word(char *s, char *word);
 void		ft_close_fds(t_data *data, int i);
 
 //------	 EXEC UTILS ------//
-int			ft_exec_cmd(t_list *line, t_env *env, t_data *data);
+int			ft_exec_cmd(t_list *line, t_data *data);
 int			ft_test_path(t_list *line);
 int			ft_fill_pathnames(t_data *data, t_list *line);
-int			ft_pars_env(t_env *env, t_data *data);
-char		**ft_convert_env(t_env *env, t_data *data);
+int			ft_pars_env(t_data *data);
+char		**ft_convert_env(t_data *data);
 int			ft_wait_pid(t_data *data);
-int			ft_is_builtin(t_list *line, t_env *env, t_data *data);
-int			ft_open_redir(t_list *line, t_hdoc *infos, t_env *env, t_data *data);
+int			ft_is_builtin(t_list *line, t_data *data);
+int			ft_open_redir(t_list *line, t_hdoc *infos, t_data *data);
 int			ft_exec_infiles(t_list *line);
 int			ft_last_infile(t_list *line, int nb_redir);
 

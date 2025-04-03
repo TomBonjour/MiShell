@@ -47,12 +47,12 @@ int	ft_open_outfile(t_list *line)
 	return (0);
 }
 
-int	ft_open_redir(t_list *line, t_hdoc *infos, t_env *env, t_data *data)
+int	ft_open_redir(t_list *line, t_hdoc *infos, t_data *data)
 {
 	if (line->hdoc != 0)
 	{
 		ft_init_var(infos, 1);
-		if (ft_heredoc(line, infos, env, data) == 1)
+		if (ft_heredoc(line, infos, data) == 1)
 			return (-1);
 	}
 	if (line->inf != 0)

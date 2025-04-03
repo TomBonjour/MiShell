@@ -67,7 +67,7 @@ int	ft_find_var(t_env *env, char *var, int *i)
 int	ft_export_fill_env(t_env *new, char *var, t_env *env)
 {
 	int	j;
-	
+
 	j = 0;
 	while (env[j].name != NULL)
 	{
@@ -116,7 +116,7 @@ t_env	*ft_export(char **argv, t_env *env)
 		{
 			while (env[i].name != NULL)
 				i++;
-			if (!ft_alloc_newenv(new, i + 1))
+			if (!ft_alloc_newenv(&new, i + 1))
 				return (NULL);
 			ft_export_fill_env(new, argv[j], env);
 			free(env);
@@ -127,10 +127,10 @@ t_env	*ft_export(char **argv, t_env *env)
 	return (env);
 }
 
-int ft_alloc_newenv(t_env *new, int i)
+int ft_alloc_newenv(t_env **new, int i)
 {
-	new = ft_realloc_env(i);
-	if (!new)
+	*new = ft_realloc_env(i);
+	if (!*new)
 	{
 		printf("malloc fail\n");
 		return (0);

@@ -90,12 +90,12 @@ t_env	*ft_unset(char **argv, t_env *env)
 	new = NULL;
 	while (argv[j])
 	{
-		i = 0;
 		if (!ft_unset_find_var(argv[j], env))
 		{
+			i = 0;
 			while (env[i].name != NULL)
 				i++;
-			if (!ft_alloc_newenv(new, i - 1))
+			if (!ft_alloc_newenv(&new, i - 1))
 				return (NULL);
 			ft_unset_fill_env(new, argv[j], env, i - 1);
 			free(env);
