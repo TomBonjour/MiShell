@@ -125,7 +125,7 @@ char	*ft_expander(char *str, t_env *env, t_data *data)
 		}
 		if (ft_is_quote(str[i]) == 1)
 			str = ft_expand_quote(str, &i, env, data);
-		if (str[i] != '\0')
+		else if (str[i] != '\0')
 			i++;
 	}
 	return (str);
