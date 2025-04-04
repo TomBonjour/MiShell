@@ -1,5 +1,6 @@
 *.o
 minishell
+.cache
 compile_commands.json
 libft/libft.a
 todo.txt

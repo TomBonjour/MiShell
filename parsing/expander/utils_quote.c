@@ -60,7 +60,7 @@ int	ft_find_end_quote(char *s, int *i, char c)
 // 		Cherche la fin de la quote et expand les variables d'env trouvées
 // 		en chemin seulement si on est entre double quotes ""
 // 		Realloc en enlevant les quotes
-char	*ft_expand_quote(char *str, int *i, t_env *env, t_data *data)
+char	*ft_expand_quote(char *str, int *i, t_data *data)
 {
 	char	quote;
 	int		pos;
@@ -77,7 +77,7 @@ char	*ft_expand_quote(char *str, int *i, t_env *env, t_data *data)
 			else if (ft_is_quote(str[*i + 1]) == 1)
 				str = ft_remove_dollar(str, *i, data);
 			else
-				str = ft_expand_env_var(str, i, env, data);
+				str = ft_expand_env_var(str, i, data);
 			if (data->err == 1)
 				return (NULL);
 		}

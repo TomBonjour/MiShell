@@ -8,7 +8,7 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libft/libft.h"
+# include "libft.h"
 # include <limits.h>
 # include <sys/wait.h>
 
@@ -100,21 +100,22 @@ char		*ft_redir_substr(char *cmd, int *i, t_data *data);
 char		*ft_arg_substr(char *cmd, int *i, t_data *data);
 char		*ft_realloc_char(char *str, char c, t_data *data);
 t_list		*ft_tokenize(char *s, t_data *data);
-void		*ft_syntax_and_expand(t_list *line, t_env *env, t_data *data);
-char		*ft_expander(char *str, t_env *env, t_data *data);
+void		*ft_syntax_and_expand(t_list *line, t_data *data);
+char		*ft_expander(char *str, t_data *data);
 int			ft_env_var_len(char *str, int i);
 int			ft_need_to_expand(char *str);
-char		*ft_expand_env_var(char *str, int *i, t_env *env, t_data *data);
+char		*ft_expand_env_var(char *str, int *i, t_data *data);
 void		*ft_expand_question_mark(char *str, int i, t_data *data);
-char		*ft_expand_quote(char *str, int *i, t_env *env, t_data *data);
+char		*ft_expand_quote(char *str, int *i, t_data *data);
 char		*ft_replace_env_var(char *str, int i, char *exp_var, t_data *data);
 char		*ft_remove_quotes(char *str, char quote, int *pos, t_data *data);
 char		*ft_remove_dollar(char *str, int i, t_data *data);
 char		**ft_heredoc_prio(char **redir_tab, int size, t_list **new_node,
 				t_data *data);
-char		*ft_expand_heredoc(char *str, t_env *env, t_data *data);
+char		*ft_expand_heredoc(char *str, t_data *data);
 int			ft_find_env_var(t_env *env, char *var, int var_size);
 int			ft_count_nodes(t_list *line);
+int			ft_get_pathname(t_list *line, char *path, char *cmdash);
 
 //------	 LISTS UTILS ------//
 t_list		*ft_lst_new_node(char *s, t_data *data);

@@ -52,13 +52,13 @@ int	ft_fill_pathnames(t_data *data, t_list *line)
 		printf("Malloc fail\n");
 		return (1);
 	}
-	if (data->paths)
+	if (line->pathname == NULL && data->paths)
 	{
 		while (data->paths[++i])
 		{
 			if (ft_get_pathname(line, data->paths[i], cmdash))
 				return (1);
-			if (access(line->pathname, X_OK) == 0)
+			if (access(line->pathname, F_OK) == 0)
 				break ;
 			free(line->pathname);
 		}

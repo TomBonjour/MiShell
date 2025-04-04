@@ -57,7 +57,7 @@ char	*ft_replace_env_var(char *str, int i, char *exp, t_data *data)
 // 		Recupere le nom de la variable d'env
 // 		La retrouve dans le tableau d'env
 // 		Realloc la string dans laquelle elle se situe avec son vrai contenu
-char	*ft_expand_env_var(char *str, int *i, t_env *env, t_data *data)
+char	*ft_expand_env_var(char *str, int *i, t_data *data)
 {
 	int		j;
 	char	*var;
@@ -68,11 +68,11 @@ char	*ft_expand_env_var(char *str, int *i, t_env *env, t_data *data)
 	var = ft_substr(str, *i + 1, var_size);
 	if (!var)
 		return (ft_set_error(data, 1));
-	j = ft_find_env_var(env, var, var_size);
+	j = ft_find_env_var(data->env, var, var_size);
 	if (j == -1)
 		expand_var = "";
 	else
-		expand_var = ft_strdup(env[j].data);
+		expand_var = ft_strdup(data->env[j].data);
 	free(var);
 	str = ft_replace_env_var(str, *i, expand_var, data);
 	if (data->err == 1)
@@ -105,7 +105,7 @@ void	*ft_expand_question_mark(char *str, int i, t_data *data)
 
 //Expand les variables d'env et le contenu des quotes suivant le cas
 //	Fournit l'input prêt a être envoyé a l'exec
-char	*ft_expander(char *str, t_env *env, t_data *data)
+char	*ft_expander(char *str, t_data *data)
 {
 	int		i;
 
@@ -121,12 +121,12 @@ char	*ft_expander(char *str, t_env *env, t_data *data)
 			else if (ft_is_quote(str[i + 1]) == 1)
 				str = ft_remove_dollar(str, i, data);
 			else
-				str = ft_expand_env_var(str, &i, env, data);
+				str = ft_expand_env_var(str, &i, data);
 			if (data->err == 1)
 				return (NULL);
 		}
 		else if (ft_is_quote(str[i]) == 1)
-			str = ft_expand_quote(str, &i, env, data);
+			str = ft_expand_quote(str, &i, data);
 		else if (str[i] != '\0')
 			i++;
 	}

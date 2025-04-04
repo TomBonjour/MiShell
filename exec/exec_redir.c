@@ -41,6 +41,7 @@ int	ft_open_outfile(t_list *line)
 			else
 				line->fd_outfile = open(line->redir[i] + 1,
 						O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		//NE PAS OUBLIER DE PROTEGER LES OPEN
 		}
 		i++;
 	}

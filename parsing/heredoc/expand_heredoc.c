@@ -1,7 +1,7 @@
 #include "../../minishell.h"
 
 //rajouter env et data
-char	*ft_expand_heredoc(char *str, t_env *env, t_data *data)
+char	*ft_expand_heredoc(char *str, t_data *data)
 {
 	int		i;
 
@@ -15,7 +15,7 @@ char	*ft_expand_heredoc(char *str, t_env *env, t_data *data)
 			if (str[i + 1] == '?')
 				str = ft_expand_question_mark(str, i, data);
 			else
-				str = ft_expand_env_var(str, &i, env, data);
+				str = ft_expand_env_var(str, &i, data);
 			if (data->err == 1)
 				return (NULL);
 		}

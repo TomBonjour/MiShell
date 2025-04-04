@@ -23,18 +23,18 @@ int	ft_check_redir_syntax(char *redir)
 	return (0);
 }
 
-char	*ft_send_to_expand(t_list *line, char *str, t_env *env, t_data *data)
+char	*ft_send_to_expand(char *str, t_data *data)
 {
 	if (ft_need_to_expand(str) == 1)
 	{
-		str = ft_expander(str, env, data);
+		str = ft_expander(str, data);
 		if (data->err == 1)
-			ft_free_and_exit(line, env);
+			return (NULL);
 	}
 	return (str);
 }
 
-void	*ft_syntax_and_expand(t_list *line, t_env *env, t_data *data)
+void	*ft_syntax_and_expand(t_list *line, t_data *data)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ void	*ft_syntax_and_expand(t_list *line, t_env *env, t_data *data)
 		i = 0;
 		while (line->args[i])
 		{
-			line->args[i] = ft_send_to_expand(line, line->args[i], env, data);
+			line->args[i] = ft_send_to_expand(line->args[i], data);
 			i++;
 		}
 		i = 0;
@@ -53,7 +53,7 @@ void	*ft_syntax_and_expand(t_list *line, t_env *env, t_data *data)
 		{
 			if (ft_check_redir_syntax(line->redir[i]) == -1)
 				return (ft_set_error(data, 2));
-			line->redir[i] = ft_send_to_expand(line, line->redir[i], env, data);
+			line->redir[i] = ft_send_to_expand(line->redir[i], data);
 			i++;
 		}
 		line = line->next;

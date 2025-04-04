@@ -158,6 +158,31 @@ void	ft_clear_node(t_list *line, t_data *data, t_hdoc *infos)
 	data->node_pos += 1;
 }
 
+int	ft_pars_dir(t_list *line, char *str)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strchr(str, '/'))
+	{
+		if (access(str, X_OK) == 0)
+		{
+			while (str[i] != '\0')
+			{
+				if (ft_isalnum(str[i]))
+					if (!ft_get_pathname(line, NULL, str))
+						return (1);
+				i++;
+			}
+			printf("%s: Is a directory\n", str);
+			return (0);
+		}
+		printf("%s: No such file or directory\n", str);
+		return (0);
+	}
+	return (1);
+}
+
 int	ft_exec_cmd(t_list *line, t_data *data)
 {
 	t_hdoc	infos;
@@ -172,12 +197,14 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 			return (1);
 		if (ft_is_builtin(line, data) == 1 && data->nodes == 1)
 			ft_exec_builtin(line, data);
-		else if (line->args[0])
+		else if (ft_pars_dir(line, line->args[0]))
 		{
-			if (ft_is_builtin(line, data) == -1 && ft_test_path(line))
+			if (ft_is_builtin(line, data) == -1)
+			{
 				ft_fill_pathnames(data, line);
-			ft_exe(line, temp, data);
-			ft_clear_node(line, data, &infos);
+				ft_exe(line, temp, data);
+				ft_clear_node(line, data, &infos);
+			}
 		}
 		line = line->next;
 	}
