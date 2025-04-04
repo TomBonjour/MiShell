@@ -18,7 +18,8 @@ int	ft_is_env_var(char c)
 
 int	ft_is_xpendable(char c)
 {
-	if (ft_isalpha(c) == 1 || c == '_' || c == '?' || c == '"' || c == '\'')
+	if (ft_isalpha(c) == 1 || ft_isdigit(c) == 1
+		|| c == '_' || c == '?' || c == '"' || c == '\'')
 		return (1);
 	else
 		return (0);

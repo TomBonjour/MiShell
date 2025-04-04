@@ -80,9 +80,11 @@ char	*ft_expand_env_var(char *str, int *i, t_env *env, t_data *data)
 		free(expand_var);
 		return (NULL);
 	}
-	*i += ft_strlen(expand_var) - 1;
 	if (expand_var[0] != '\0')
+	{
+		*i += ft_strlen(expand_var) - 1;
 		free(expand_var);
+	}
 	return (str);
 }
 
@@ -123,7 +125,7 @@ char	*ft_expander(char *str, t_env *env, t_data *data)
 			if (data->err == 1)
 				return (NULL);
 		}
-		if (ft_is_quote(str[i]) == 1)
+		else if (ft_is_quote(str[i]) == 1)
 			str = ft_expand_quote(str, &i, env, data);
 		else if (str[i] != '\0')
 			i++;

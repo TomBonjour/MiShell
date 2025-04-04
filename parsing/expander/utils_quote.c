@@ -7,7 +7,7 @@ void	ft_skip_quote(int *i, int *nb_quote)
 }
 
 // Realloc une string en enlevant deux quotes
-char	*ft_remove_quotes(char *str, char quote, int pos, t_data *data)
+char	*ft_remove_quotes(char *str, char quote, int *pos, t_data *data)
 {
 	int		i;
 	int		j;
@@ -20,13 +20,16 @@ char	*ft_remove_quotes(char *str, char quote, int pos, t_data *data)
 	new = malloc(sizeof(char) * (ft_strlen(str) - 2 + 1));
 	if (!new)
 		return (ft_set_error(data, 1));
-	while (i < pos)
+	while (i < *pos)
 		new[j++] = str[i++];
 	i++;
 	while (str[i] != '\0')
 	{
 		if (str[i] == quote && nb_quote < 2)
+		{
+			*pos = i - 1;
 			ft_skip_quote(&i, &nb_quote);
+		}
 		if ((str[i] != quote || nb_quote >= 2) && str[i] != '\0')
 			new[j++] = str[i++];
 		else if (str[i] != '\0')
@@ -66,7 +69,8 @@ char	*ft_expand_quote(char *str, int *i, t_env *env, t_data *data)
 	pos = *i;
 	while (str[++*i] != quote && str[*i] != '\0')
 	{
-		if (str[*i] == '$' && quote == '"' && ft_is_xpendable(str[*i + 1]) == 1)
+		if (str[*i] == '$' && quote == '"' && str[*i + 1] != quote
+			&& ft_is_xpendable(str[*i + 1]) == 1)
 		{
 			if (str[*i + 1] == '?')
 				str = ft_expand_question_mark(str, *i, data);
@@ -78,9 +82,11 @@ char	*ft_expand_quote(char *str, int *i, t_env *env, t_data *data)
 				return (NULL);
 		}
 	}
-	str = ft_remove_quotes(str, quote, pos, data);
+	str = ft_remove_quotes(str, quote, &pos, data);
 	if (data->err == 1)
 		return (NULL);
-	(*i) -= 1;
+	(*i) = pos;
 	return (str);
 }
+
+// "$"""

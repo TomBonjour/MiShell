@@ -63,7 +63,7 @@ void	ft_echo(char **arg)
 	while (arg[i] != NULL)
 	{
 		printf("%s", arg[i]);
-		if (i < size - 1)
+		if (i < size - 1 && arg[i][0] != '\0')
 			printf(" ");
 		i++;
 	}

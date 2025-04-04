@@ -6,7 +6,7 @@ int	ft_env_var_len(char *str, int i)
 	int	size;
 
 	size = 0;
-	while (str[i] == '_' || ft_isalpha(str[i]) == 1)
+	while (str[i] == '_' || ft_isalpha(str[i]) == 1 || ft_isdigit(str[i]) == 1)
 	{
 		size++;
 		i++;

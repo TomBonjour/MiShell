@@ -15,6 +15,26 @@ int	ft_wait_pid(t_data *data)
 	return (exitstatus);
 }
 
+int	ft_init_exe(t_data *data, int *fd)
+{
+	if (data->fdtmp == 0)
+		data->fdtmp = STDIN_FILENO;
+	if (pipe(fd) == -1)
+	{
+		printf("init pipe fail\n");
+		return (1);
+	}
+	data->pid = fork();
+	if (data->pid == -1)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		printf("init fork fail\n");
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_multiples_nodes(t_list *line, t_data *data, int *tmpread, int *fd)
 {
 	if (data->nodes > 1)
@@ -154,7 +174,7 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 			ft_exec_builtin(line, data);
 		else if (line->args[0])
 		{
-			if (ft_is_builtin(line, env, data) == -1 && ft_test_path(line))
+			if (ft_is_builtin(line, data) == -1 && ft_test_path(line))
 				ft_fill_pathnames(data, line);
 			ft_exe(line, temp, data);
 			ft_clear_node(line, data, &infos);
