@@ -97,7 +97,7 @@ while (line->redir[i] != NULL)
 	// value_exit = ft_exit(line->args, line, env, &data);
 	
 	ft_close_fds(&data, 0);
-	ft_free_env(env);
+	ft_free_env(data.env);
 	return (0);
 	//return (value_exit);
 }
