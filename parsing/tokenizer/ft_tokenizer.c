@@ -63,8 +63,11 @@ t_list	**ft_new_add_back(char *s, int len, t_list **args, t_data *data)
 	t_list	*new_arg;
 	char	*cmd;
 
-	while (ft_is_blank(s[len - 1]) == 1 && len > 0)
-		len--;
+	if (len > 0)
+	{
+		while (ft_is_blank(s[len - 1]) == 1 && len > 0)
+			len--;
+	}
 	cmd = ft_substr(s, 0, len);
 	if (!cmd)
 		return (ft_set_error(data, 1));

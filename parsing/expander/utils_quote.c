@@ -16,12 +16,13 @@ char	*ft_remove_quotes(char *str, char quote, int pos, t_data *data)
 
 	i = 0;
 	j = 0;
-	nb_quote = 0;
+	nb_quote = 1;
 	new = malloc(sizeof(char) * (ft_strlen(str) - 2 + 1));
 	if (!new)
 		return (ft_set_error(data, 1));
 	while (i < pos)
 		new[j++] = str[i++];
+	i++;
 	while (str[i] != '\0')
 	{
 		if (str[i] == quote && nb_quote < 2)
@@ -80,6 +81,6 @@ char	*ft_expand_quote(char *str, int *i, t_env *env, t_data *data)
 	str = ft_remove_quotes(str, quote, pos, data);
 	if (data->err == 1)
 		return (NULL);
-	(*i) -= 2;
+	(*i) -= 1;
 	return (str);
 }

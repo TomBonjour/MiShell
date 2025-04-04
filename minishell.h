@@ -54,6 +54,9 @@ typedef struct s_heredoc
 	int		size;
 }			t_hdoc;
 
+//------ GLOBAL VARIABLE ------//
+extern int	g_errvalue;
+
 //------ BUILTINS UTILS ------//
 int			ft_pwd(void);
 int			ft_env(t_env *env);

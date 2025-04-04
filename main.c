@@ -1,5 +1,7 @@
 #include "minishell.h" 
 
+int	g_errvalue = 0;
+
 int	main(int ac, char **av, char **envp)
 {
 	(void)ac;
@@ -11,12 +13,12 @@ int	main(int ac, char **av, char **envp)
 	t_list		*line;
 	int			exit_status;
 	// t_list		*temp;
-	int			i;
-	int			j;
+	// int			i;
+	// int			j;
 	// int		value_exit;
 
-	i = 0;
-	j = 1;
+	// i = 0;
+	// j = 1;
 
 	// Copie de la liste de variables d'env (char **envp)
 	// dans un tableau de structure (t_env *env)
@@ -40,7 +42,8 @@ int	main(int ac, char **av, char **envp)
 			//write(2, "Exit\n", 5);
 			break;
 		}
-		add_history(input);
+		if (input[0] != '\0')
+			add_history(input);
 		line = ft_tokenize(input, &data);
 		if (data.err != 0)
 			ft_error_manager(&data, &line, env);
