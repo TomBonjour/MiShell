@@ -115,6 +115,7 @@ char		**ft_heredoc_prio(char **redir_tab, int size, t_list **new_node,
 char		*ft_expand_heredoc(char *str, t_env *env, t_data *data);
 int			ft_find_env_var(t_env *env, char *var, int var_size);
 int			ft_count_nodes(t_list *line);
+int			ft_get_pathname(t_list *line, char *path, char *cmdash);
 
 //------	 LISTS UTILS ------//
 t_list		*ft_lst_new_node(char *s, t_data *data);

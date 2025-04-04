@@ -97,6 +97,26 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 	ft_reverse_free(envtab, i);
 }
 
+int	ft_init_exe(t_data *data, int *fd)
+{
+	if (data->fdtmp == 0)
+		data->fdtmp = STDIN_FILENO;
+	if (pipe(fd) == -1)
+	{
+		printf("init pipe fail\n");
+		return (1);
+	}
+	data->pid = fork();
+	if (data->pid == -1)
+	{
+		close(fd[0]);
+		close(fd[1]);
+		printf("init fork fail\n");
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_exe(t_list *line, t_list *temp, t_data *data)
 {
 	int		fd[2];
@@ -138,6 +158,33 @@ void	ft_clear_node(t_list *line, t_data *data, t_hdoc *infos)
 	data->node_pos += 1;
 }
 
+int	ft_pars_dir(t_list *line, char *str)
+{
+	int	size;
+	int	i;
+
+	i = 0;
+	size = ft_strlen(str);
+	if (ft_strchr(str, '/'))
+	{
+		if (access(str, X_OK) == 0)
+		{
+			while (str[i] != '\0')
+			{
+				if (ft_isalnum(str[i]))
+					if (!ft_get_pathname(line, NULL, str))
+						return (1);
+				i++;
+			}
+			printf("%s: Is a directory\n", str);
+			return (0);
+		}
+		printf("%s: No such file or directory\n", str);
+		return (0);
+	}
+	return (1);
+}
+
 int	ft_exec_cmd(t_list *line, t_data *data)
 {
 	t_hdoc	infos;
@@ -152,10 +199,11 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 			return (1);
 		if (ft_is_builtin(line, data) == 1 && data->nodes == 1)
 			ft_exec_builtin(line, data);
-		else if (line->args[0])
+		else if (ft_pars_dir(line, line->args[0]))
 		{
-			if (ft_is_builtin(line, env, data) == -1 && ft_test_path(line))
-				ft_fill_pathnames(data, line);
+			if (ft_is_builtin(line, data) == -1)
+				// if (ft_test_path(line))
+			ft_fill_pathnames(data, line);
 			ft_exe(line, temp, data);
 			ft_clear_node(line, data, &infos);
 		}
