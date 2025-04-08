@@ -9,6 +9,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include "ft_dprintf.h"
 # include <limits.h>
 # include <sys/wait.h>
 
@@ -151,7 +152,8 @@ int			ft_fill_pathnames(t_data *data, t_list *line);
 int			ft_pars_env(t_data *data);
 char		**ft_convert_env(t_data *data);
 int			ft_wait_pid(t_data *data);
-int			ft_is_builtin(t_list *line, t_data *data);
+int			ft_is_builtin_parent(t_list *line);
+int			ft_is_builtin_child(t_list *line);
 int			ft_open_redir(t_list *line, t_hdoc *infos, t_data *data);
 int			ft_exec_infiles(t_list *line);
 int			ft_last_infile(t_list *line, int nb_redir);

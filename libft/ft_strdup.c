@@ -6,12 +6,11 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 14:31:06 by tobourge          #+#    #+#             */
-/*   Updated: 2024/10/17 15:06:50 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/04/07 14:24:20 by jnauroy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "../minishell.h"
 
 char	*ft_strdup(const char *src)
 {

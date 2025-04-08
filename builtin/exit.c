@@ -52,14 +52,14 @@ int	ft_increment(long long *n, int sign, char *str, int i)
 {
 	if ((*n) * sign > LLONG_MAX / 10 || (*n) * sign < LLONG_MIN / 10)
 	{
-		printf("exit: %s: numeric argument required\n", str);
+		ft_dprintf(2, "exit: %s: numeric argument required\n", str);
 		return (2);
 	}
 	(*n) *= 10;
 	if ((*n) * sign > LLONG_MAX - (str[i] - 48)
 		|| (*n) * sign < LLONG_MIN + (str[i] - 48))
 	{
-		printf("exit: %s: numeric argument required\n", str);
+		ft_dprintf(2, "exit: %s: numeric argument required\n", str);
 		return (2);
 	}
 	(*n) += str[i] - 48;
@@ -77,17 +77,17 @@ int	ft_parsing_exit(char **argv)
 		return (3);
 	if (ft_check_syntax(argv[1]))
 	{
-		printf("exit: %s: numeric argument required\n", argv[1]);
+		ft_dprintf(2, "exit: %s: numeric argument required\n", argv[1]);
 		return (2);
 	}
 	else if (ft_check_for_long_minmax(argv[1]))
 	{
-		printf("exit: %s: numeric argument required\n", argv[1]);
+		ft_dprintf(2, "exit: %s: numeric argument required\n", argv[1]);
 		return (2);
 	}
 	else if (i > 2)
 	{
-		printf("exit: too many arguments\n"); /*ne quitte pas le prgm*/
+		ft_dprintf(2, "exit: too many arguments\n"); /*ne quitte pas le prgm*/
 		return (1);
 	}
 	return (0);
@@ -96,7 +96,7 @@ int	ft_parsing_exit(char **argv)
 int	ft_exit(t_list *line, t_env *env, t_data *data)
 {
 	if (data->nodes == 1)
-		printf("exit\n");
+		ft_dprintf(2, "exit\n");
 	data->rvalue = ft_parsing_exit(line->args);
 	if (data->rvalue != 1)
 	{
@@ -109,5 +109,5 @@ int	ft_exit(t_list *line, t_env *env, t_data *data)
 		ft_free_list(&line);
 		exit (data->rvalue);
 	}
-	return (1);
+	return (data->rvalue);
 }

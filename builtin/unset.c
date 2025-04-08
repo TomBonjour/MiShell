@@ -25,7 +25,7 @@ t_env	*ft_realloc_env(int i)
 	new = malloc(sizeof(t_env) * (i + 1));
 	if (!new)
 	{
-		printf("malloc fail\n");
+		ft_dprintf(2, "malloc fail\n");
 		return (NULL);
 	}
 	new[i].name = NULL;

@@ -7,7 +7,7 @@ int	ft_malloc_strdup_eof(t_hdoc *infos, char *str)
 	infos->eof = ft_strjoin(str + 2, "\n");
 	if (!infos->eof)
 	{
-		printf("malloc fail\n");
+		ft_dprintf(2, "malloc fail\n");
 		return (0);
 	}
 	return (1);
@@ -22,14 +22,14 @@ int	ft_reading_line(t_hdoc *infos, t_data *data)
 	tmp = readline("> ");
 	if (!tmp)
 	{
-		printf("readline fail\n");
+		ft_dprintf(2, "readline fail\n");
 		return (0);
 	}
 	infos->str = ft_strjoin(tmp, "\n");
 	free(tmp);
 	if (!infos->str)
 	{
-		printf("join str '\n' fail\n");
+		ft_dprintf(2, "join str '\n' fail\n");
 		return (0);
 	}
 	infos->str = ft_expand_heredoc(infos->str, data);
@@ -49,7 +49,7 @@ int	ft_dup_filename(t_hdoc *infos, char *buff)
 	infos->filename = ft_strdup(buff);
 	if (!infos->filename)
 	{
-		printf("dup filename and buff fail\n");
+		ft_dprintf(2, "dup filename and buff fail\n");
 		return (0);
 	}
 	while (j < 10)
@@ -74,14 +74,14 @@ int	ft_init_random(t_hdoc *infos)
 	rdmfd = open("/dev/random", O_RDONLY);
 	if (rdmfd == -1)
 	{
-		printf("open /random fail\n");
+		ft_dprintf(2, "open /random fail\n");
 		return (0);
 	}
 	size = read(rdmfd, buff, 10);
 	if (size == -1)
 	{
 		close(rdmfd);
-		printf("read buffer /random fail\n");
+		ft_dprintf(2, "read buffer /random fail\n");
 		return (0);
 	}
 	buff[10] = '\0';
@@ -110,7 +110,7 @@ int	ft_copy_herefile(t_list *line, t_hdoc *infos)
 		free(infos->filename);
 		free(infos->str);
 		free(infos->eof);
-		printf("heredoc fd fail\n");
+		ft_dprintf(2, "heredoc fd fail\n");
 		return (0);
 	}
 	return (1);
@@ -126,7 +126,7 @@ int	ft_reopen_hdoc(t_list *line, t_hdoc *infos)
 		free(infos->filename);
 		free(infos->str);
 		free(infos->eof);
-		printf("reopen hd fail\n");
+		ft_dprintf(2, "reopen hd fail\n");
 		return (0);
 	}
 	return (1);

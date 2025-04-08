@@ -2,7 +2,7 @@
 
 void	ft_cmd_not_found(t_list *line, t_data *data)
 {
-	printf("command not found: %s\n", line->args[0]);
+	ft_dprintf(2, "command not found: %s\n", line->args[0]);
 	ft_free_tab(line->args);
 	line->pathname = NULL;
 	line->args = NULL;
@@ -20,7 +20,7 @@ int	ft_pars_env(t_data *data)
 		data->paths = ft_split(data->env[i].data, ':');
 		if (!data->paths)
 		{
-			printf("Malloc fail\n");
+			ft_dprintf(2, "Malloc fail\n");
 			return (1);
 		}
 		return (0);
@@ -34,7 +34,7 @@ int	ft_get_pathname(t_list *line, char *path, char *cmdash)
 	line->pathname = ft_strjoin(path, cmdash);
 	if (!line->pathname)
 	{
-		printf("Malloc fail\n");
+		ft_dprintf(2, "Malloc fail\n");
 		return (1);
 	}
 	return (0);
@@ -49,7 +49,7 @@ int	ft_fill_pathnames(t_data *data, t_list *line)
 	cmdash = ft_strjoin("/", line->args[0]);
 	if (!cmdash)
 	{
-		printf("Malloc fail\n");
+		ft_dprintf(2, "Malloc fail\n");
 		return (1);
 	}
 	if (line->pathname == NULL && data->paths)

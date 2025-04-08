@@ -21,7 +21,7 @@ int	ft_init_exe(t_data *data, int *fd)
 		data->fdtmp = STDIN_FILENO;
 	if (pipe(fd) == -1)
 	{
-		printf("init pipe fail\n");
+		ft_dprintf(2, "init pipe fail\n");
 		return (1);
 	}
 	data->pid = fork();
@@ -29,7 +29,7 @@ int	ft_init_exe(t_data *data, int *fd)
 	{
 		close(fd[0]);
 		close(fd[1]);
-		printf("init fork fail\n");
+		ft_dprintf(2, "init fork fail\n");
 		return (1);
 	}
 	return (0);
@@ -108,9 +108,9 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 		if (tmpread != 0)
 			close(tmpread);
 		close(fd[1]);
-		if (line->builtin == 1)
+		if (ft_is_builtin_child(line))
 			ft_exec_builtin(line, data);
-		if (line->pathname && line->args)
+		if (line->pathname && line->args && line->builtin == 0)
 			execve(line->pathname, line->args, envtab);
 		break ;
 	}
@@ -158,14 +158,33 @@ void	ft_clear_node(t_list *line, t_data *data, t_hdoc *infos)
 	data->node_pos += 1;
 }
 
-int	ft_pars_dir(t_list *line, char *str)
+int	ft_check_dots(char *str, t_data *data)
+{
+	int	size;
+
+	size = ft_strlen(str);
+	while (1)
+	{
+		if (size == 1 && str[0] == '.')
+			break ;
+		else if (size == 2 && str[0] == '.' && str[1] == '.')
+			break ;
+		else
+			return (0);
+	}
+	ft_dprintf(2, "%s: command not found\n", str);
+	data->rvalue = 127;
+	return (1);
+}
+
+int	ft_pars_dir(t_list *line, t_data *data, char *str)
 {
 	int	i;
 
 	i = 0;
 	if (ft_strchr(str, '/'))
 	{
-		if (access(str, X_OK) == 0)
+		if (access(str, F_OK) == 0)
 		{
 			while (str[i] != '\0')
 			{
@@ -174,15 +193,27 @@ int	ft_pars_dir(t_list *line, char *str)
 						return (1);
 				i++;
 			}
-			printf("%s: Is a directory\n", str);
+			ft_dprintf(2, "%s: Is a directory\n", str);
+			data->rvalue = 126;
 			return (0);
 		}
-		printf("%s: No such file or directory\n", str);
+		data->rvalue = 127;
+		ft_dprintf(2, "%s: No such file or directory\n", str);
 		return (0);
 	}
+	else if (ft_check_dots(str, data))
+		return (0);
 	return (1);
 }
 
+int	ft_reset_data(t_data *data)
+{
+	ft_free_tab(data->paths);
+	if (data->fdtmp > 2)
+		close(data->fdtmp);
+	data->fdtmp = 0;
+	return (0);
+}
 int	ft_exec_cmd(t_list *line, t_data *data)
 {
 	t_hdoc	infos;
@@ -195,23 +226,18 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 	{
 		if (ft_open_redir(line, &infos, data) == -1)
 			return (1);
-		if (ft_is_builtin(line, data) == 1 && data->nodes == 1)
+		if (ft_is_builtin_parent(line) == 1 && data->nodes == 1)
 			ft_exec_builtin(line, data);
-		else if (ft_pars_dir(line, line->args[0]))
+		if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1)
 		{
-			if (ft_is_builtin(line, data) == -1)
-			{
+			if (access(line->pathname, F_OK) == -1)
 				ft_fill_pathnames(data, line);
-				ft_exe(line, temp, data);
-				ft_clear_node(line, data, &infos);
-			}
+			ft_exe(line, temp, data);
+			ft_clear_node(line, data, &infos);
 		}
 		line = line->next;
 	}
-	ft_free_tab(data->paths);
-	if (data->fdtmp > 2)
-		close(data->fdtmp);
-	data->fdtmp = 0;
+	ft_reset_data(data);
 	line = temp;
 	return (0);
 }

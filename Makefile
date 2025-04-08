@@ -5,6 +5,8 @@ CFLAGS = -g -Wall -Wextra -Werror
 #-------------------------------------------------------LIBRARY--------------------------------------------------#
 LIBFT_PATH = libft
 LIBFT = $(LIBFT_PATH)/libft.a
+DPRINTF_PATH = ft_dprintf
+DPRINTF = $(DPRINTF_PATH)/dprintf.a
 
 #-------------------------------------------------------SRCS----------------------------------------------------#
 SRCS = main.c \
@@ -47,8 +49,7 @@ CURR_OBJ := 0
 
 #-------------------------------------------------------INCLUDES------------------------------------------------#
 INC_DIR = includes
-INCS = -I $(LIBFT_PATH) -I $(INC_DIR)
-
+INCS = -I $(LIBFT_PATH) -I $(DPRINTF_PATH) -I $(INC_DIR) 
 #-------------------------------------------------------LDFLAGS--------------------------------------------------#
 LDFLAGS = -L /usr/local/lib -l readline
 
@@ -67,18 +68,22 @@ BLUE = "\e[34m"
 DEFAULT2 = "\e[39m"
 #-------------------------------------------------------RULES---------------------------------------------------#
 
-.PHONY: all clean fclean re $(LIBFT)
+.PHONY: all clean fclean re $(LIBFT) $(DPRINTF)
 
 # Default target to build the project
 all: $(NAME)
+
+# Build the file descriptor printf
+$(DPRINTF):
+	@make --no-print-directory -C $(DPRINTF_PATH) -j
 
 # Build the libft library
 $(LIBFT):
 	@make --no-print-directory -C $(LIBFT_PATH) -j
 
 # Link the objects and create the executable
-$(NAME): $(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(INCS) $(OBJS) $(LIBFT) -o $(NAME)
+$(NAME): $(OBJS) $(LIBFT) $(DPRINTF)
+	@$(CC) $(CFLAGS) $(LDFLAGS) $(INCS) $(OBJS) $(DPRINTF) $(LIBFT) -o $(NAME)
 
 $(OBJ_PATH)%.o: %.c
 	@mkdir -p $(dir $@)
@@ -100,12 +105,14 @@ $(OBJ_PATH)%.o: %.c
 # Clean object files and temporary files
 clean:
 	$(MAKE) -C $(LIBFT_PATH) clean
+	$(MAKE) -C $(DPRINTF_PATH) clean
 	@rm -rf $(OBJ_PATH)
 	@echo "$(YELLOW)>>> Minishell is cleaned 🧹 <<<$(DEFAULT)"
 
 # Fully clean the project (including executable and libft)
 fclean: clean
 	$(MAKE) -C $(LIBFT_PATH) fclean
+	$(MAKE) -C $(DPRINTF_PATH) fclean
 	@rm -f $(NAME)
 	@echo "$(RED)>>> Minishell is fully cleaned 🧼 <<<$(DEFAULT)"
 

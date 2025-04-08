@@ -9,7 +9,7 @@ int	ft_forbidd_char(char *var)
 	{
 		if (var[0] == '\0' || var[i] == ' ')
 		{
-			printf("export: not valid in this context: %s\n", var);
+			ft_dprintf(2, "export: not valid in this context: %s\n", var);
 			return (1);
 		}
 		if (var[i] == '\0')
@@ -18,12 +18,12 @@ int	ft_forbidd_char(char *var)
 	}
 	if (var[0] == '=')
 	{
-		printf("%s not found\n", var + 1);
+		ft_dprintf(2, "%s not found\n", var + 1);
 		return (1);
 	}
 	if (!ft_isalpha(var[0]) && var[0] != '_')
 	{
-		printf("export: not an identifier: %s\n", var);
+		ft_dprintf(2, "export: not an identifier: %s\n", var);
 		return (1);
 	}
 	return (0);
@@ -34,7 +34,7 @@ void	ft_replace_data(t_env *env, char *var, int *i, int j)
 	free(env[*i].data);
 	env[*i].data = ft_strdup(var + j + 1);
 	if (!env[*i].data)
-		printf("malloc fail\n");
+		ft_dprintf(2, "malloc fail\n");
 }
 
 int	ft_find_var(t_env *env, char *var, int *i)
@@ -77,13 +77,13 @@ int	ft_export_fill_env(t_env *new, char *var, t_env *env)
 	new[j].name = ft_fill_name(var, '=');
 	if (!new[j].name)
 	{
-		printf("malloc fail\n");
+		ft_dprintf(2, "malloc fail\n");
 		return (1);
 	}
 	new[j].data = ft_fill_data(var, '=');
 	if (!new[j].data)
 	{
-		printf("malloc fail\n");
+		ft_dprintf(2, "malloc fail\n");
 		return (1);
 	}
 	return (0);
@@ -132,7 +132,7 @@ int ft_alloc_newenv(t_env **new, int i)
 	*new = ft_realloc_env(i);
 	if (!*new)
 	{
-		printf("malloc fail\n");
+		ft_dprintf(2, "malloc fail\n");
 		return (0);
 	}
 	return (1);

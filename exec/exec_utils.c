@@ -1,24 +1,41 @@
 #include "../minishell.h"
 
-int	ft_is_builtin(t_list *line, t_data *data)
+int	ft_is_builtin_child(t_list *line)
+{
+	if (ft_find_word(line->args[0], "pwd") == 1)
+		line->builtin = 1;
+	else if (ft_find_word(line->args[0], "env") == 1)
+		line->builtin = 1;
+	else if (ft_find_word(line->args[0], "echo") == 1)
+		line->builtin = 1;
+	if (line->builtin == 1)
+		return (1);
+	return (0);
+}
+
+int	ft_is_builtin_parent(t_list *line)
 {
 	if (ft_find_word(line->args[0], "exit") == 1)
 	{
 		line->builtin = 1;
-		if (data->nodes == 1)
-			ft_exit(line, data->env, data);
-		return (1);
+		// if (data->nodes == 1)
+			// ft_exit(line, data->env, data);
+		// return (1);
 	}
-	if (ft_find_word(line->args[0], "cd") == 1
-		|| ft_find_word(line->args[0], "pwd") == 1
-		|| ft_find_word(line->args[0], "env") == 1
-		|| ft_find_word(line->args[0], "echo") == 1
-		|| ft_find_word(line->args[0], "unset") == 1
-		|| ft_find_word(line->args[0], "export") == 1)
-	{
+	if (ft_find_word(line->args[0], "cd") == 1)
 		line->builtin = 1;
+	// else if (ft_find_word(line->args[0], "pwd") == 1)
+		// line->builtin = 1;
+	// else if (ft_find_word(line->args[0], "env") == 1)
+		// line->builtin = 1;
+	// else if ( ft_find_word(line->args[0], "echo") == 1)
+		// line->builtin = 1;
+	else if (ft_find_word(line->args[0], "unset") == 1)
+		line->builtin = 1;
+	else if (ft_find_word(line->args[0], "export") == 1)
+		line->builtin = 1;
+	if (line->builtin == 1)
 		return (1);
-	}
 	return (-1);
 }
 

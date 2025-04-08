@@ -14,7 +14,7 @@ int	ft_open_infile(t_list *line, t_data *data)
 			line->fd_infile = open(line->redir[i] + 1, O_RDONLY);
 			if (line->fd_infile == -1)
 			{
-				printf("No such file or directory\n");
+				ft_dprintf(2, "No such file or directory\n");
 				ft_set_error(data, 3);
 				return (-1);
 			}

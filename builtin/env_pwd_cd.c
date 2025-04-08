@@ -82,13 +82,13 @@ int	ft_cd(char **tab, t_env *env)
 			if (!newdir)
 				return (-1);
 			if (ft_change_dir_and_pwd(newdir, path, env) == -1)
-				printf("error\n"); //error
+				ft_dprintf(2, "error\n"); //error
 			free(newdir);
 		}
 		// else --> message erreur "HOME not set";
 	}
 	else
 		if (ft_change_dir_and_pwd(tab[1], path, env) == -1)
-			printf("No such file or directory\n");
+			ft_dprintf(2, "No such file or directory\n");
 	return (0);
 }

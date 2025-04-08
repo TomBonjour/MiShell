@@ -50,7 +50,7 @@ int	ft_find_end_quote(char *s, int *i, char c)
 		(*i)++;
 	if (s[*i] == '\0')
 	{
-		printf("missing quote\n");
+		ft_dprintf(2, "missing quote\n");
 		return (-1);
 	}
 	return (0);
