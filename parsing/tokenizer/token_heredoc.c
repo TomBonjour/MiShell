@@ -46,7 +46,7 @@ char	**ft_replace_redir(char **redir_tab, char **new_tab, int size, int *j)
 	return (new_tab);
 }
 
-char	**ft_heredoc_prio(char **redir_tab, int nb, t_list **new, t_data *data)
+char	**ft_hdoc_prio(char **redir_tab, int nb, t_list **new, t_data *data)
 {
 	char	**new_tab;
 	int		j;
