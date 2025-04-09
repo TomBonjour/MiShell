@@ -37,13 +37,40 @@ void	ft_replace_data(t_env *env, char *var, int *i, int j)
 		ft_dprintf(2, "malloc fail\n");
 }
 
+int	ft_join_data(t_env *env, char *var, int *i, int j)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(env[*i].data, var + j + 2);
+	if (!tmp)
+		ft_dprintf(2, "malloc fail\n");
+	free(env[*i].data);
+	env[*i].data = tmp;
+	return (0);
+}
+
+int	ft_compare_data(t_env *env, char *var, int *i, int j)
+{
+	if (var[j] == '+' && var[j + 1] == '=' && env[*i].name[j] == '\0')
+	{
+		ft_join_data(env, var, i, j);
+		return (1);
+	}
+	else if (var[j] == '=' && env[*i].name[j] == '\0')
+	{
+		ft_replace_data(env, var, i, j);
+		return (1);
+	}
+	return (0);
+}
+
 int	ft_find_var(t_env *env, char *var, int *i)
 {
 	int	j;
 	int	size;
 
 	size = 0;
-	while (var[size] != '=' && var[size] != '\0')
+	while (var[size] != '=' && var[size] != '+' && var[size] != '\0')
 		size++;
 	while (env[*i].name != NULL)
 	{
@@ -53,11 +80,8 @@ int	ft_find_var(t_env *env, char *var, int *i)
 			while (var[j] == env[*i].name[j]
 				&& (j < size || env[*i].name[j] != '\0'))
 				j++;
-			if (var[j] == '=' && env[*i].name[j] == '\0')
-			{
-				ft_replace_data(env, var, i, j);
+			if (ft_compare_data(env, var, i, j))
 				return (1);
-			}
 		}
 		(*i)++;
 	}
@@ -74,13 +98,13 @@ int	ft_export_fill_env(t_env *new, char *var, t_env *env)
 		new[j] = env[j];
 		j++;
 	}
-	new[j].name = ft_fill_name(var, '=');
+	new[j].name = ft_fill_name(var, 1);
 	if (!new[j].name)
 	{
 		ft_dprintf(2, "malloc fail\n");
 		return (1);
 	}
-	new[j].data = ft_fill_data(var, '=');
+	new[j].data = ft_fill_name(var, 0);
 	if (!new[j].data)
 	{
 		ft_dprintf(2, "malloc fail\n");

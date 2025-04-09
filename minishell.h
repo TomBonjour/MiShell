@@ -8,8 +8,8 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libft.h"
-# include "ft_dprintf.h"
+# include "libft/libft.h"
+# include "ft_dprintf/ft_dprintf.h"
 # include <limits.h>
 # include <sys/wait.h>
 
@@ -68,8 +68,7 @@ int			ft_find_equal(char *var);
 int			ft_find_var(t_env *env, char *var, int *i);
 int			ft_export_fill_env(t_env *new_tab, char *var, t_env *env);
 t_env		*ft_export(char **argv, t_env *env);
-char		*ft_fill_name(char *var, char c);
-char		*ft_fill_data(char *var, char c);
+char		*ft_fill_name(char *var, int flag);
 t_env		*ft_unset(char **argv, t_env *env);
 void		ft_unset_fill_env(t_env *new_tab, char *var, t_env *env, int i);
 int			ft_unset_find_var(char *var, t_env *env);

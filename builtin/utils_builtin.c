@@ -1,36 +1,23 @@
 #include "../minishell.h"
 
-char	*ft_fill_name(char *var, char c)
+char	*ft_fill_name(char *var, int flag)
 {
-	int		i;
-	int		j;
+	int 	size;
 	char	*str;
+	int		i;
 
 	i = 0;
-	j = 0;
-	while (var[i] != c)
+	size = ft_strlen(var);
+	while (var[i] != '=')
 		i++;
-	str = malloc(sizeof(char) * (i + 1));
-	if (!str)
-		return (NULL);
-	while (j < i)
+	if (flag == 1)
 	{
-		str[j] = var[j];
-		j++;
+		if (var[i - 1] == '+')
+			i--;
+		str = ft_substr(var, 0, i);
 	}
-	str[j] = '\0';
-	return (str);
-}
-
-char	*ft_fill_data(char *var, char c)
-{
-	int		i;
-	char	*str;
-
-	i = 0;
-	while (var[i] != c)
-		i++;
-	str = ft_strdup(var + i + 1);
+	else
+		str = ft_substr(var, i + 1, size - i);
 	if (!str)
 		return (NULL);
 	return (str);
