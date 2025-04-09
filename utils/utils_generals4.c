@@ -56,12 +56,23 @@ void	ft_free_env(t_env *env)
 	free(env);
 }
 
-int	ft_tablen(char **tab)
+int	ft_is_var_only(char *str)
 {
 	int	i;
 
-	i = 0;
-	while (tab[i] != NULL)
+	i = 1;
+	if (str[0] != '$')
+	{
+		printf("var denv pas seule\n");
+		return (0);
+	}
+	while (str[i] == '_' || ft_isalpha(str[i]) == 1 || ft_isdigit(str[i]) == 1)
 		i++;
-	return (i);
+	if (str[i] == '\0')
+	{
+		printf("var denv seule\n");
+		return (1);
+	}
+	printf("var denv pas seule\n");
+	return (0);
 }

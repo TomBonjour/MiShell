@@ -70,7 +70,12 @@ char	*ft_expand_env_var(char *str, int *i, t_data *data)
 		return (ft_set_error(data, 1));
 	j = ft_find_env_var(data->env, var, var_size);
 	if (j == -1)
-		expand_var = "";
+	{
+		if (ft_is_var_only(str) == 1)
+			return (NULL);
+		else
+			expand_var = "";
+	}
 	else
 		expand_var = ft_strdup(data->env[j].data);
 	free(var);
@@ -122,7 +127,7 @@ char	*ft_expander(char *str, t_data *data)
 				str = ft_remove_dollar(str, i, data);
 			else
 				str = ft_expand_env_var(str, &i, data);
-			if (data->err == 1)
+			if (data->err == 1 || str == NULL)
 				return (NULL);
 		}
 		else if (ft_is_quote(str[i]) == 1)
