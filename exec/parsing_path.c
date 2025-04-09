@@ -63,9 +63,9 @@ int	ft_fill_pathnames(t_data *data, t_list *line)
 			free(line->pathname);
 		}
 	}
+	free(cmdash);
 	if (!data->paths || !data->paths[i])
 		ft_cmd_not_found(line, data);
-	free(cmdash);
 	return (0);
 }
 

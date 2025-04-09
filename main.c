@@ -11,7 +11,7 @@ int	main(int ac, char **av, char **envp)
 	t_data		data;
 	char		*input;  
 	t_list		*line;
-	int			exit_status;
+	// int			exit_status;
 	// t_list		*temp;
 	// int			i;
 	// int			j;
@@ -54,8 +54,6 @@ int	main(int ac, char **av, char **envp)
 		ft_exec_cmd(line, &data);
 		if (data.err != 0)
 			ft_error_manager(&data, &line, env);
-		if (data.pid != 0)
-			exit_status = ft_wait_pid(&data);
 		ft_free_list(&line);
 		//PRINT LISTE CHAINEE
 		/*temp = line;
@@ -85,6 +83,8 @@ while (line->redir[i] != NULL)
 		line = temp;*/
 		dup2(STDOUT_FILENO, 1);
 		dup2(STDIN_FILENO, 0);
+		if (data.pid != 0)
+			data.rvalue = ft_wait_pid(&data);
 	}
 	//TEST COMMANDES 
 	//ft_env(env);

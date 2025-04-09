@@ -1,21 +1,26 @@
 #include "../minishell.h"
 
-int	ft_find_equal(char *var)
+int	ft_find_equal(char *var, t_data *data)
 {
-	int	numequal;
+	int	numinus;
 	int	i;
 
 	i = 0;
-	numequal = 0;
+	numinus = 0;
 	while (var[i] != '\0')
 	{
-		if (var[i] == '=')
-			numequal++;
+		if (var[i] == '-')
+			numinus++;
+		if (var[i] == '=' && numinus == 0)
+			return (0);
 		i++;
 	}
-	if (numequal == 0)
-		return (1);
-	return (0);
+	if (numinus != 0)
+	{
+		ft_dprintf(2, "%s: not a valid identifier\n", var);
+		data->rvalue = 1;
+	}
+	return (1);
 }
 
 t_env	*ft_realloc_env(int i)

@@ -12,7 +12,12 @@ int	ft_wait_pid(t_data *data)
 			exitstatus = WEXITSTATUS(wstatus);
 		data->node_pos--;
 	}
-	return (exitstatus);
+	// if (data->rvalue == 127)
+		// return (data->rvalue);
+	if (data->rvalue == 0)
+		return (exitstatus);
+	else
+		return (exitstatus);
 }
 
 int	ft_init_exe(t_data *data, int *fd)
@@ -85,7 +90,7 @@ int	ft_exec_builtin(t_list *line, t_data *data)
 	else if (ft_find_word(line->args[0], "unset") == 1)
 		data->env = ft_unset(line->args, data->env);
 	else if (ft_find_word(line->args[0], "export") == 1)
-		data->env = ft_export(line->args, data->env);
+		data->env = ft_export(line->args, data);
 	if (dup2(STDOUT_FILENO, 1) == -1 || dup2(STDIN_FILENO, 0) == -1)
 		return (1);
 	return (0);
@@ -115,6 +120,8 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 		break ;
 	}
 	ft_reverse_free(envtab, i);
+	close(line->fd_infile);
+	close(line->fd_outfile);
 }
 
 int	ft_exe(t_list *line, t_list *temp, t_data *data)
@@ -131,12 +138,13 @@ int	ft_exe(t_list *line, t_list *temp, t_data *data)
 			ft_child_process(line, envtab, data, fd);
 		close(fd[1]);
 		close(fd[0]);
-		close(line->fd_infile);
-		close(line->fd_outfile);
 		ft_free_list(&temp);
 		ft_free_env(data->env);
 		ft_free_tab(data->paths);
-		exit(127);
+		if (line->builtin == 1)
+			exit(data->rvalue);
+		else
+			exit(127);
 	}
 	close(fd[1]);
 	if (data->fdtmp > 2)
@@ -230,9 +238,10 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 			ft_exec_builtin(line, data);
 		if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1)
 		{
-			if (access(line->pathname, F_OK) == -1)
+			if (access(line->pathname, F_OK) == -1 && line->builtin != -1)
 				ft_fill_pathnames(data, line);
-			ft_exe(line, temp, data);
+			if (data->rvalue != 127)
+				ft_exe(line, temp, data);
 			ft_clear_node(line, data, &infos);
 		}
 		line = line->next;

@@ -28,8 +28,8 @@ int	ft_is_builtin_parent(t_list *line)
 		// line->builtin = 1;
 	// else if (ft_find_word(line->args[0], "env") == 1)
 		// line->builtin = 1;
-	// else if ( ft_find_word(line->args[0], "echo") == 1)
-		// line->builtin = 1;
+	else if (ft_find_word(line->args[0], "echo") == 1)
+		line->builtin = -1;
 	else if (ft_find_word(line->args[0], "unset") == 1)
 		line->builtin = 1;
 	else if (ft_find_word(line->args[0], "export") == 1)

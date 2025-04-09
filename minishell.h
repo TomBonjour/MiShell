@@ -17,7 +17,7 @@ typedef struct s_list
 {
 	char			**args;
 	char			**redir;
-	int			*quote;
+	int				*quote;
 	int				hdoc;
 	int				quote_hdoc;
 	int				fd_hdoc;
@@ -65,11 +65,11 @@ int			ft_pwd(void);
 int			ft_env(t_env *env);
 void		ft_echo(char **tab);
 int			ft_cd(char **tab, t_env *env);
-int			ft_forbidd_char(char *var);
-int			ft_find_equal(char *var);
+int			ft_forbidd_char(char *var, t_data *data);
+int			ft_find_equal(char *var, t_data *data);
 int			ft_find_var(t_env *env, char *var, int *i);
 int			ft_export_fill_env(t_env *new_tab, char *var, t_env *env);
-t_env		*ft_export(char **argv, t_env *env);
+t_env		*ft_export(char **argv, t_data *data);
 char		*ft_fill_name(char *var, int flag);
 t_env		*ft_unset(char **argv, t_env *env);
 void		ft_unset_fill_env(t_env *new_tab, char *var, t_env *env, int i);

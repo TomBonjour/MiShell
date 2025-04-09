@@ -1,30 +1,47 @@
 #include "../minishell.h"
 
-int	ft_forbidd_char(char *var)
+int	ft_first_char(char *var)
 {
 	int	i;
 
 	i = 0;
-	while (1)
+	if (!var || var[0] == '\0')
 	{
-		if (var[0] == '\0' || var[i] == ' ')
+		ft_dprintf(2, "export: not valid in this context: %s\n", var);
+		return (1);
+	}
+	else if (var[0] == '=')
+	{
+		ft_dprintf(2, "%s, not found\n", var + 1);
+		return (1);
+	}
+	else if (var[0] < '0' && var[0] > '9' && var[0] != '_')
+	{
+		ft_dprintf(2, "export: not an identidier: %s\n", var);
+		return (1);
+	}
+	return (0);
+}
+
+int	ft_forbidd_char(char *var, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (ft_first_char(var))
+	{
+		data->rvalue = 1;
+		return (1);
+	}
+	while (var[i] != '\0')
+	{
+		if (var[i] == ' ')
 		{
 			ft_dprintf(2, "export: not valid in this context: %s\n", var);
+			data->rvalue = 1;
 			return (1);
 		}
-		if (var[i] == '\0')
-			break ;
 		i++;
-	}
-	if (var[0] == '=')
-	{
-		ft_dprintf(2, "%s not found\n", var + 1);
-		return (1);
-	}
-	if (!ft_isalpha(var[0]) && var[0] != '_')
-	{
-		ft_dprintf(2, "export: not an identifier: %s\n", var);
-		return (1);
 	}
 	return (0);
 }
@@ -113,19 +130,19 @@ int	ft_export_fill_env(t_env *new, char *var, t_env *env)
 	return (0);
 }
 
-int	ft_checking_args(char *var, t_env *env)
+int	ft_checking_args(char *var, t_data *data)
 {
 	int	index;
 
 	index = 0;
-	if (!ft_find_equal(var))
-		if (!ft_find_var(env, var, &index))
-			if (!ft_forbidd_char(var))
+	if (!ft_forbidd_char(var, data))
+		if (!ft_find_var(data->env, var, &index))
+			if (!ft_find_equal(var, data))
 				return (0);
 	return (1);
 }
 
-t_env	*ft_export(char **argv, t_env *env)
+t_env	*ft_export(char **argv, t_data *data)
 {
 	t_env	*new;
 	int		i;
@@ -136,19 +153,19 @@ t_env	*ft_export(char **argv, t_env *env)
 	while (argv[j])
 	{
 		i = 0;
-		if (!ft_checking_args(argv[j], env))
+		if (!ft_checking_args(argv[j], data))
 		{
-			while (env[i].name != NULL)
+			while (data->env[i].name != NULL)
 				i++;
 			if (!ft_alloc_newenv(&new, i + 1))
 				return (NULL);
-			ft_export_fill_env(new, argv[j], env);
-			free(env);
-			env = new;
+			ft_export_fill_env(new, argv[j], data->env);
+			free(data->env);
+			data->env = new;
 		}
 		j++;
 	}
-	return (env);
+	return (data->env);
 }
 
 int ft_alloc_newenv(t_env **new, int i)
