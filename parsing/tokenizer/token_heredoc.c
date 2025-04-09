@@ -13,6 +13,7 @@ char	**ft_replace_hdoc(char **tab, char **new_tab, int size, t_list **new)
 		{
 			(*new)->hdoc += 1;
 			new_tab[j] = ft_strdup(tab[i]);
+			(*new)->quote[j] = (*new)->quote[i];
 			if (!new_tab[j])
 				return (NULL);
 			j++;

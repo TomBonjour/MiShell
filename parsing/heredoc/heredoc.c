@@ -2,7 +2,7 @@
 
 /* resize the keyword by exluding the doubles chevron (<<).*/
 
-int	ft_malloc_strdup_eof(t_hdoc *infos, char *str)
+int	ft_malloc_strdup_eof(t_hdoc *infos, char *str) //, t_data *data)
 {
 	infos->eof = ft_strjoin(str + 2, "\n");
 	if (!infos->eof)
@@ -15,7 +15,7 @@ int	ft_malloc_strdup_eof(t_hdoc *infos, char *str)
 
 /* read what we write in the heredoc and add a \n to the string.*/
 
-int	ft_reading_line(t_hdoc *infos, t_data *data)
+int	ft_reading_line(int eof_quote, t_hdoc *infos, t_data *data)
 {
 	char	*tmp;
 
@@ -32,7 +32,8 @@ int	ft_reading_line(t_hdoc *infos, t_data *data)
 		ft_dprintf(2, "join str '\n' fail\n");
 		return (0);
 	}
-	infos->str = ft_expand_heredoc(infos->str, data);
+	if (eof_quote == 0)
+		infos->str = ft_expand_heredoc(infos->str, data);
 	if (data->err == 1)
 		return (-1);
 	infos->size = ft_strlen(infos->str);
@@ -151,7 +152,7 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_data *data)
 			return (1);
 		while (1)
 		{
-			if (!ft_reading_line(infos, data))
+			if (!ft_reading_line(line->quote[i - 1], infos, data))
 				return (1);
 			if (!ft_strncmp(infos->eof, infos->str, infos->size))
 				break ;
