@@ -17,7 +17,9 @@ typedef struct s_list
 {
 	char			**args;
 	char			**redir;
+	int			*quote;
 	int				hdoc;
+	int				quote_hdoc;
 	int				fd_hdoc;
 	int				inf;
 	int				fd_infile;
@@ -96,7 +98,7 @@ void		ft_syntax_error(t_list **args, t_data *data);
 int			ft_find_end_quote(char *s, int *len, char c);
 int			ft_count_redir(char *cmd);
 int			ft_count_args(char *cmd, int i);
-char		*ft_redir_substr(char *cmd, int *i, t_data *data);
+char		*ft_redir_substr(char *cmd, int *i, t_list **elem, t_data *data);
 char		*ft_arg_substr(char *cmd, int *i, t_data *data);
 char		*ft_realloc_char(char *str, char c, t_data *data);
 t_list		*ft_tokenize(char *s, t_data *data);
