@@ -12,6 +12,8 @@ t_list	*ft_lst_new_node(char *cmd, t_data *data)
 		return (ft_set_error(data, 1));
 	new_elem->args = NULL;
 	new_elem->redir = NULL;
+	new_elem->quote = NULL;
+	new_elem->quote_hdoc = 0;
 	new_elem->hdoc = 0;
 	new_elem->fd_hdoc = 0;
 	new_elem->builtin = 0;
@@ -50,6 +52,7 @@ void	ft_free_list(t_list **line)
 			i++;
 		}
 		free((*line)->redir);
+		free((*line)->quote);
 		free(*line);
 		*line = temp;
 	}

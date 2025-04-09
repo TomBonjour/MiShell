@@ -14,7 +14,8 @@ void	*ft_malloc_arrays(char *cmd, t_list **new, t_data *data, int *nb_redir)
 		return (ft_set_error(data, 2));
 	(*new)->args = malloc(sizeof(char *) * (nb_arg + 1));
 	(*new)->redir = malloc(sizeof(char *) * (*nb_redir + 1));
-	if (!(*new)->args || !(*new)->redir)
+	(*new)->quote = malloc(sizeof(int) * (*nb_redir));
+	if (!(*new)->args || !(*new)->redir || !(*new)->redir)
 		return (ft_set_error(data, 1));
 	return (0);
 }
@@ -25,9 +26,9 @@ void	*ft_malloc_arrays(char *cmd, t_list **new, t_data *data, int *nb_redir)
 // 	Remplit les tableaux avec les sub-string renvoyées par ces fonctions
 void	*ft_get_cmd_and_redir(char *cmd, int i, t_list **new, t_data *data)
 {
-	int		j;
-	int		k;
-	int		nb_redir;
+	int	j;
+	int	k;
+	int	nb_redir;
 
 	j = -1;
 	k = -1;
@@ -37,7 +38,14 @@ void	*ft_get_cmd_and_redir(char *cmd, int i, t_list **new, t_data *data)
 	while (cmd[i] != '\0')
 	{
 		if (ft_is_redir(cmd[i]) == 1)
-			(*new)->redir[++j] = ft_redir_substr(cmd, &i, data);
+		{
+			(*new)->redir[++j] = ft_redir_substr(cmd, &i, new, data);
+			if ((*new)->quote_hdoc == 1)
+				(*new)->quote[j] = 1;
+			else
+				(*new)->quote[j] = 0;
+			(*new)->quote_hdoc = 0;
+		}
 		else
 			(*new)->args[++k] = ft_arg_substr(cmd, &i, data);
 		if (data->err == 1)
@@ -115,7 +123,7 @@ t_list	*ft_split_line(char *s, t_list *args, int len, t_data *data)
 	return (args);
 }
 
-//1. Split (|) l'input en commandes avec split_line(2)
+// 1. Split (|) l'input en commandes avec split_line(2)
 
 t_list	*ft_tokenize(char *s, t_data *data)
 {

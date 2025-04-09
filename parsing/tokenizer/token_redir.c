@@ -75,7 +75,7 @@ char	*ft_init_malloc_redir(char *cmd, int *i, t_data *data)
 
 // Extrait la redirection dans une string malloquée en format ">xxxxx"
 // --> Utilisée pour remplir le tableau de redir
-char	*ft_redir_substr(char *cmd, int *i, t_data *data)
+char	*ft_redir_substr(char *cmd, int *i, t_list **new, t_data *data)
 {
 	char	*str;
 
@@ -87,7 +87,11 @@ char	*ft_redir_substr(char *cmd, int *i, t_data *data)
 	while (ft_is_blank(cmd[*i]) == 0 && ft_is_redir(cmd[*i]) == 0 && cmd[*i])
 	{
 		if (ft_is_quote(cmd[*i]) == 1)
+		{
+			if (str[0] == '<' && str[1] == '<')
+				(*new)->quote_hdoc = 1;
 			str = ft_extract_quote(cmd, i, str, data);
+		}
 		else
 			str = ft_extract_str(cmd, i, str, data);
 		if (data->err == 1)
