@@ -233,16 +233,17 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 	while (line != NULL)
 	{
 		if (ft_open_redir(line, &infos, data) == -1)
-			return (1);
-		if (ft_is_builtin_parent(line) == 1 && data->nodes == 1)
-			ft_exec_builtin(line, data);
-		if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1)
 		{
-			if (access(line->pathname, F_OK) == -1 && line->builtin != -1)
-				ft_fill_pathnames(data, line);
-			if (data->rvalue != 127)
-				ft_exe(line, temp, data);
-			ft_clear_node(line, data, &infos);
+			if (ft_is_builtin_parent(line) == 1 && data->nodes == 1)
+				ft_exec_builtin(line, data);
+			if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1)
+			{
+				if (access(line->pathname, F_OK) == -1 && line->builtin != -1)
+					ft_fill_pathnames(data, line);
+				if (data->rvalue != 127)
+					ft_exe(line, temp, data);
+				ft_clear_node(line, data, &infos);
+			}
 		}
 		line = line->next;
 	}
