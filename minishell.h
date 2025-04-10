@@ -16,7 +16,9 @@
 typedef struct s_list
 {
 	char			**args;
+	int				nb_args;
 	char			**redir;
+	int				nb_redir;
 	int				*quote;
 	int				hdoc;
 	int				quote_hdoc;
@@ -112,7 +114,7 @@ char		*ft_expand_quote(char *str, int *i, t_data *data);
 char		*ft_replace_env_var(char *str, int i, char *exp_var, t_data *data);
 char		*ft_remove_quotes(char *str, char quote, int *pos, t_data *data);
 char		*ft_remove_dollar(char *str, int i, t_data *data);
-char		**ft_heredoc_prio(char **redir_tab, int size, t_list **new_node,
+char		**ft_hdoc_prio(char **redir_tab, int size, t_list **new_node,
 				t_data *data);
 char		*ft_expand_heredoc(char *str, t_data *data);
 int			ft_find_env_var(t_env *env, char *var, int var_size);
@@ -155,6 +157,7 @@ char		**ft_convert_env(t_data *data);
 int			ft_wait_pid(t_data *data);
 int			ft_is_builtin_parent(t_list *line);
 int			ft_is_builtin_child(t_list *line);
+int			ft_is_var_only(char *str);
 int			ft_open_redir(t_list *line, t_hdoc *infos, t_data *data);
 int			ft_exec_infiles(t_list *line);
 int			ft_last_infile(t_list *line, int nb_redir);

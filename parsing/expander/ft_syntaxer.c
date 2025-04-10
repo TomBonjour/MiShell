@@ -8,6 +8,26 @@ void	ft_syntax_error(t_list **line, t_data *data)
 	ft_free_list(line);
 }
 
+char	**ft_suppress_empty_arg(t_list *line, char **tab, int i)
+{
+	char	**new;
+	int		j;
+
+	j = 0;
+	new = malloc(sizeof (char *) * line->nb_args - 1 + 1);
+	while (j < i)
+	{
+		new[j] = ft_strdup(tab[j]);
+		j++;
+	}
+	i++;
+	while (tab[i] != NULL)
+		new[j++] = ft_strdup(tab[i++]);
+	new[j] = NULL;
+	ft_free_tab(tab);
+	return (new);
+}
+
 int	ft_check_redir_syntax(char *redir)
 {
 	if (ft_is_redir(redir[1]) == 1)
@@ -28,7 +48,7 @@ char	*ft_send_to_expand(char *str, t_data *data)
 	if (ft_need_to_expand(str) == 1)
 	{
 		str = ft_expander(str, data);
-		if (data->err == 1)
+		if (data->err == 1 || str == NULL)
 			return (NULL);
 	}
 	return (str);
@@ -46,14 +66,17 @@ void	*ft_syntax_and_expand(t_list *line, t_data *data)
 		while (line->args[i])
 		{
 			line->args[i] = ft_send_to_expand(line->args[i], data);
-			i++;
+			if (line->args[i] == NULL)
+				line->args = ft_suppress_empty_arg(line, line->args, i);
+			else
+				i++;
 		}
 		i = 0;
 		while (line->redir[i])
 		{
+			line->redir[i] = ft_send_to_expand(line->redir[i], data);
 			if (ft_check_redir_syntax(line->redir[i]) == -1)
 				return (ft_set_error(data, 2));
-			line->redir[i] = ft_send_to_expand(line->redir[i], data);
 			i++;
 		}
 		line = line->next;

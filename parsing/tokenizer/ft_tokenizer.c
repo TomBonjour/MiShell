@@ -1,21 +1,20 @@
 #include "../../minishell.h"
 
-void	*ft_malloc_arrays(char *cmd, t_list **new, t_data *data, int *nb_redir)
+void	*ft_malloc_arrays(char *cmd, t_list **new, t_data *data)
 {
-	int	nb_arg;
 	int	i;
 
 	i = 0;
-	nb_arg = ft_count_args(cmd, i);
-	if (nb_arg == -1)
+	(*new)->nb_args = ft_count_args(cmd, i);
+	if ((*new)->nb_args == -1)
 		return (ft_set_error(data, 2));
-	*nb_redir = ft_count_redir(cmd);
-	if (*nb_redir == -1)
+	(*new)->nb_redir = ft_count_redir(cmd);
+	if ((*new)->nb_redir == -1)
 		return (ft_set_error(data, 2));
-	(*new)->args = malloc(sizeof(char *) * (nb_arg + 1));
-	(*new)->redir = malloc(sizeof(char *) * (*nb_redir + 1));
-	(*new)->quote = malloc(sizeof(int) * (*nb_redir));
-	if (!(*new)->args || !(*new)->redir || !(*new)->redir)
+	(*new)->args = malloc(sizeof(char *) * ((*new)->nb_args + 1));
+	(*new)->redir = malloc(sizeof(char *) * ((*new)->nb_redir + 1));
+	(*new)->quote = malloc(sizeof(int) * ((*new)->nb_redir));
+	if (!(*new)->args || !(*new)->redir || !(*new)->quote)
 		return (ft_set_error(data, 1));
 	return (0);
 }
@@ -28,12 +27,10 @@ void	*ft_get_cmd_and_redir(char *cmd, int i, t_list **new, t_data *data)
 {
 	int	j;
 	int	k;
-	int	nb_redir;
 
 	j = -1;
 	k = -1;
-	nb_redir = 0;
-	if (ft_malloc_arrays(cmd, new, data, &nb_redir) == NULL && data->err != 0)
+	if (ft_malloc_arrays(cmd, new, data) == NULL && data->err != 0)
 		return (NULL);
 	while (cmd[i] != '\0')
 	{
@@ -51,10 +48,10 @@ void	*ft_get_cmd_and_redir(char *cmd, int i, t_list **new, t_data *data)
 		if (data->err == 1)
 			return (NULL);
 	}
-	if (nb_redir > 0)
+	if ((*new)->nb_redir > 0)
 	{
-		(*new)->last_infile = ft_last_infile(*new, nb_redir);
-		(*new)->redir = ft_heredoc_prio((*new)->redir, nb_redir, new, data);
+		(*new)->last_infile = ft_last_infile(*new, (*new)->nb_redir);
+		(*new)->redir = ft_hdoc_prio((*new)->redir, (*new)->nb_redir, new, data);
 	}
 	if (data->err != 0)
 		return (NULL);

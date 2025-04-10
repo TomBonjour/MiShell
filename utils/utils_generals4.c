@@ -55,3 +55,17 @@ void	ft_free_env(t_env *env)
 	}
 	free(env);
 }
+
+int	ft_is_var_only(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (str[0] != '$')
+		return (0);
+	while (str[i] == '_' || ft_isalpha(str[i]) == 1 || ft_isdigit(str[i]) == 1)
+		i++;
+	if (str[i] == '\0')
+		return (1);
+	return (0);
+}
