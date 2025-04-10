@@ -15,7 +15,7 @@ int	ft_first_char(char *var)
 		ft_dprintf(2, "%s, not found\n", var + 1);
 		return (1);
 	}
-	else if (var[0] < '0' && var[0] > '9' && var[0] != '_')
+	else if (var[0] >= '0' && var[0] <= '9' && var[0] != '_')
 	{
 		ft_dprintf(2, "export: not an identidier: %s\n", var);
 		return (1);
@@ -33,16 +33,16 @@ int	ft_forbidd_char(char *var, t_data *data)
 		data->rvalue = 1;
 		return (1);
 	}
-	while (var[i] != '\0')
-	{
-		if (var[i] == ' ')
-		{
-			ft_dprintf(2, "export: not valid in this context: %s\n", var);
-			data->rvalue = 1;
-			return (1);
-		}
-		i++;
-	}
+	// while (var[i] != '\0')
+	// {
+		// if (var[i] == ' ')
+		// {
+			// ft_dprintf(2, "export: not valid in this context: %s\n", var);
+			// data->rvalue = 1;
+			// return (1);
+		// }
+		// i++;
+	// }
 	return (0);
 }
 

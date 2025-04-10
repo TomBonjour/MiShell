@@ -84,7 +84,7 @@ while (line->redir[i] != NULL)
 		dup2(STDOUT_FILENO, 1);
 		dup2(STDIN_FILENO, 0);
 		data.err = 0;
-		if (data.pid != 0)
+		if (data.pid != 0 && data.rvalue == 0)
 			data.rvalue = ft_wait_pid(&data);
 	}
 	//TEST COMMANDES 
