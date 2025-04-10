@@ -1,12 +1,25 @@
 #include "../minishell.h"
 
-void	ft_cmd_not_found(t_list *line, t_data *data)
+int	ft_cmd_not_found(t_list *line, t_data *data, char *cmd, int i)
 {
-	ft_dprintf(2, "command not found: %s\n", line->args[0]);
-	ft_free_tab(line->args);
-	line->pathname = NULL;
-	line->args = NULL;
-	data->rvalue = 127;
+	char 	path[PATH_MAX];
+
+	if (!data->paths || !data->paths[i])
+	{
+		if (getcwd(path, PATH_MAX) == NULL)
+			return (1);
+		if (ft_get_pathname(line, path, cmd))
+			return (1);
+		if (access(line->pathname, F_OK) == 0)
+			return (0);
+		ft_dprintf(2, "command not found: %s\n", line->args[0]);
+		ft_free_tab(line->args);
+		free(line->pathname);
+		line->pathname = NULL;
+		line->args = NULL;
+		data->rvalue = 127;
+	}
+	return (0);
 }
 
 int	ft_pars_env(t_data *data)
@@ -63,9 +76,9 @@ int	ft_fill_pathnames(t_data *data, t_list *line)
 			free(line->pathname);
 		}
 	}
+	if (ft_cmd_not_found(line, data, cmdash, i))
+		return (1);
 	free(cmdash);
-	if (!data->paths || !data->paths[i])
-		ft_cmd_not_found(line, data);
 	return (0);
 }
 
