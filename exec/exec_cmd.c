@@ -4,20 +4,20 @@
 int	ft_wait_pid(t_data *data)
 {
 	int	wstatus;
-	int	exitstatus;
+	// int	exitstatus;
 
 	while (data->node_pos > 0)
 	{
 		if (waitpid(-1, &wstatus, 0) == data->pid)
-			exitstatus = WEXITSTATUS(wstatus);
+			data->rvalue = WEXITSTATUS(wstatus);
 		data->node_pos--;
 	}
 	// if (data->rvalue == 127)
 		// return (data->rvalue);
 	if (data->rvalue == 0)
-		return (exitstatus);
+		return (data->rvalue);
 	else
-		return (exitstatus);
+		return (data->rvalue);
 }
 
 int	ft_init_exe(t_data *data, int *fd)
@@ -242,8 +242,8 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 				ft_fill_pathnames(data, line);
 			if (data->rvalue != 127)
 				ft_exe(line, temp, data);
-			ft_clear_node(line, data, &infos);
 		}
+		ft_clear_node(line, data, &infos);
 		line = line->next;
 	}
 	ft_reset_data(data);
