@@ -34,7 +34,7 @@ void	ft_error_manager(t_data *data, t_list **line, t_env *env)
 void	*ft_set_error(t_data *data, int n)
 {
 	data->err = n;
-	data->rvalue = 2;
+	data->rvalue = 1;
 	return (NULL);
 }
 
