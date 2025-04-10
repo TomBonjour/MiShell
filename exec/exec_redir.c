@@ -33,11 +33,19 @@ int	ft_open_outfile(t_list *line)
 	{
 		if (line->redir[i][0] == '>')
 		{
+			if (line->redir[i][ft_strlen(line->redir[i]) - 1] == '/')
+			{
+				if (line->redir[i][1] == '>')
+					ft_dprintf(2, "%s : is a directory\n", line->redir[i] + 2);
+				else
+					ft_dprintf(2, "%s : is a directory\n", line->redir[i] + 1);
+				return (-1);
+			}
 			if (line->fd_outfile != 0)
 				close(line->fd_outfile);
 			if (line->redir[i][1] == '>')
 				line->fd_outfile = open(line->redir[i] + 2,
-						O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0644);
+						O_CREAT | O_WRONLY | O_APPEND, 0644);
 			else
 				line->fd_outfile = open(line->redir[i] + 1,
 						O_CREAT | O_WRONLY | O_TRUNC, 0644);
