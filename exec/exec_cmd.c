@@ -96,6 +96,17 @@ int	ft_exec_builtin(t_list *line, t_data *data)
 	return (0);
 }
 
+void	ft_free_child(t_list *line, t_data *data, int *fd)
+{
+	close(line->fd_infile);
+	close(line->fd_outfile);
+	close(fd[1]);
+	close(fd[0]);
+	free(line->pathname);
+	ft_free_env(data->env);
+	ft_free_tab(data->paths);
+}
+
 void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 {
 	int	tmpread;
@@ -119,15 +130,15 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 			execve(line->pathname, line->args, envtab);
 		break ;
 	}
+	ft_free_child(line, data, fd);
 	ft_reverse_free(envtab, i);
-	close(line->fd_infile);
-	close(line->fd_outfile);
 }
 
 int	ft_exe(t_list *line, t_list *temp, t_data *data)
 {
 	int		fd[2];
 	char	**envtab;
+	int		j;
 
 	if (ft_init_exe(data, fd))
 		return (1);
@@ -136,20 +147,11 @@ int	ft_exe(t_list *line, t_list *temp, t_data *data)
 		envtab = ft_convert_env(data);
 		if (envtab)
 			ft_child_process(line, envtab, data, fd);
-		close(fd[1]);
-		close(fd[0]);
-		ft_free_env(data->env);
-		ft_free_tab(data->paths);
-		if (line->builtin == 1)
-		{
-			ft_free_list(&temp);
+		j = line->builtin;
+		ft_free_list(&temp);
+		if (j == 1)
 			exit(data->rvalue);
-		}
-		else
-		{
-			ft_free_list(&temp);
-			exit(127);
-		}
+		exit(127);
 	}
 	close(fd[1]);
 	if (data->fdtmp > 2)
@@ -227,6 +229,7 @@ int	ft_reset_data(t_data *data)
 	data->fdtmp = 0;
 	return (0);
 }
+
 int	ft_exec_cmd(t_list *line, t_data *data)
 {
 	t_hdoc	infos;
@@ -245,7 +248,7 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 			if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1
 				&& line->args[0])
 			{
-				if (access(line->pathname, F_OK) == -1 && line->builtin != -1)
+				if (line->pathname == NULL && line->builtin != -1)
 					ft_fill_pathnames(data, line);
 				if (data->rvalue != 127)
 					ft_exe(line, temp, data);

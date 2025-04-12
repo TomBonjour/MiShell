@@ -161,5 +161,6 @@ int			ft_is_var_only(char *str);
 int			ft_open_redir(t_list *line, t_hdoc *infos, t_data *data);
 int			ft_exec_infiles(t_list *line);
 int			ft_last_infile(t_list *line, int nb_redir);
+int			ft_exec_cmd(t_list *line, t_data *data);
 
 #endif
