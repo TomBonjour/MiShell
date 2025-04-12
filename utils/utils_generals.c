@@ -63,8 +63,7 @@ void	ft_free_tab(char **tab, int nb)
 		if (tab)
 			free(tab);
 	}
-	else
-	{
+	else{
 		while (i < nb)
 		{
 			free(tab[i]);

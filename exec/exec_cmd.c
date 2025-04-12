@@ -104,7 +104,7 @@ void	ft_free_child(t_list *line, t_data *data, int *fd)
 	close(fd[0]);
 	free(line->pathname);
 	ft_free_env(data->env);
-	ft_free_tab(data->paths);
+	ft_free_tab(data->paths, 0);
 }
 
 void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)

@@ -13,7 +13,7 @@ int	ft_cmd_not_found(t_list *line, t_data *data, char *cmd, int i)
 		if (access(line->pathname, F_OK) == 0)
 			return (0);
 		ft_dprintf(2, "command not found: %s\n", line->args[0]);
-		ft_free_tab(line->args, 0);
+		ft_free_tab(line->args, line->nb_args);
 		free(line->pathname);
 		line->pathname = NULL;
 		line->args = NULL;

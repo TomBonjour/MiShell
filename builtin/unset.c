@@ -70,7 +70,7 @@ void	ft_unset_fill_env(t_env *new, char *var, t_env *env, int i)
 
 	j = 0;
 	k = 0;
-	while (j < i)
+	while (k < i)
 	{
 		size = ft_strlen(env[k].name);
 		if (!ft_strncmp(var, env[k].name, size))
@@ -102,7 +102,7 @@ t_env	*ft_unset(char **argv, t_env *env)
 				i++;
 			if (!ft_alloc_newenv(&new, i - 1))
 				return (NULL);
-			ft_unset_fill_env(new, argv[j], env, i - 1);
+			ft_unset_fill_env(new, argv[j], env, i);
 			free(env);
 			env = new;
 		}
