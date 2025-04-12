@@ -138,13 +138,18 @@ int	ft_exe(t_list *line, t_list *temp, t_data *data)
 			ft_child_process(line, envtab, data, fd);
 		close(fd[1]);
 		close(fd[0]);
-		ft_free_list(&temp);
 		ft_free_env(data->env);
 		ft_free_tab(data->paths);
 		if (line->builtin == 1)
+		{
+			ft_free_list(&temp);
 			exit(data->rvalue);
+		}
 		else
+		{
+			ft_free_list(&temp);
 			exit(127);
+		}
 	}
 	close(fd[1]);
 	if (data->fdtmp > 2)
@@ -237,7 +242,8 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 		{
 			if (ft_is_builtin_parent(line) == 1 && data->nodes == 1)
 				ft_exec_builtin(line, data);
-			if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1 && line->args[0])
+			if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1
+				&& line->args[0])
 			{
 				if (access(line->pathname, F_OK) == -1 && line->builtin != -1)
 					ft_fill_pathnames(data, line);
