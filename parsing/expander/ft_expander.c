@@ -74,6 +74,7 @@ char	*ft_expand_env_var(char *str, int *i, t_data *data)
 		if (ft_is_var_only(str) == 1)
 		{
 			free(var);
+			free(str);
 			return (NULL);
 		}
 		else

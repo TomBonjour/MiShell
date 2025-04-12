@@ -24,7 +24,7 @@ char	**ft_suppress_empty_arg(t_list *line, char **tab, int i)
 	while (tab[i] != NULL)
 		new[j++] = ft_strdup(tab[i++]);
 	new[j] = NULL;
-	ft_free_tab(tab);
+	ft_free_tab(tab, line->nb_args);
 	return (new);
 }
 

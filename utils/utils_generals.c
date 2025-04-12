@@ -48,16 +48,29 @@ void	ft_reverse_free(char **tab, int j)
 	free(tab);
 }
 
-void	ft_free_tab(char **tab)
+void	ft_free_tab(char **tab, int nb)
 {
 	int	i;
 
 	i = 0;
-	while (tab && tab[i] != NULL)
+	if (nb == 0)
 	{
-		free(tab[i]);
-		i++;
+		while (tab && tab[i] != NULL)
+		{
+			free(tab[i]);
+			i++;
+		}
+		if (tab)
+			free(tab);
 	}
-	if (tab)
-		free(tab);
+	else
+	{
+		while (i < nb)
+		{
+			free(tab[i]);
+			i++;
+		}
+		if (tab)
+			free(tab);
+	}
 }

@@ -104,7 +104,7 @@ int	ft_exit(t_list *line, t_env *env, t_data *data)
 			data->rvalue = 0;
 		else if (data->rvalue < 1 || data->rvalue > 3)
 			data->rvalue = ft_atoll(line->args[1]);
-		ft_free_tab(data->paths);
+		ft_free_tab(data->paths, 0);
 		ft_free_env(env);
 		ft_free_list(&line);
 		exit (data->rvalue);

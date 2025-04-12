@@ -3,7 +3,7 @@
 void	ft_cmd_not_found(t_list *line, t_data *data)
 {
 	ft_dprintf(2, "command not found: %s\n", line->args[0]);
-	ft_free_tab(line->args);
+	ft_free_tab(line->args, 0);
 	line->pathname = NULL;
 	line->args = NULL;
 	data->rvalue = 127;
