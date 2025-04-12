@@ -223,7 +223,7 @@ int	ft_pars_dir(t_list *line, t_data *data, char *str)
 
 int	ft_reset_data(t_data *data)
 {
-	ft_free_tab(data->paths);
+	ft_free_tab(data->paths, 0);
 	if (data->fdtmp > 2)
 		close(data->fdtmp);
 	data->fdtmp = 0;
