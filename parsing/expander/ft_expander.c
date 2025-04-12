@@ -72,7 +72,10 @@ char	*ft_expand_env_var(char *str, int *i, t_data *data)
 	if (j == -1)
 	{
 		if (ft_is_var_only(str) == 1)
+		{
+			free(var);
 			return (NULL);
+		}
 		else
 			expand_var = "";
 	}
