@@ -114,6 +114,11 @@ t_list	*ft_split_line(char *s, t_list *args, int len, t_data *data)
 			if (ft_new_add_back(s, len, &args, data) == NULL && data->err == 1)
 				return (NULL);
 			s += len;
+			if (s[1] == '\0')
+			{
+				ft_free_list(&args);
+				return (ft_set_error(data, 2));
+			}
 		}
 		s++;
 	}
