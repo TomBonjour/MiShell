@@ -19,7 +19,14 @@ int	ft_reading_line(int eof_quote, t_hdoc *infos, t_data *data)
 {
 	char	*tmp;
 
+	rl_event_hook = event;
 	tmp = readline("> ");
+	rl_event_hook = 0;
+	if (g_errvalue == 130)
+    {
+        free(tmp);
+        return (0);
+    }
 	if (!tmp)
 	{
 		ft_dprintf(2, "readline fail\n");
@@ -144,6 +151,7 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_data *data)
 	int	i;
 
 	i = 1;
+	modify_signals_hdoc();
 	while (i <= line->hdoc)
 	{
 		if (!ft_malloc_strdup_eof(infos, line->redir[i - 1]))

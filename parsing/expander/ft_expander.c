@@ -101,7 +101,11 @@ void	*ft_expand_question_mark(char *str, int i, t_data *data)
 {
 	char	*expand_var;
 
-	expand_var = ft_itoa(data->rvalue);
+	// if (g_errvalue != 0)
+	// {
+	// 	g_errvalue = 0;
+	// }
+	expand_var = ft_itoa(g_errvalue);
 	if (!expand_var)
 	{
 		free(expand_var);

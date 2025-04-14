@@ -23,14 +23,14 @@ int	ft_first_char(char *var)
 	return (0);
 }
 
-int	ft_forbidd_char(char *var, t_data *data)
+int	ft_forbidd_char(char *var)
 {
 	int	i;
 
 	i = 0;
 	if (ft_first_char(var))
 	{
-		data->rvalue = 1;
+		g_errvalue = 1;
 		return (1);
 	}
 	// while (var[i] != '\0')
@@ -38,7 +38,7 @@ int	ft_forbidd_char(char *var, t_data *data)
 		// if (var[i] == ' ')
 		// {
 			// ft_dprintf(2, "export: not valid in this context: %s\n", var);
-			// data->rvalue = 1;
+			// g_errvalue = 1;
 			// return (1);
 		// }
 		// i++;
@@ -135,9 +135,9 @@ int	ft_checking_args(char *var, t_data *data)
 	int	index;
 
 	index = 0;
-	if (!ft_forbidd_char(var, data))
+	if (!ft_forbidd_char(var))
 		if (!ft_find_var(data->env, var, &index))
-			if (!ft_find_equal(var, data))
+			if (!ft_find_equal(var))
 				return (0);
 	return (1);
 }

@@ -97,17 +97,17 @@ int	ft_exit(t_list *line, t_env *env, t_data *data)
 {
 	if (data->nodes == 1)
 		ft_dprintf(2, "exit\n");
-	data->rvalue = ft_parsing_exit(line->args);
-	if (data->rvalue != 1)
+	g_errvalue = ft_parsing_exit(line->args);
+	if (g_errvalue != 1)
 	{
-		if (data->rvalue == 3)
-			data->rvalue = 0;
-		else if (data->rvalue < 1 || data->rvalue > 3)
-			data->rvalue = ft_atoll(line->args[1]);
+		if (g_errvalue == 3)
+			g_errvalue = 0;
+		else if (g_errvalue < 1 || g_errvalue > 3)
+			g_errvalue = ft_atoll(line->args[1]);
 		ft_free_tab(data->paths, 0);
 		ft_free_env(env);
 		ft_free_list(&line);
-		exit (data->rvalue);
+		exit (g_errvalue);
 	}
-	return (data->rvalue);
+	return (g_errvalue);
 }

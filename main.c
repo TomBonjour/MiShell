@@ -33,15 +33,11 @@ int	main(int ac, char **av, char **envp)
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
 	setup_signals();
-
 	while (1)
 	{
 		input = readline("mangeducrabe> ");
 		if (!input)
-		{
-			//write(2, "Exit\n", 5);
 			break;
-		}
 		if (input[0] != '\0')
 			add_history(input);
 		line = ft_tokenize(input, &data);
@@ -68,14 +64,14 @@ int	main(int ac, char **av, char **envp)
 			}
 			printf("\n");
 			i = 0;
-			printf("\nREDIRECTIONS %d\n", j);
+			prino $%f("\nREDIRECTIONS %d\n", j);
 while (line->redir[i] != NULL)
 			{
 				printf("|%s|", line->redir[i]);
 				i++;
 			}
 			printf("\n");
-			printf("--------------\n |\n v\n--------------\n");
+			printf("--------------\n  --------------\n");
 			line = line->next;
 			j++;
 		}
@@ -84,8 +80,8 @@ while (line->redir[i] != NULL)
 		dup2(STDOUT_FILENO, 1);
 		dup2(STDIN_FILENO, 0);
 		data.err = 0;
-		if (data.pid != 0 && data.rvalue == 0)
-			data.rvalue = ft_wait_pid(&data);
+		if (data.pid != 0 && g_errvalue == 0)
+			g_errvalue = ft_wait_pid(&data);
 	}
 	//TEST COMMANDES 
 	//ft_env(env);
@@ -102,6 +98,6 @@ while (line->redir[i] != NULL)
 	
 	ft_close_fds(&data, 0);
 	ft_free_env(data.env);
-	return (data.rvalue);
+	return (g_errvalue);
 	//return (value_exit);
 }

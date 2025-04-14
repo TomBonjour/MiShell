@@ -9,15 +9,15 @@ int	ft_wait_pid(t_data *data)
 	while (data->node_pos > 0)
 	{
 		if (waitpid(-1, &wstatus, 0) == data->pid)
-			data->rvalue = WEXITSTATUS(wstatus);
+			g_errvalue = WEXITSTATUS(wstatus);
 		data->node_pos--;
 	}
-	// if (data->rvalue == 127)
-		// return (data->rvalue);
-	if (data->rvalue == 0)
-		return (data->rvalue);
+	// if (g_errvalue == 127)
+		// return (g_errvalue);
+	if (g_errvalue == 0)
+		return (g_errvalue);
 	else
-		return (data->rvalue);
+		return (g_errvalue);
 }
 
 int	ft_init_exe(t_data *data, int *fd)
@@ -86,7 +86,7 @@ int	ft_exec_builtin(t_list *line, t_data *data)
 	else if (ft_find_word(line->args[0], "echo") == 1)
 		ft_echo(line->args);
 	else if (ft_find_word(line->args[0], "exit") == 1)
-		data->rvalue = ft_exit(line, data->env, data);
+		g_errvalue = ft_exit(line, data->env, data);
 	else if (ft_find_word(line->args[0], "unset") == 1)
 		data->env = ft_unset(line->args, data->env);
 	else if (ft_find_word(line->args[0], "export") == 1)
@@ -127,7 +127,12 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 		if (ft_is_builtin_child(line))
 			ft_exec_builtin(line, data);
 		if (line->pathname && line->args && line->builtin == 0)
+		{
+			modify_signals_execve();
+			// signal(SIGINT, SIG_DFL);
+			// signal(SIGQUIT, SIG_DFL);
 			execve(line->pathname, line->args, envtab);
+		}
 		break ;
 	}
 	ft_free_child(line, data, fd);
@@ -150,7 +155,7 @@ int	ft_exe(t_list *line, t_list *temp, t_data *data)
 		j = line->builtin;
 		ft_free_list(&temp);
 		if (j == 1)
-			exit(data->rvalue);
+			exit(g_errvalue);
 		exit(127);
 	}
 	close(fd[1]);
@@ -173,7 +178,7 @@ void	ft_clear_node(t_list *line, t_data *data, t_hdoc *infos)
 	data->node_pos += 1;
 }
 
-int	ft_check_dots(char *str, t_data *data)
+int	ft_check_dots(char *str)
 {
 	int	size;
 
@@ -188,11 +193,11 @@ int	ft_check_dots(char *str, t_data *data)
 			return (0);
 	}
 	ft_dprintf(2, "%s: command not found\n", str);
-	data->rvalue = 127;
+	g_errvalue = 127;
 	return (1);
 }
 
-int	ft_pars_dir(t_list *line, t_data *data, char *str)
+int	ft_pars_dir(t_list *line, char *str)
 {
 	int	i;
 
@@ -209,14 +214,14 @@ int	ft_pars_dir(t_list *line, t_data *data, char *str)
 				i++;
 			}
 			ft_dprintf(2, "%s: Is a directory\n", str);
-			data->rvalue = 126;
+			g_errvalue = 126;
 			return (0);
 		}
-		data->rvalue = 127;
+		g_errvalue = 127;
 		ft_dprintf(2, "%s: No such file or directory\n", str);
 		return (0);
 	}
-	else if (ft_check_dots(str, data))
+	else if (ft_check_dots(str))
 		return (0);
 	return (1);
 }
@@ -240,17 +245,17 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 		return (1);
 	while (line != NULL)
 	{
-		data->rvalue = 0;
+		g_errvalue = 0;
 		if (ft_open_redir(line, &infos, data) != -1)
 		{
 			if (ft_is_builtin_parent(line) == 1 && data->nodes == 1)
 				ft_exec_builtin(line, data);
-			if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1
+			if (ft_pars_dir(line, line->args[0]) && line->builtin != 1
 				&& line->args[0])
 			{
 				if (line->pathname == NULL && line->builtin != -1)
 					ft_fill_pathnames(data, line);
-				if (data->rvalue != 127)
+				if (g_errvalue != 127)
 					ft_exe(line, temp, data);
 			}
 		}

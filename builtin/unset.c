@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int	ft_find_equal(char *var, t_data *data)
+int	ft_find_equal(char *var)
 {
 	int	numinus;
 	int	i;
@@ -18,7 +18,7 @@ int	ft_find_equal(char *var, t_data *data)
 	if (numinus != 0)
 	{
 		ft_dprintf(2, "%s: not a valid identifier\n", var);
-		data->rvalue = 1;
+		g_errvalue = 1;
 	}
 	return (1);
 }

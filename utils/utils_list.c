@@ -84,7 +84,7 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 
 void	ft_init_data(t_data *data)
 {
-	data->rvalue = 0;
+	g_errvalue = 0;
 	data->err = 0;
 	data->fdtmp = 0;
 	data->pid = 0;

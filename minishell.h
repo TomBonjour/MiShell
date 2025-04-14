@@ -43,7 +43,6 @@ typedef struct s_data
 {
 	t_env	*env;
 	int		err;
-	int		rvalue;
 	int		pid;
 	int		fdtmp;
 	int		nodes;
@@ -67,8 +66,8 @@ int			ft_pwd(void);
 int			ft_env(t_env *env);
 void		ft_echo(char **tab);
 int			ft_cd(char **tab, t_env *env);
-int			ft_forbidd_char(char *var, t_data *data);
-int			ft_find_equal(char *var, t_data *data);
+int			ft_forbidd_char(char *var);
+int			ft_find_equal(char *var);
 int			ft_find_var(t_env *env, char *var, int *i);
 int			ft_export_fill_env(t_env *new_tab, char *var, t_env *env);
 t_env		*ft_export(char **argv, t_data *data);
@@ -90,6 +89,9 @@ void		ft_sigquit_handler(int sig);
 void		setup_signals(void);
 void		ft_init_var(t_hdoc *infos, int flag);
 int			ft_heredoc(t_list *line, t_hdoc *infos, t_data *data);
+int			modify_signals_hdoc(void);
+int			modify_signals_execve();
+int			event(void);
 
 //------	 PARSING UTILS ------//
 void		ft_parsing(char *input);
