@@ -30,6 +30,7 @@ typedef struct s_list
 	int				fd_outfile;
 	int				builtin;
 	char			*pathname;
+	int				realloc;
 	struct s_list	*next;
 }					t_list;
 
@@ -90,7 +91,7 @@ void		setup_signals(void);
 void		ft_init_var(t_hdoc *infos, int flag);
 int			ft_heredoc(t_list *line, t_hdoc *infos, t_data *data);
 int			modify_signals_hdoc(void);
-int			modify_signals_execve();
+int			modify_signals_execve(void);
 int			event(void);
 
 //------	 PARSING UTILS ------//
@@ -107,11 +108,11 @@ char		*ft_arg_substr(char *cmd, int *i, t_data *data);
 char		*ft_realloc_char(char *str, char c, t_data *data);
 t_list		*ft_tokenize(char *s, t_data *data);
 void		*ft_syntax_and_expand(t_list *line, t_data *data);
-char		*ft_expander(char *str, t_data *data);
+char		*ft_expander(t_list *line, int i, char *str, t_data *data);
 int			ft_env_var_len(char *str, int i);
 int			ft_need_to_expand(char *str);
 char		*ft_expand_env_var(char *str, int *i, t_data *data);
-void		*ft_expand_question_mark(char *str, int i, t_data *data);
+char		*ft_expand_quest_mark(char *str, int i, t_data *data);
 char		*ft_expand_quote(char *str, int *i, t_data *data);
 char		*ft_replace_env_var(char *str, int i, char *exp_var, t_data *data);
 char		*ft_remove_quotes(char *str, char quote, int *pos, t_data *data);
@@ -122,6 +123,8 @@ char		*ft_expand_heredoc(char *str, t_data *data);
 int			ft_find_env_var(t_env *env, char *var, int var_size);
 int			ft_count_nodes(t_list *line);
 int			ft_get_pathname(t_list *line, char *path, char *cmdash);
+char 		**ft_realloc_args(t_list *line, int n, char **split, t_data *data);
+char		**ft_var_analyse(char *str, int *i, t_data *data);
 
 //------	 LISTS UTILS ------//
 t_list		*ft_lst_new_node(char *s, t_data *data);
@@ -149,6 +152,8 @@ void		ft_free_and_exit(t_list *line, t_env *env);
 void		ft_free_tab(char **tab, int nb);
 int			ft_find_word(char *s, char *word);
 void		ft_close_fds(t_data *data, int i);
+char		**ft_return_one_str(char *str);
+char		**ft_join_content_before(char **split, char *str, t_data *data);
 
 //------	 EXEC UTILS ------//
 int			ft_exec_cmd(t_list *line, t_data *data);

@@ -97,14 +97,10 @@ char	*ft_expand_env_var(char *str, int *i, t_data *data)
 	return (str);
 }
 
-void	*ft_expand_question_mark(char *str, int i, t_data *data)
+char	*ft_expand_quest_mark(char *str, int i, t_data *data)
 {
 	char	*expand_var;
 
-	// if (g_errvalue != 0)
-	// {
-	// 	g_errvalue = 0;
-	// }
 	expand_var = ft_itoa(g_errvalue);
 	if (!expand_var)
 	{
@@ -118,23 +114,56 @@ void	*ft_expand_question_mark(char *str, int i, t_data *data)
 
 //Expand les variables d'env et le contenu des quotes suivant le cas
 //	Fournit l'input prêt a être envoyé a l'exec
-char	*ft_expander(char *str, t_data *data)
+char	*ft_expander(t_list *line, int n, char *str, t_data *data)
 {
 	int		i;
+	char	**analysis;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		while (ft_is_quote(str[i]) == 0 && str[i] != '$' && str[i] != '\0')
+		while (ft_is_quote(str[i]) == 0 && str[i] != '$'
+			&& str[i] != '\0')
 			i++;
-		if (str[i] == '$' && ft_is_xpendable(str[i + 1]) == 1)
+		if (str[i] == '$'
+			&& ft_is_xpendable(str[i + 1]) == 1)
 		{
 			if (str[i + 1] == '?')
-				str = ft_expand_question_mark(str, i, data);
+				str = ft_expand_quest_mark(str, i, data);
 			else if (ft_is_quote(str[i + 1]) == 1)
 				str = ft_remove_dollar(str, i, data);
 			else
-				str = ft_expand_env_var(str, &i, data);
+			{
+				analysis = ft_var_analyse(str, &i, data);
+				if (!analysis)
+				{
+					free(str);
+					str = NULL;
+					return (NULL);
+				}
+				if (analysis[1] == NULL)
+				{
+					str = ft_replace_env_var
+						(str, i, analysis[0], data);
+					if (data->err == 1)
+					{
+						ft_free_tab(analysis, 0);
+						return (NULL);
+					}
+					if (analysis[0][0] != '\0')
+						i += ft_strlen(analysis[0]) - 1;
+					ft_free_tab(analysis, 0);
+				}
+				else
+				{
+					line->args = ft_realloc_args(line, n, analysis, data);
+					if (!line->args)
+						ft_set_error(data, 1);
+					ft_free_tab(analysis, 0);
+					line->realloc = 1;
+					return (NULL);
+				}
+			}
 			if (data->err == 1 || str == NULL)
 				return (NULL);
 		}

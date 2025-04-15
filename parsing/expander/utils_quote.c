@@ -69,11 +69,11 @@ char	*ft_expand_quote(char *str, int *i, t_data *data)
 	pos = *i;
 	while (str[++*i] != quote && str[*i] != '\0')
 	{
-		if (str[*i] == '$' && quote == '"' && str[*i + 1] != quote
-			&& ft_is_xpendable(str[*i + 1]) == 1)
+		if (str[*i] == '$' && quote == '"' && str[*i + 1]
+			!= quote && ft_is_xpendable(str[*i + 1]) == 1)
 		{
 			if (str[*i + 1] == '?')
-				str = ft_expand_question_mark(str, *i, data);
+				str = ft_expand_quest_mark(str, *i, data);
 			else if (ft_is_quote(str[*i + 1]) == 1)
 				str = ft_remove_dollar(str, *i, data);
 			else
@@ -89,4 +89,12 @@ char	*ft_expand_quote(char *str, int *i, t_data *data)
 	return (str);
 }
 
-// "$"""
+char	**ft_return_one_str(char *str)
+{
+	char	**tab;
+
+	tab = malloc(sizeof(char *) * 2);
+	tab[0] = ft_strdup(str);
+	tab[1] = NULL;
+	return (tab);
+}

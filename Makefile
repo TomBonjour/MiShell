@@ -32,6 +32,7 @@ SRCS = main.c \
 	   utils/utils_generals2.c \
 	   utils/utils_generals3.c \
 	   utils/utils_generals4.c \
+	   utils/utils_generals5.c \
 	   utils/utils_list.c \
 	   utils/utils_list2.c \
 	   exec/exec_cmd.c \
