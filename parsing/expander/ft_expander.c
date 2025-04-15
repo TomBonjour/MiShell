@@ -161,7 +161,7 @@ char	*ft_expander(t_list *line, int n, char *str, t_data *data)
 						ft_set_error(data, 1);
 					ft_free_tab(analysis, 0);
 					line->realloc = 1;
-					return (NULL);
+					return (line->args[n]);
 				}
 			}
 			if (data->err == 1 || str == NULL)
