@@ -8,13 +8,13 @@ void	ft_syntax_error(t_list **line, t_data *data)
 	ft_free_list(line);
 }
 
-char	**ft_suppress_empty_arg(t_list *line, char **tab, int i)
+char	**ft_suppress_empty_arg(char **tab, int i)
 {
 	char	**new;
 	int		j;
 
 	j = 0;
-	new = malloc(sizeof (char *) * line->nb_args - 1 + 1);
+	new = malloc(sizeof (char *) * ft_tablen(tab) - 1 + 1);
 	while (j < i)
 	{
 		new[j] = ft_strdup(tab[j]);
@@ -24,7 +24,8 @@ char	**ft_suppress_empty_arg(t_list *line, char **tab, int i)
 	while (tab[i] != NULL)
 		new[j++] = ft_strdup(tab[i++]);
 	new[j] = NULL;
-	ft_free_tab(tab, line->nb_args);
+	i = 0;
+	ft_free_tab(tab, 0);
 	return (new);
 }
 
@@ -43,15 +44,22 @@ int	ft_check_redir_syntax(char *redir)
 	return (0);
 }
 
-char	*ft_send_to_expand(char *str, t_data *data)
+void	*ft_syntax_and_expand_redir(t_list *line, t_data *data)
 {
-	if (ft_need_to_expand(str) == 1)
+	int	i;
+
+	i = 0;
+	while (line->redir[i])
 	{
-		str = ft_expander(str, data);
-		if (data->err == 1 || str == NULL)
+		if (ft_check_redir_syntax(line->redir[i]) == -1)
+			return (ft_set_error(data, 2));
+		if (ft_need_to_expand(line->redir[i]) == 1)
+			line->redir = ft_expander(line->redir, i, data);
+		if (data->err == 1 || line->redir == NULL)
 			return (NULL);
+		i++;
 	}
-	return (str);
+	return (line);
 }
 
 void	*ft_syntax_and_expand(t_list *line, t_data *data)
@@ -65,20 +73,16 @@ void	*ft_syntax_and_expand(t_list *line, t_data *data)
 		i = 0;
 		while (line->args[i])
 		{
-			line->args[i] = ft_send_to_expand(line->args[i], data);
-			if (line->args[i] == NULL)
-				line->args = ft_suppress_empty_arg(line, line->args, i);
-			else
-				i++;
-		}
-		i = 0;
-		while (line->redir[i])
-		{
-			line->redir[i] = ft_send_to_expand(line->redir[i], data);
-			if (ft_check_redir_syntax(line->redir[i]) == -1)
-				return (ft_set_error(data, 2));
+			if (ft_need_to_expand(line->args[i]) == 1)
+				line->args = ft_expander(line->args, i, data);
+			if (data->err == 1 || line->args == NULL)
+				return (NULL);
+			if (!line->args[i])
+				break ;
 			i++;
 		}
+		if (ft_syntax_and_expand_redir(line, data) == NULL)
+			return (NULL);
 		line = line->next;
 	}
 	return (0);

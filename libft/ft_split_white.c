@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   ft_split_white.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -22,7 +22,7 @@ static void	reverse_free(char **tab, int j)
 	free(tab);
 }
 
-char	**ft_fill_line(char **tab, char *s, int j, int len)
+char	**ft_fill_line_white(char **tab, char *s, int j, int len)
 {
 	int	k;
 
@@ -44,12 +44,13 @@ static char	**ft_fill_tab(char *s, char **tab, char c)
 	j = 0;
 	while (*s != '\0')
 	{
-		while (*s == c && *s != '\0')
+		while ((*s == c || (*s >= '\b' && *s <= '\r')) && *s != '\0')
 			s++;
 		if (*s == '\0')
 			break ;
 		len = 0;
-		while (s[len] != c && s[len] != '\0')
+		while ((s[len] != c || (s[len] >= '\b' && s[len] <= '\r')) 
+			&& s[len] != '\0')
 			len ++;
 		tab[j] = malloc(sizeof(char) * (len + 1));
 		if (!tab[j])
@@ -57,7 +58,7 @@ static char	**ft_fill_tab(char *s, char **tab, char c)
 			reverse_free(tab, j);
 			return (NULL);
 		}
-		ft_fill_line(tab, s, j, len);
+		ft_fill_line_white(tab, s, j, len);
 		s += len;
 		j++;
 	}
@@ -74,17 +75,17 @@ static int	count_words(char const *s, char c)
 	n = 0;
 	while (s[i] != '\0')
 	{
-		while (s[i] == c && s[i] != '\0')
+		while ((s[i] == c || (s[i] >= '\b' && s[i] <= '\r')) && s[i] != '\0')
 			i++;
 		if (s[i] != '\0')
 			n++;
-		while (s[i] != c && (s[i] != '\0'))
+		while ((s[i] != c && (s[i] <= '\b' || s[i] >= '\r')) && s[i] != '\0')
 			i++;
 	}
 	return (n);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split_white(char const *s, char c)
 {
 	int		size;
 	char	**tab;

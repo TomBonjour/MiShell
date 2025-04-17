@@ -30,6 +30,7 @@ typedef struct s_list
 	int				fd_outfile;
 	int				builtin;
 	char			*pathname;
+	int				realloc;
 	struct s_list	*next;
 }					t_list;
 
@@ -58,6 +59,12 @@ typedef struct s_heredoc
 	char	*filename;
 	int		size;
 }			t_hdoc;
+
+typedef struct s_realloc
+{
+	char	**new_tab;
+	int		i;
+}			t_alloc;
 
 //------ GLOBAL VARIABLE ------//
 extern int	g_errvalue;
@@ -109,14 +116,20 @@ char		*ft_arg_substr(char *cmd, int *i, t_data *data);
 char		*ft_realloc_char(char *str, char c, t_data *data);
 t_list		*ft_tokenize(char *s, t_data *data);
 void		*ft_syntax_and_expand(t_list *line, t_data *data);
-char		*ft_expander(char *str, t_data *data);
+int			ft_skip_all_quotes(char **s, int *len);
+void		ft_end_of_get_cmd(t_list **new, int *j, int *k, t_data *data);
+char		*ft_find_and_exp_var(char *str, char *var, int size, t_data *data);
+char		**ft_expander(char **tab, int i, t_data *data);
+char		**ft_expand_dollar(char **tab, int n, int i, t_data *data);
+char		**ft_split_env_var(char *str, char *var, t_data *data);
 int			ft_env_var_len(char *str, int i);
 int			ft_need_to_expand(char *str);
 char		*ft_expand_env_var(char *str, int *i, t_data *data);
-void		*ft_expand_question_mark(char *str, int i, t_data *data);
+char		*ft_expand_quest_mark(char *str, int i, t_data *data);
 char		*ft_expand_quote(char *str, int *i, t_data *data);
 char		*ft_replace_env_var(char *str, int i, char *exp_var, t_data *data);
 char		*ft_remove_quotes(char *str, char quote, int *pos, t_data *data);
+void		ft_init_remove_quotes(int *i, int *j, int *nb_quote);
 char		*ft_remove_dollar(char *str, int i, t_data *data);
 char		**ft_hdoc_prio(char **redir_tab, int size, t_list **new_node,
 				t_data *data);
@@ -124,6 +137,11 @@ char		*ft_expand_heredoc(char *str, t_data *data);
 int			ft_find_env_var(t_env *env, char *var, int var_size);
 int			ft_count_nodes(t_list *line);
 int			ft_get_pathname(t_list *line, char *path, char *cmdash);
+char		**ft_realloc_elem(char **tab, int n, char **split, t_data *data);
+char		**ft_realloc_split(char **new, int *i, char **split, t_data *data);
+char		**ft_split_join(char **split, char **tab, int n, t_data *data);
+char		**ft_var_analyse(char *str, int *i, t_data *data);
+char		**ft_suppress_empty_arg(char **tab, int i);
 
 //------	 LISTS UTILS ------//
 t_list		*ft_lst_new_node(char *s, t_data *data);
@@ -135,6 +153,7 @@ t_env		*ft_set_env(char **envp, t_data *data);
 
 //------	 GENERAL UTILS ------//
 void		ft_reverse_free(char **tab, int j);
+int			ft_tablen(char **tab);
 int			ft_count_words(char *cmd);
 int			ft_is_redir(char c);
 int			ft_is_blank(char c);
@@ -151,6 +170,8 @@ void		ft_free_and_exit(t_list *line, t_env *env);
 void		ft_free_tab(char **tab, int nb);
 int			ft_find_word(char *s, char *word);
 void		ft_close_fds(t_data *data, int i);
+char		**ft_return_one_str(char *str);
+char		**ft_join_content_before(char **split, char *str, t_data *data);
 
 //------	 EXEC UTILS ------//
 int			ft_exec_cmd(t_list *line, t_data *data);

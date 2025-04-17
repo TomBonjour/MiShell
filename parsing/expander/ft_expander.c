@@ -59,29 +59,15 @@ char	*ft_replace_env_var(char *str, int i, char *exp, t_data *data)
 // 		Realloc la string dans laquelle elle se situe avec son vrai contenu
 char	*ft_expand_env_var(char *str, int *i, t_data *data)
 {
-	int		j;
 	char	*var;
-	char	*expand_var;
 	int		var_size;
+	char	*expand_var;
 
 	var_size = ft_env_var_len(str, *i + 1);
 	var = ft_substr(str, *i + 1, var_size);
 	if (!var)
 		return (ft_set_error(data, 1));
-	j = ft_find_env_var(data->env, var, var_size);
-	if (j == -1)
-	{
-		if (ft_is_var_only(str) == 1)
-		{
-			free(var);
-			free(str);
-			return (NULL);
-		}
-		else
-			expand_var = "";
-	}
-	else
-		expand_var = ft_strdup(data->env[j].data);
+	expand_var = ft_find_and_exp_var(str, var, var_size, data);
 	free(var);
 	str = ft_replace_env_var(str, *i, expand_var, data);
 	if (data->err == 1)
@@ -97,14 +83,10 @@ char	*ft_expand_env_var(char *str, int *i, t_data *data)
 	return (str);
 }
 
-void	*ft_expand_question_mark(char *str, int i, t_data *data)
+char	*ft_expand_quest_mark(char *str, int i, t_data *data)
 {
 	char	*expand_var;
 
-	// if (g_errvalue != 0)
-	// {
-	// 	g_errvalue = 0;
-	// }
 	if (g_errvalue != 0)
 		data->rvalue = g_errvalue;
 	expand_var = ft_itoa(data->rvalue);
@@ -120,30 +102,26 @@ void	*ft_expand_question_mark(char *str, int i, t_data *data)
 
 //Expand les variables d'env et le contenu des quotes suivant le cas
 //	Fournit l'input prêt a être envoyé a l'exec
-char	*ft_expander(char *str, t_data *data)
+char	**ft_expander(char **tab, int n, t_data *data)
 {
 	int		i;
 
 	i = 0;
-	while (str[i] != '\0')
+	while (tab[n][i] != '\0')
 	{
-		while (ft_is_quote(str[i]) == 0 && str[i] != '$' && str[i] != '\0')
+		while (ft_is_quote(tab[n][i]) == 0 && tab[n][i] != '$'
+			&& tab[n][i] != '\0')
 			i++;
-		if (str[i] == '$' && ft_is_xpendable(str[i + 1]) == 1)
+		if (tab[n][i] == '$' && ft_is_xpendable(tab[n][i + 1]) == 1)
 		{
-			if (str[i + 1] == '?')
-				str = ft_expand_question_mark(str, i, data);
-			else if (ft_is_quote(str[i + 1]) == 1)
-				str = ft_remove_dollar(str, i, data);
-			else
-				str = ft_expand_env_var(str, &i, data);
-			if (data->err == 1 || str == NULL)
-				return (NULL);
+			tab = ft_expand_dollar(tab, n, i, data);
+			if (!tab[n])
+				break ;
 		}
-		else if (ft_is_quote(str[i]) == 1)
-			str = ft_expand_quote(str, &i, data);
-		else if (str[i] != '\0')
+		else if (ft_is_quote(tab[n][i]) == 1)
+			tab[n] = ft_expand_quote(tab[n], &i, data);
+		else if (tab[n][i] != '\0')
 			i++;
 	}
-	return (str);
+	return (tab);
 }

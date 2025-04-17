@@ -1,7 +1,8 @@
 #include "../../minishell.h"
 
-void	ft_skip_quote(int *i, int *nb_quote)
+void	ft_skip_quote(int *i, int *nb_quote, int *pos)
 {
+	*pos = *i - 1;
 	(*i)++;
 	*nb_quote += 1;
 }
@@ -14,9 +15,7 @@ char	*ft_remove_quotes(char *str, char quote, int *pos, t_data *data)
 	int		nb_quote;
 	char	*new;
 
-	i = 0;
-	j = 0;
-	nb_quote = 1;
+	ft_init_remove_quotes(&i, &j, &nb_quote);
 	new = malloc(sizeof(char) * (ft_strlen(str) - 2 + 1));
 	if (!new)
 		return (ft_set_error(data, 1));
@@ -26,10 +25,7 @@ char	*ft_remove_quotes(char *str, char quote, int *pos, t_data *data)
 	while (str[i] != '\0')
 	{
 		if (str[i] == quote && nb_quote < 2)
-		{
-			*pos = i - 1;
-			ft_skip_quote(&i, &nb_quote);
-		}
+			ft_skip_quote(&i, &nb_quote, pos);
 		if ((str[i] != quote || nb_quote >= 2) && str[i] != '\0')
 			new[j++] = str[i++];
 		else if (str[i] != '\0')
@@ -69,11 +65,11 @@ char	*ft_expand_quote(char *str, int *i, t_data *data)
 	pos = *i;
 	while (str[++*i] != quote && str[*i] != '\0')
 	{
-		if (str[*i] == '$' && quote == '"' && str[*i + 1] != quote
-			&& ft_is_xpendable(str[*i + 1]) == 1)
+		if (str[*i] == '$' && quote == '"' && str[*i + 1]
+			!= quote && ft_is_xpendable(str[*i + 1]) == 1)
 		{
 			if (str[*i + 1] == '?')
-				str = ft_expand_question_mark(str, *i, data);
+				str = ft_expand_quest_mark(str, *i, data);
 			else if (ft_is_quote(str[*i + 1]) == 1)
 				str = ft_remove_dollar(str, *i, data);
 			else
@@ -89,4 +85,12 @@ char	*ft_expand_quote(char *str, int *i, t_data *data)
 	return (str);
 }
 
-// "$"""
+char	**ft_return_one_str(char *str)
+{
+	char	**tab;
+
+	tab = malloc(sizeof(char *) * 2);
+	tab[0] = ft_strdup(str);
+	tab[1] = NULL;
+	return (tab);
+}
