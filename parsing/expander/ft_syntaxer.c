@@ -3,7 +3,7 @@
 void	ft_syntax_error(t_list **line, t_data *data)
 {
 	ft_dprintf(2, "syntax error\n");
-	g_errvalue = 2;
+	data->rvalue = 2;
 	data->err = 0;
 	ft_free_list(line);
 }

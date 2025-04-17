@@ -23,14 +23,14 @@ int	ft_first_char(char *var)
 	return (0);
 }
 
-int	ft_forbidd_char(char *var)
+int	ft_forbidd_char(t_data *data, char *var)
 {
 	int	i;
 
 	i = 0;
 	if (ft_first_char(var))
 	{
-		g_errvalue = 1;
+		data->rvalue = 1;
 		return (1);
 	}
 	// while (var[i] != '\0')
@@ -135,9 +135,9 @@ int	ft_checking_args(char *var, t_data *data)
 	int	index;
 
 	index = 0;
-	if (!ft_forbidd_char(var))
+	if (!ft_forbidd_char(data, var))
 		if (!ft_find_var(data->env, var, &index))
-			if (!ft_find_equal(var))
+			if (!ft_find_equal(data, var))
 				return (0);
 	return (1);
 }

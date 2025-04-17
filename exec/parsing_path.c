@@ -17,7 +17,7 @@ int	ft_cmd_not_found(t_list *line, t_data *data, char *cmd, int i)
 		free(line->pathname);
 		line->pathname = NULL;
 		line->args = NULL;
-		g_errvalue = 127;
+		data->rvalue = 127;
 	}
 	return (0);
 }

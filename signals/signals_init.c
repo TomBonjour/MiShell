@@ -18,6 +18,8 @@ void	ft_init_var(t_hdoc *infos, int flag)
 	else
 	{
 		free(infos->str);
+		infos->str = NULL;
 		free(infos->eof);
+		infos->eof = NULL;
 	}
 }

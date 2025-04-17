@@ -4,20 +4,23 @@
 int	ft_wait_pid(t_data *data)
 {
 	int	wstatus;
-	// int	exitstatus;
+	int	exit_status;
 
-	while (data->node_pos > 0)
+	exit_status = data->rvalue;
+	if (exit_status != 0)
+		return (exit_status);
+	while (data->node_pos > 1)
 	{
 		if (waitpid(-1, &wstatus, 0) == data->pid)
-			g_errvalue = WEXITSTATUS(wstatus);
+		{
+			if (WIFSIGNALED(wstatus))
+				exit_status = g_errvalue;
+			else
+				exit_status = WEXITSTATUS(wstatus);
+		}
 		data->node_pos--;
 	}
-	// if (g_errvalue == 127)
-		// return (g_errvalue);
-	if (g_errvalue == 0)
-		return (g_errvalue);
-	else
-		return (g_errvalue);
+	return (exit_status);
 }
 
 int	ft_init_exe(t_data *data, int *fd)
@@ -71,12 +74,6 @@ int	ft_multiples_nodes(t_list *line, t_data *data, int *tmpread, int *fd)
 
 int	ft_exec_builtin(t_list *line, t_data *data)
 {
-	if (line->outf)
-	{
-		if (dup2(line->fd_outfile, STDOUT_FILENO) == -1)
-			return (1);
-		close(line->fd_outfile);
-	}
 	if (ft_find_word(line->args[0], "cd") == 1)
 		ft_cd(line->args, data->env);
 	else if (ft_find_word(line->args[0], "pwd") == 1)
@@ -86,7 +83,7 @@ int	ft_exec_builtin(t_list *line, t_data *data)
 	else if (ft_find_word(line->args[0], "echo") == 1)
 		ft_echo(line->args);
 	else if (ft_find_word(line->args[0], "exit") == 1)
-		g_errvalue = ft_exit(line, data->env, data);
+		data->rvalue = ft_exit(line, data->env, data);
 	else if (ft_find_word(line->args[0], "unset") == 1)
 		data->env = ft_unset(line->args, data->env);
 	else if (ft_find_word(line->args[0], "export") == 1)
@@ -127,12 +124,7 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 		if (ft_is_builtin_child(line))
 			ft_exec_builtin(line, data);
 		if (line->pathname && line->args && line->builtin == 0)
-		{
-			modify_signals_execve();
-			// signal(SIGINT, SIG_DFL);
-			// signal(SIGQUIT, SIG_DFL);
 			execve(line->pathname, line->args, envtab);
-		}
 		break ;
 	}
 	ft_free_child(line, data, fd);
@@ -147,15 +139,17 @@ int	ft_exe(t_list *line, t_list *temp, t_data *data)
 
 	if (ft_init_exe(data, fd))
 		return (1);
+	modify_signals_execve();
 	if (data->pid == 0)
 	{
+		reset_signals();
 		envtab = ft_convert_env(data);
 		if (envtab)
 			ft_child_process(line, envtab, data, fd);
 		j = line->builtin;
 		ft_free_list(&temp);
 		if (j == 1)
-			exit(g_errvalue);
+			exit(data->rvalue);
 		exit(127);
 	}
 	close(fd[1]);
@@ -171,6 +165,8 @@ void	ft_clear_node(t_list *line, t_data *data, t_hdoc *infos)
 		free(line->pathname);
 	if (line->hdoc != 0)
 	{
+		if (infos->eof)
+			free(infos->eof);
 		unlink(infos->filename);
 		free(infos->filename);
 	}
@@ -178,7 +174,7 @@ void	ft_clear_node(t_list *line, t_data *data, t_hdoc *infos)
 	data->node_pos += 1;
 }
 
-int	ft_check_dots(char *str)
+int	ft_check_dots(t_data *data, char *str)
 {
 	int	size;
 
@@ -193,11 +189,11 @@ int	ft_check_dots(char *str)
 			return (0);
 	}
 	ft_dprintf(2, "%s: command not found\n", str);
-	g_errvalue = 127;
+	data->rvalue = 127;
 	return (1);
 }
 
-int	ft_pars_dir(t_list *line, char *str)
+int	ft_pars_dir(t_list *line, t_data *data, char *str)
 {
 	int	i;
 
@@ -214,14 +210,14 @@ int	ft_pars_dir(t_list *line, char *str)
 				i++;
 			}
 			ft_dprintf(2, "%s: Is a directory\n", str);
-			g_errvalue = 126;
+			data->rvalue = 126;
 			return (0);
 		}
-		g_errvalue = 127;
+		data->rvalue = 127;
 		ft_dprintf(2, "%s: No such file or directory\n", str);
 		return (0);
 	}
-	else if (ft_check_dots(str))
+	else if (ft_check_dots(data, str))
 		return (0);
 	return (1);
 }
@@ -245,17 +241,17 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 		return (1);
 	while (line != NULL)
 	{
-		g_errvalue = 0;
+		data->rvalue = 0;
 		if (ft_open_redir(line, &infos, data) != -1)
 		{
 			if (ft_is_builtin_parent(line) == 1 && data->nodes == 1)
 				ft_exec_builtin(line, data);
-			if (ft_pars_dir(line, line->args[0]) && line->builtin != 1
+			if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1
 				&& line->args[0])
 			{
 				if (line->pathname == NULL && line->builtin != -1)
 					ft_fill_pathnames(data, line);
-				if (g_errvalue != 127)
+				if (data->rvalue != 127)
 					ft_exe(line, temp, data);
 			}
 		}

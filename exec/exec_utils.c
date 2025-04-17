@@ -16,18 +16,9 @@ int	ft_is_builtin_child(t_list *line)
 int	ft_is_builtin_parent(t_list *line)
 {
 	if (ft_find_word(line->args[0], "exit") == 1)
-	{
 		line->builtin = 1;
-		// if (data->nodes == 1)
-			// ft_exit(line, data->env, data);
-		// return (1);
-	}
 	if (ft_find_word(line->args[0], "cd") == 1)
 		line->builtin = 1;
-	// else if (ft_find_word(line->args[0], "pwd") == 1)
-		// line->builtin = 1;
-	// else if (ft_find_word(line->args[0], "env") == 1)
-		// line->builtin = 1;
 	else if (ft_find_word(line->args[0], "echo") == 1)
 		line->builtin = -1;
 	else if (ft_find_word(line->args[0], "unset") == 1)

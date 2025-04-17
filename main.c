@@ -32,9 +32,9 @@ int	main(int ac, char **av, char **envp)
 	data.env = env;
 
 	// Mise en place des signaux (SIGINT, SIGQUIT)
-	setup_signals();
 	while (1)
 	{
+		setup_signals();
 		input = readline("mangeducrabe> ");
 		if (!input)
 			break;
@@ -80,8 +80,8 @@ while (line->redir[i] != NULL)
 		dup2(STDOUT_FILENO, 1);
 		dup2(STDIN_FILENO, 0);
 		data.err = 0;
-		if (data.pid != 0 && g_errvalue == 0)
-			g_errvalue = ft_wait_pid(&data);
+		// if (data.pid != 0 && data.rvalue == 0)
+			data.rvalue = ft_wait_pid(&data);
 	}
 	//TEST COMMANDES 
 	//ft_env(env);
@@ -95,9 +95,8 @@ while (line->redir[i] != NULL)
 		i++;
 	}*/
 	// value_exit = ft_exit(line->args, line, env, &data);
-	
 	ft_close_fds(&data, 0);
 	ft_free_env(data.env);
-	return (g_errvalue);
+	return (data.rvalue);
 	//return (value_exit);
 }

@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "../minishell.h"
 
 /* resize the keyword by exluding the doubles chevron (<<).*/
 
@@ -23,12 +23,14 @@ int	ft_reading_line(int eof_quote, t_hdoc *infos, t_data *data)
 	tmp = readline("> ");
 	rl_event_hook = 0;
 	if (g_errvalue == 130)
-    {
-        free(tmp);
-        return (0);
-    }
+	{
+		data->rvalue = g_errvalue;
+		free(tmp);
+		return (0);
+	}
 	if (!tmp)
 	{
+		data->rvalue = 0;
 		ft_dprintf(2, "readline fail\n");
 		return (0);
 	}
