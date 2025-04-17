@@ -72,3 +72,30 @@ int	ft_count_nodes(t_list *line)
 	line = temp;
 	return (n);
 }
+
+int	ft_skip_all_quotes(char **s, int *len)
+{
+	while (ft_is_blank(**s) == 1)
+		*s += 1;
+	*len = 0;
+	while ((*s)[*len] != '|' && s[0][*len] != '\0')
+	{
+		if (ft_is_quote((*s)[*len]) == 1)
+			if (ft_find_end_quote(*s, len, (*s)[*len]) == -1)
+				return (-1);
+		(*len)++;
+	}
+	return (*len);
+}
+
+void	ft_end_of_get_cmd(t_list **new, int *j, int *k, t_data *data)
+{
+	if ((*new)->nb_redir > 0)
+	{
+		(*new)->last_infile = ft_last_infile(*new, (*new)->nb_redir);
+		(*new)->redir = ft_hdoc_prio((*new)->redir,
+				(*new)->nb_redir, new, data);
+	}
+	(*new)->redir[++(*j)] = NULL;
+	(*new)->args[++(*k)] = NULL;
+}

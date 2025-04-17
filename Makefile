@@ -17,6 +17,8 @@ SRCS = main.c \
 	   parsing/expander/ft_syntaxer.c \
 	   parsing/expander/ft_expander.c \
 	   parsing/expander/utils_expand.c \
+	   parsing/expander/utils_expand2.c \
+	   parsing/expander/utils_expand3.c \
 	   parsing/expander/utils_quote.c \
 	   parsing/heredoc/heredoc.c \
 	   parsing/heredoc/expand_heredoc.c \

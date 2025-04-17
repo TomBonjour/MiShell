@@ -48,15 +48,7 @@ void	*ft_get_cmd_and_redir(char *cmd, int i, t_list **new, t_data *data)
 		if (data->err == 1)
 			return (NULL);
 	}
-	if ((*new)->nb_redir > 0)
-	{
-		(*new)->last_infile = ft_last_infile(*new, (*new)->nb_redir);
-		(*new)->redir = ft_hdoc_prio((*new)->redir, (*new)->nb_redir, new, data);
-	}
-	if (data->err != 0)
-		return (NULL);
-	(*new)->redir[++j] = NULL;
-	(*new)->args[++k] = NULL;
+	ft_end_of_get_cmd(new, &j, &k, data);
 	return (0);
 }
 
@@ -93,16 +85,8 @@ t_list	*ft_split_line(char *s, t_list *args, int len, t_data *data)
 {
 	while (*s != '\0')
 	{
-		while (ft_is_blank(*s) == 1)
-			s++;
-		len = 0;
-		while (s[len] != '|' && s[len] != '\0')
-		{
-			if (ft_is_quote(s[len]) == 1)
-				if (ft_find_end_quote(s, &len, s[len]) == -1)
-					return (ft_set_error(data, 2));
-			len++;
-		}
+		if (ft_skip_all_quotes(&s, &len) == -1)
+			return (ft_set_error(data, 2));
 		if (s[len] == '\0')
 		{
 			if (ft_new_add_back(s, len, &args, data) == NULL && data->err == 1)

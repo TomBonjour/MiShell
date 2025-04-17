@@ -1,7 +1,8 @@
 #include "../../minishell.h"
 
-void	ft_skip_quote(int *i, int *nb_quote)
+void	ft_skip_quote(int *i, int *nb_quote, int *pos)
 {
+	*pos = *i - 1;
 	(*i)++;
 	*nb_quote += 1;
 }
@@ -14,9 +15,7 @@ char	*ft_remove_quotes(char *str, char quote, int *pos, t_data *data)
 	int		nb_quote;
 	char	*new;
 
-	i = 0;
-	j = 0;
-	nb_quote = 1;
+	ft_init_remove_quotes(&i, &j, &nb_quote);
 	new = malloc(sizeof(char) * (ft_strlen(str) - 2 + 1));
 	if (!new)
 		return (ft_set_error(data, 1));
@@ -26,10 +25,7 @@ char	*ft_remove_quotes(char *str, char quote, int *pos, t_data *data)
 	while (str[i] != '\0')
 	{
 		if (str[i] == quote && nb_quote < 2)
-		{
-			*pos = i - 1;
-			ft_skip_quote(&i, &nb_quote);
-		}
+			ft_skip_quote(&i, &nb_quote, pos);
 		if ((str[i] != quote || nb_quote >= 2) && str[i] != '\0')
 			new[j++] = str[i++];
 		else if (str[i] != '\0')

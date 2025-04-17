@@ -71,12 +71,12 @@ int	ft_multiples_nodes(t_list *line, t_data *data, int *tmpread, int *fd)
 
 int	ft_exec_builtin(t_list *line, t_data *data)
 {
-	if (line->outf)
-	{
-		if (dup2(line->fd_outfile, STDOUT_FILENO) == -1)
-			return (1);
-		close(line->fd_outfile);
-	}
+	// if (line->outf)
+	// {
+		// if (dup2(line->fd_outfile, STDOUT_FILENO) == -1)
+			// return (1);
+		// close(line->fd_outfile);
+	// }
 	if (ft_find_word(line->args[0], "cd") == 1)
 		ft_cd(line->args, data->env);
 	else if (ft_find_word(line->args[0], "pwd") == 1)
