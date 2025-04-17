@@ -24,9 +24,8 @@ int	ft_wait_pid(t_data *data)
 	int	wstatus;
 	int	exit_status;
 
-	exit_status = data->rvalue;
-	if (exit_status != 0)
-		return (exit_status);
+	// exit_status = data->rvalue;
+	exit_status = 0;
 	while (data->node_pos > 1)
 	{
 		if (waitpid(-1, &wstatus, 0) == data->pid)
@@ -38,7 +37,10 @@ int	ft_wait_pid(t_data *data)
 		}
 		data->node_pos--;
 	}
-	return (exit_status);
+	if (data->rvalue != 0)
+		return (data->rvalue);
+	else
+		return (exit_status);
 }
 
 void	ft_free_child(t_list *line, t_data *data, int *fd)
