@@ -1,31 +1,5 @@
 #include "../minishell.h"
 
-// COMMANDE PWD : Récupère le path actuel avec la ft getcwd et print
-int	ft_pwd(void)
-{
-	char	path[PATH_MAX];
-
-	if (getcwd(path, PATH_MAX) == NULL)
-		return (-1);
-	printf("%s\n", path);
-	return (0);
-}
-
-int	ft_env(t_env *env)
-{
-	int	i;
-
-	i = 0;
-	if (!env)
-		return (-1);
-	while (env[i].name != NULL)
-	{
-		printf("%s=%s\n", env[i].name, env[i].data);
-		i++;
-	}
-	return (0);
-}
-
 // CD-3 : Remplace le contenu de la var. d'env. ~var avec le nouveau contenu ~path
 // 		Utilisée par CD-2 pour actualiser OLDPWD avant de changer de dir, 
 // 		et actualiser PWD après le changement de dir
@@ -63,32 +37,42 @@ int	ft_change_dir_and_pwd(char *newdir, char path[PATH_MAX], t_env *env)
 	return (0);
 }
 
-int	ft_cd(char **tab, t_env *env)
+int	ft_cd_empty(char path[PATH_MAX], t_env *env)
 {
-	char	path[PATH_MAX];
-	char	*newdir;
 	int		i;
+	char	*newdir;
 
 	i = 0;
+	while (env[i].name && ft_strncmp(env[i].name, "HOME", 4) != 0)
+		i++;
+	if (env[i].name)
+	{
+		ft_pathcpy(path, env[i].data, ft_strlen(env[i].data));
+		newdir = ft_strdup(path);
+		if (!newdir)
+			return (-1);
+		if (ft_change_dir_and_pwd(newdir, path, env) == -1)
+			ft_dprintf(2, "Error using cd builtin\n");
+		free(newdir);
+	}
+	else
+		ft_dprintf(2, "HOME not set\n");
+	return (0);
+}
+
+void	ft_cd(char **tab, t_env *env)
+{
+	char	path[PATH_MAX];
+
 	ft_memset(path, 0, PATH_MAX);
 	if (!tab[1])
 	{
-		while (ft_strncmp(env[i].name, "HOME", 4) != 0)
-			i++;
-		if (env[i].name)
-		{
-			ft_pathcpy(path, env[i].data, ft_strlen(env[i].data));
-			newdir = ft_strdup(path);
-			if (!newdir)
-				return (-1);
-			if (ft_change_dir_and_pwd(newdir, path, env) == -1)
-				ft_dprintf(2, "error\n"); //error
-			free(newdir);
-		}
-		// else --> message erreur "HOME not set";
+		if (ft_cd_empty(path, env) == -1)
+			ft_dprintf(2, "Error using cd builtin\n");
 	}
 	else
+	{
 		if (ft_change_dir_and_pwd(tab[1], path, env) == -1)
 			ft_dprintf(2, "No such file or directory\n");
-	return (0);
+	}
 }

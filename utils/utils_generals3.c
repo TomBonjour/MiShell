@@ -1,6 +1,5 @@
 #include <minishell.h>
 
-// Extrait une chaine de caractère entre quotes
 char	*ft_extract_quote(char *cmd, int *i, char *str, t_data *data)
 {
 	int	quote;
@@ -24,7 +23,6 @@ char	*ft_extract_quote(char *cmd, int *i, char *str, t_data *data)
 	return (str);
 }
 
-// Extrait un argument entier
 char	*ft_extract_str(char *cmd, int *i, char *str, t_data *data)
 {
 	while (ft_is_blank(cmd[*i]) == 0 && ft_is_redir(cmd[*i]) == 0
