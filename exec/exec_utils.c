@@ -73,7 +73,8 @@ char	**ft_convert_env(t_data *data)
 	i = 0;
 	while (data->env[i].name != NULL)
 	{
-		envtab[i] = ft_strjoin_equal(data->env[i].name, data->env[i].data, data);
+		envtab[i] = ft_strjoin_equal(data->env[i].name,
+				data->env[i].data, data);
 		if (data->err == 1)
 			return (NULL);
 		i++;

@@ -1,76 +1,4 @@
 #include "../minishell.h"
-#include <unistd.h>
-
-int	ft_wait_pid(t_data *data)
-{
-	int	wstatus;
-	int	exit_status;
-
-	exit_status = data->rvalue;
-	if (exit_status != 0)
-		return (exit_status);
-	while (data->node_pos > 1)
-	{
-		if (waitpid(-1, &wstatus, 0) == data->pid)
-		{
-			if (WIFSIGNALED(wstatus))
-				exit_status = g_errvalue;
-			else
-				exit_status = WEXITSTATUS(wstatus);
-		}
-		data->node_pos--;
-	}
-	return (exit_status);
-}
-
-int	ft_init_exe(t_data *data, int *fd)
-{
-	if (data->fdtmp == 0)
-		data->fdtmp = STDIN_FILENO;
-	if (pipe(fd) == -1)
-	{
-		ft_dprintf(2, "init pipe fail\n");
-		return (1);
-	}
-	data->pid = fork();
-	if (data->pid == -1)
-	{
-		close(fd[0]);
-		close(fd[1]);
-		ft_dprintf(2, "init fork fail\n");
-		return (1);
-	}
-	return (0);
-}
-
-int	ft_multiples_nodes(t_list *line, t_data *data, int *tmpread, int *fd)
-{
-	if (data->nodes > 1)
-	{
-		if (data->node_pos != 1)
-			if (dup2(*tmpread, STDIN_FILENO) == -1)
-				return (1);
-		if (data->node_pos != data->nodes)
-			if (dup2(fd[1], STDOUT_FILENO) == -1)
-				return (1);
-	}
-	if (line->hdoc || line->inf)
-	{
-		if (ft_exec_infiles(line) == 1)
-			return (1);
-		if (line->fd_infile != 0 && line->fd_infile != -1)
-			close(line->fd_infile);
-		if (line->fd_hdoc != 0 && line->fd_hdoc != -1)
-			close(line->fd_hdoc);
-	}
-	if (line->outf)
-	{
-		if (dup2(line->fd_outfile, STDOUT_FILENO) == -1)
-			return (1);
-		close(line->fd_outfile);
-	}
-	return (0);
-}
 
 int	ft_exec_builtin(t_list *line, t_data *data)
 {
@@ -93,17 +21,6 @@ int	ft_exec_builtin(t_list *line, t_data *data)
 	return (0);
 }
 
-void	ft_free_child(t_list *line, t_data *data, int *fd)
-{
-	close(line->fd_infile);
-	close(line->fd_outfile);
-	close(fd[1]);
-	close(fd[0]);
-	free(line->pathname);
-	ft_free_env(data->env);
-	ft_free_tab(data->paths, 0);
-}
-
 void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 {
 	int	tmpread;
@@ -116,7 +33,7 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 	tmpread = data->fdtmp;
 	while (1)
 	{
-		if (ft_multiples_nodes(line, data, &tmpread, fd))
+		if (ft_multi_nodes(line, data, &tmpread, fd))
 			break ;
 		if (tmpread != 0)
 			close(tmpread);
@@ -159,76 +76,18 @@ int	ft_exe(t_list *line, t_list *temp, t_data *data)
 	return (0);
 }
 
-void	ft_clear_node(t_list *line, t_data *data, t_hdoc *infos)
+void	ft_parsexec(t_list *line, t_data *data, t_list *temp)
 {
-	if (line->pathname)
-		free(line->pathname);
-	if (line->hdoc != 0)
+	if (ft_is_builtin_parent(line) == 1 && data->nodes == 1)
+		ft_exec_builtin(line, data);
+	if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1
+		&& line->args[0])
 	{
-		if (infos->eof)
-			free(infos->eof);
-		unlink(infos->filename);
-		free(infos->filename);
+		if (line->pathname == NULL && line->builtin != -1)
+			ft_fill_pathnames(data, line);
+		if (data->rvalue != 127)
+			ft_exe(line, temp, data);
 	}
-	ft_close_fds(data, 1);
-	data->node_pos += 1;
-}
-
-int	ft_check_dots(t_data *data, char *str)
-{
-	int	size;
-
-	size = ft_strlen(str);
-	while (1)
-	{
-		if (size == 1 && str[0] == '.')
-			break ;
-		else if (size == 2 && str[0] == '.' && str[1] == '.')
-			break ;
-		else
-			return (0);
-	}
-	ft_dprintf(2, "%s: command not found\n", str);
-	data->rvalue = 127;
-	return (1);
-}
-
-int	ft_pars_dir(t_list *line, t_data *data, char *str)
-{
-	int	i;
-
-	i = 0;
-	if (ft_strchr(str, '/'))
-	{
-		if (access(str, F_OK) == 0)
-		{
-			while (str[i] != '\0')
-			{
-				if (ft_isalnum(str[i]))
-					if (!ft_get_pathname(line, NULL, str))
-						return (1);
-				i++;
-			}
-			ft_dprintf(2, "%s: Is a directory\n", str);
-			data->rvalue = 126;
-			return (0);
-		}
-		data->rvalue = 127;
-		ft_dprintf(2, "%s: No such file or directory\n", str);
-		return (0);
-	}
-	else if (ft_check_dots(data, str))
-		return (0);
-	return (1);
-}
-
-int	ft_reset_data(t_data *data)
-{
-	ft_free_tab(data->paths, 0);
-	if (data->fdtmp > 2)
-		close(data->fdtmp);
-	data->fdtmp = 0;
-	return (0);
 }
 
 int	ft_exec_cmd(t_list *line, t_data *data)
@@ -243,18 +102,7 @@ int	ft_exec_cmd(t_list *line, t_data *data)
 	{
 		data->rvalue = 0;
 		if (ft_open_redir(line, &infos, data) != -1)
-		{
-			if (ft_is_builtin_parent(line) == 1 && data->nodes == 1)
-				ft_exec_builtin(line, data);
-			if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1
-				&& line->args[0])
-			{
-				if (line->pathname == NULL && line->builtin != -1)
-					ft_fill_pathnames(data, line);
-				if (data->rvalue != 127)
-					ft_exe(line, temp, data);
-			}
-		}
+			ft_parsexec(line, data, temp);
 		ft_clear_node(line, data, &infos);
 		line = line->next;
 	}

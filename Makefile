@@ -26,6 +26,7 @@ SRCS = main.c \
 	   builtin/env_pwd_cd.c \
 	   builtin/unset.c \
 	   builtin/export.c \
+	   builtin/export2.c \
 	   builtin/exit.c \
 	   builtin/utils_builtin.c \
 	   signals/signals.c \
@@ -38,6 +39,8 @@ SRCS = main.c \
 	   utils/utils_list.c \
 	   utils/utils_list2.c \
 	   exec/exec_cmd.c \
+	   exec/exec_cmd2.c \
+	   exec/exec_cmd3.c \
 	   exec/exec_utils.c \
 	   exec/parsing_path.c \
 	   exec/exec_redir.c

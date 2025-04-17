@@ -90,6 +90,8 @@ long long	ft_atoll(char *str);
 int			ft_check_syntax(char *str);
 int			ft_increment(long long *n, int sign, char *str, int i);
 int			ft_alloc_newenv(t_env **env, int i);
+int			ft_compare_data(t_env *env, char *var, int *i, int j);
+int			ft_checking_args(char *var, t_data *data);
 
 //------ SIGNALS UTILS ------//
 void		ft_sigint_handler(int sig);
@@ -186,5 +188,12 @@ int			ft_is_var_only(char *str);
 int			ft_open_redir(t_list *line, t_hdoc *infos, t_data *data);
 int			ft_exec_infiles(t_list *line);
 int			ft_last_infile(t_list *line, int nb_redir);
+int			ft_check_dots(t_data *data, char *str);
+void		ft_free_child(t_list *line, t_data *data, int *fd);
+int			ft_init_exe(t_data *data, int *fd);
+int			ft_pars_dir(t_list *line, t_data *data, char *str);
+int			ft_multi_nodes(t_list *line, t_data *data, int *tmpread, int *fd);
+void		ft_clear_node(t_list *line, t_data *data, t_hdoc *infos);
+int			ft_reset_data(t_data *data);
 
 #endif
