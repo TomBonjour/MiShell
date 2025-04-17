@@ -25,13 +25,11 @@ int	ft_check_syntax(char *str)
 int	ft_check_for_long_minmax(char *str)
 {
 	int	i;
-	int	j;
 	int	count;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		j = 0;
 		count = 0;
 		if (str[i] == '-' || str[i] == '+')
 			i++;
@@ -87,7 +85,7 @@ int	ft_parsing_exit(char **argv)
 	}
 	else if (i > 2)
 	{
-		ft_dprintf(2, "exit: too many arguments\n"); /*ne quitte pas le prgm*/
+		ft_dprintf(2, "exit: too many arguments\n");
 		return (1);
 	}
 	return (0);

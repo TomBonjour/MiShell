@@ -23,12 +23,14 @@ SRCS = main.c \
 	   parsing/heredoc/heredoc.c \
 	   parsing/heredoc/expand_heredoc.c \
 	   builtin/echo.c \
-	   builtin/env_pwd_cd.c \
+	   builtin/cd.c \
+	   builtin/env_pwd.c \
 	   builtin/unset.c \
 	   builtin/export.c \
 	   builtin/exit.c \
 	   builtin/utils_builtin.c \
 	   signals/signals.c \
+	   signals/signals2.c \
 	   signals/signals_init.c \
 	   utils/utils_generals.c \
 	   utils/utils_generals2.c \

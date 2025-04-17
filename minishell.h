@@ -73,7 +73,7 @@ extern int	g_errvalue;
 int			ft_pwd(void);
 int			ft_env(t_env *env);
 void		ft_echo(char **tab);
-int			ft_cd(char **tab, t_env *env);
+void		ft_cd(char **tab, t_env *env);
 int			ft_forbidd_char(t_data *data, char *var);
 int			ft_find_equal(t_data *data, char *var);
 int			ft_find_var(t_env *env, char *var, int *i);

@@ -2,7 +2,7 @@
 
 char	*ft_fill_name(char *var, int flag)
 {
-	int 	size;
+	int		size;
 	char	*str;
 	int		i;
 
