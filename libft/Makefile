@@ -6,7 +6,7 @@
 #    By: tobourge <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/07 21:03:24 by tobourge          #+#    #+#              #
-#    Updated: 2025/04/15 13:25:40 by tobourge         ###   ########.fr        #
+#    Updated: 2025/04/18 09:47:37 by jnauroy          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,4 +73,4 @@ fclean	:	clean
 
 re	:	fclean all
 
-.PHONY	:	clean fclean re so
+.PHONY	: all clean fclean re so

@@ -90,6 +90,8 @@ long long	ft_atoll(char *str);
 int			ft_check_syntax(char *str);
 int			ft_increment(long long *n, int sign, char *str, int i);
 int			ft_alloc_newenv(t_env **env, int i);
+int			ft_compare_data(t_env *env, char *var, int *i, int j);
+int			ft_checking_args(char *var, t_data *data);
 
 //------ SIGNALS UTILS ------//
 void		ft_sigint_handler(int sig);
@@ -134,6 +136,7 @@ char		*ft_remove_dollar(char *str, int i, t_data *data);
 char		**ft_hdoc_prio(char **redir_tab, int size, t_list **new_node,
 				t_data *data);
 char		*ft_expand_heredoc(char *str, t_data *data);
+int			ft_copy_herefile(t_list *line, t_hdoc *infos);
 int			ft_find_env_var(t_env *env, char *var, int var_size);
 int			ft_count_nodes(t_list *line);
 int			ft_get_pathname(t_list *line, char *path, char *cmdash);
@@ -187,5 +190,12 @@ int			ft_open_redir(t_list *line, t_hdoc *infos, t_data *data);
 int			ft_exec_infiles(t_list *line);
 int			ft_last_infile(t_list *line, int nb_redir);
 void		ft_is_a_directory(char *redir, t_data *data);
+int			ft_check_dots(t_data *data, char *str);
+void		ft_free_child(t_list *line, t_data *data, int *fd);
+int			ft_init_exe(t_data *data, int *fd);
+int			ft_pars_dir(t_list *line, t_data *data, char *str);
+int			ft_multi_nodes(t_list *line, t_data *data, int *tmpread, int *fd);
+void		ft_clear_node(t_list *line, t_data *data, t_hdoc *infos);
+int			ft_reset_data(t_data *data);
 
 #endif

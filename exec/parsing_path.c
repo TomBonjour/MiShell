@@ -2,7 +2,7 @@
 
 int	ft_cmd_not_found(t_list *line, t_data *data, char *cmd, int i)
 {
-	char 	path[PATH_MAX];
+	char	path[PATH_MAX];
 
 	if (!data->paths || !data->paths[i])
 	{
