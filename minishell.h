@@ -186,5 +186,6 @@ int			ft_is_var_only(char *str);
 int			ft_open_redir(t_list *line, t_hdoc *infos, t_data *data);
 int			ft_exec_infiles(t_list *line);
 int			ft_last_infile(t_list *line, int nb_redir);
+void		ft_is_a_directory(char *redir, t_data *data);
 
 #endif

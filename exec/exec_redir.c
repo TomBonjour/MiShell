@@ -1,4 +1,5 @@
 #include "../minishell.h"
+#include <unistd.h>
 
 int	ft_open_infile(t_list *line, t_data *data)
 {
@@ -14,7 +15,10 @@ int	ft_open_infile(t_list *line, t_data *data)
 			line->fd_infile = open(line->redir[i] + 1, O_RDONLY);
 			if (line->fd_infile == -1)
 			{
-				ft_dprintf(2, "No such file or directory\n");
+				if (access(line->redir[i] + 1, F_OK) == -1)
+					ft_dprintf(2, "No such file or directory\n");
+				else
+					ft_dprintf(2, "Error : Permissions denied\n");
 				ft_set_error(data, 3);
 				return (-1);
 			}
@@ -24,7 +28,7 @@ int	ft_open_infile(t_list *line, t_data *data)
 	return (0);
 }
 
-int	ft_open_outfile(t_list *line)
+int	ft_open_outfile(t_list *line, t_data *data)
 {
 	int	i;
 
@@ -33,14 +37,7 @@ int	ft_open_outfile(t_list *line)
 	{
 		if (line->redir[i][0] == '>')
 		{
-			if (line->redir[i][ft_strlen(line->redir[i]) - 1] == '/')
-			{
-				if (line->redir[i][1] == '>')
-					ft_dprintf(2, "%s : is a directory\n", line->redir[i] + 2);
-				else
-					ft_dprintf(2, "%s : is a directory\n", line->redir[i] + 1);
-				return (-1);
-			}
+			ft_is_a_directory(line->redir[i], data);
 			if (line->fd_outfile != 0)
 				close(line->fd_outfile);
 			if (line->redir[i][1] == '>')
@@ -49,7 +46,11 @@ int	ft_open_outfile(t_list *line)
 			else
 				line->fd_outfile = open(line->redir[i] + 1,
 						O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		//NE PAS OUBLIER DE PROTEGER LES OPEN
+			// if (line->fd_outfile == -1)
+			// {
+				// data->rvalue = 1;
+				// ft_dprintf(2, "Error : Permission denied\n");
+			// }
 		}
 		i++;
 	}
@@ -71,7 +72,7 @@ int	ft_open_redir(t_list *line, t_hdoc *infos, t_data *data)
 	}
 	if (line->outf != 0)
 	{
-		if (ft_open_outfile(line) == -1)
+		if (ft_open_outfile(line, data) == -1)
 			return (-1);
 	}
 	return (0);

@@ -61,10 +61,8 @@ char	**ft_convert_env(t_data *data)
 {
 	char	**envtab;
 	int		i;
-	int		size;
 
 	i = 0;
-	size = 0;
 	while (data->env[i].name != NULL)
 		i++;
 	envtab = malloc(sizeof(char *) * (i + 1));
@@ -80,4 +78,21 @@ char	**ft_convert_env(t_data *data)
 	}
 	envtab[i] = NULL;
 	return (envtab);
+}
+
+void	ft_is_a_directory(char *redir, t_data *data)
+{
+	if (redir[ft_strlen(redir) - 1] == '/')
+	{
+		if (redir[1] == '>')
+		{
+			data->rvalue = 1;
+			ft_dprintf(2, "%s : is a directory\n", redir + 2);
+		}
+		else
+		{
+			data->rvalue = 1;
+			ft_dprintf(2, "%s : is a directory\n", redir + 1);
+		}
+	}
 }
