@@ -21,6 +21,7 @@ SRCS = main.c \
 	   parsing/expander/utils_expand3.c \
 	   parsing/expander/utils_quote.c \
 	   parsing/heredoc/heredoc.c \
+	   parsing/heredoc/heredoc2.c \
 	   parsing/heredoc/expand_heredoc.c \
 	   builtin/echo.c \
 	   builtin/cd.c \

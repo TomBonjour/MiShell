@@ -136,6 +136,7 @@ char		*ft_remove_dollar(char *str, int i, t_data *data);
 char		**ft_hdoc_prio(char **redir_tab, int size, t_list **new_node,
 				t_data *data);
 char		*ft_expand_heredoc(char *str, t_data *data);
+int			ft_copy_herefile(t_list *line, t_hdoc *infos);
 int			ft_find_env_var(t_env *env, char *var, int var_size);
 int			ft_count_nodes(t_list *line);
 int			ft_get_pathname(t_list *line, char *path, char *cmdash);

@@ -8,7 +8,12 @@ int	ft_check_dots(t_data *data, char *str)
 	while (1)
 	{
 		if (size == 1 && str[0] == '.')
-			break ;
+		{
+			ft_dprintf(2, ".: filename argument required\n");
+			ft_dprintf(2, ".: usage: . filename [arguments]\n");
+			data->rvalue = 2;
+			return (1);
+		}
 		else if (size == 2 && str[0] == '.' && str[1] == '.')
 			break ;
 		else
@@ -24,7 +29,6 @@ int	ft_wait_pid(t_data *data)
 	int	wstatus;
 	int	exit_status;
 
-	// exit_status = data->rvalue;
 	exit_status = 0;
 	while (data->node_pos > 1)
 	{
