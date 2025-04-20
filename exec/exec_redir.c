@@ -32,12 +32,13 @@ int	ft_open_outfile(t_list *line, t_data *data)
 {
 	int	i;
 
-	i = 0;
-	while (line->redir[i] != NULL)
+	i = -1;
+	while (line->redir[++i] != NULL)
 	{
 		if (line->redir[i][0] == '>')
 		{
-			ft_is_a_directory(line->redir[i], data);
+			if (ft_is_a_directory(line->redir[i], data) == -1)
+				return (-1);
 			if (line->fd_outfile != 0)
 				close(line->fd_outfile);
 			if (line->redir[i][1] == '>')
@@ -46,13 +47,12 @@ int	ft_open_outfile(t_list *line, t_data *data)
 			else
 				line->fd_outfile = open(line->redir[i] + 1,
 						O_CREAT | O_WRONLY | O_TRUNC, 0644);
-			// if (line->fd_outfile == -1)
-			// {
-				// data->rvalue = 1;
-				// ft_dprintf(2, "Error : Permission denied\n");
-			// }
+			if (line->fd_outfile == -1)
+			{
+				data->rvalue = 1;
+				ft_dprintf(2, "Error : Permission denied\n");
+			}
 		}
-		i++;
 	}
 	return (0);
 }

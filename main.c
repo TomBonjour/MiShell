@@ -4,24 +4,13 @@ int	g_errvalue = 0;
 
 int	main(int ac, char **av, char **envp)
 {
+	t_env	*env;
+	t_data	data;
+	char	*input;
+	t_list	*line;
+
 	(void)ac;
 	(void)av;
-	(void)envp;
-	t_env 		*env;
-	t_data		data;
-	char		*input;  
-	t_list		*line;
-	// int			exit_status;
-	// t_list		*temp;
-	// int			i;
-	// int			j;
-	// int		value_exit;
-
-	// i = 0;
-	// j = 1;
-
-	// Copie de la liste de variables d'env (char **envp)
-	// dans un tableau de structure (t_env *env)
 	ft_init_data(&data);
 	env = ft_set_env(envp, &data);
 	if (data.err != 0)
@@ -30,14 +19,12 @@ int	main(int ac, char **av, char **envp)
 		return (0);
 	}
 	data.env = env;
-
-	// Mise en place des signaux (SIGINT, SIGQUIT)
 	while (1)
 	{
 		setup_signals();
-		input = readline("mangeducrabe> ");
+		input = readline("minishell> ");
 		if (!input)
-			break;
+			break ;
 		if (input[0] != '\0')
 			add_history(input);
 		line = ft_tokenize(input, &data);
@@ -51,52 +38,12 @@ int	main(int ac, char **av, char **envp)
 		if (data.err != 0)
 			ft_error_manager(&data, &line, env);
 		ft_free_list(&line);
-		//PRINT LISTE CHAINEE
-		/*temp = line;
-		while (line != NULL)
-		{
-			i = 0;
-			printf ("COMMANDE %d\n", j);
-			while (line->args[i] != NULL)
-			{
-				printf("|%s|", line->args[i]);
-				i++;
-			}
-			printf("\n");
-			i = 0;
-			prino $%f("\nREDIRECTIONS %d\n", j);
-while (line->redir[i] != NULL)
-			{
-				printf("|%s|", line->redir[i]);
-				i++;
-			}
-			printf("\n");
-			printf("--------------\n  --------------\n");
-			line = line->next;
-			j++;
-		}
-		printf("NULL\n");
-		line = temp;*/
 		dup2(STDOUT_FILENO, 1);
 		dup2(STDIN_FILENO, 0);
 		data.err = 0;
-		// if (data.pid != 0 && data.rvalue == 0)
-			data.rvalue = ft_wait_pid(&data);
+		data.rvalue = ft_wait_pid(&data);
 	}
-	//TEST COMMANDES 
-	//ft_env(env);
-	//ft_pwd();
-	// ft_echo(line->args);
-	// ft_cd(line->args, env);
-	// env = ft_unset(line->args[1], env);
-	/*while (env[i].name != NULL)
-	{
-		printf("%s=%s\n", env[i].name, env[i].data);
-		i++;
-	}*/
-	// value_exit = ft_exit(line->args, line, env, &data);
 	ft_close_fds(&data, 0);
 	ft_free_env(data.env);
 	return (data.rvalue);
-	//return (value_exit);
 }

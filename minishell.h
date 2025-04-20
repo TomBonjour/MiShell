@@ -73,7 +73,7 @@ extern int	g_errvalue;
 int			ft_pwd(void);
 int			ft_env(t_env *env);
 void		ft_echo(char **tab);
-void		ft_cd(char **tab, t_env *env);
+void		ft_cd(char **tab, t_env *env, t_data *data);
 int			ft_forbidd_char(t_data *data, char *var);
 int			ft_find_equal(t_data *data, char *var);
 int			ft_find_var(t_env *env, char *var, int *i);
@@ -145,6 +145,8 @@ char		**ft_realloc_split(char **new, int *i, char **split, t_data *data);
 char		**ft_split_join(char **split, char **tab, int n, t_data *data);
 char		**ft_var_analyse(char *str, int *i, t_data *data);
 char		**ft_suppress_empty_arg(char **tab, int i);
+char		**ft_quote_protection(char **split);
+char		*ft_realloc_quote_protection(char *str, int pos);
 
 //------	 LISTS UTILS ------//
 t_list		*ft_lst_new_node(char *s, t_data *data);
@@ -175,6 +177,7 @@ int			ft_find_word(char *s, char *word);
 void		ft_close_fds(t_data *data, int i);
 char		**ft_return_one_str(char *str);
 char		**ft_join_content_before(char **split, char *str, t_data *data);
+int			ft_quote_in_str(char *str);
 
 //------	 EXEC UTILS ------//
 int			ft_exec_cmd(t_list *line, t_data *data);
@@ -189,7 +192,7 @@ int			ft_is_var_only(char *str);
 int			ft_open_redir(t_list *line, t_hdoc *infos, t_data *data);
 int			ft_exec_infiles(t_list *line);
 int			ft_last_infile(t_list *line, int nb_redir);
-void		ft_is_a_directory(char *redir, t_data *data);
+int			ft_is_a_directory(char *redir, t_data *data);
 int			ft_check_dots(t_data *data, char *str);
 void		ft_free_child(t_list *line, t_data *data, int *fd);
 int			ft_init_exe(t_data *data, int *fd);

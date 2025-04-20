@@ -30,7 +30,7 @@ int	ft_is_builtin_parent(t_list *line)
 	return (-1);
 }
 
-char	*ft_strjoin_equal(char *s1, char *s2, t_data *data)
+char	*ft_join_equal(char *s1, char *s2, t_data *data)
 {
 	int		i;
 	int		j;
@@ -71,8 +71,7 @@ char	**ft_convert_env(t_data *data)
 	i = 0;
 	while (data->env[i].name != NULL)
 	{
-		envtab[i] = ft_strjoin_equal(data->env[i].name,
-				data->env[i].data, data);
+		envtab[i] = ft_join_equal(data->env[i].name, data->env[i].data, data);
 		if (data->err == 1)
 			return (NULL);
 		i++;
@@ -81,7 +80,7 @@ char	**ft_convert_env(t_data *data)
 	return (envtab);
 }
 
-void	ft_is_a_directory(char *redir, t_data *data)
+int	ft_is_a_directory(char *redir, t_data *data)
 {
 	if (redir[ft_strlen(redir) - 1] == '/')
 	{
@@ -89,11 +88,14 @@ void	ft_is_a_directory(char *redir, t_data *data)
 		{
 			data->rvalue = 1;
 			ft_dprintf(2, "%s : is a directory\n", redir + 2);
+			return (-1);
 		}
 		else
 		{
 			data->rvalue = 1;
 			ft_dprintf(2, "%s : is a directory\n", redir + 1);
+			return (-1);
 		}
 	}
+	return (0);
 }

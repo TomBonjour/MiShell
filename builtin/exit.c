@@ -7,7 +7,7 @@ int	ft_check_syntax(char *str)
 	i = 0;
 	if (str[i] == '\0')
 		return (1);
-	while (str[i] == ' ')
+	while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 		i++;
@@ -31,6 +31,8 @@ int	ft_check_for_long_minmax(char *str)
 	while (str[i] != '\0')
 	{
 		count = 0;
+		while (str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r'))
+			i++;
 		if (str[i] == '-' || str[i] == '+')
 			i++;
 		while (str[i] == '0')
@@ -102,10 +104,13 @@ int	ft_exit(t_list *line, t_env *env, t_data *data)
 			data->rvalue = 0;
 		else if (data->rvalue < 1 || data->rvalue > 3)
 			data->rvalue = ft_atoll(line->args[1]);
-		ft_free_tab(data->paths, 0);
-		ft_free_env(env);
-		ft_free_list(&line);
-		exit (data->rvalue);
+		if (data->nodes == 1)
+		{
+			ft_free_tab(data->paths, 0);
+			ft_free_env(env);
+			ft_free_list(&line);
+			exit (data->rvalue);
+		}
 	}
 	return (data->rvalue);
 }

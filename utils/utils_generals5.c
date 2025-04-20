@@ -38,3 +38,15 @@ int	ft_tablen(char **tab)
 		len++;
 	return (len);
 }
+
+int	ft_quote_in_str(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\'' && str[i] != '"' && str[i] != '\0')
+		i++;
+	if (str[i] != '\0')
+		return (1);
+	return (0);
+}

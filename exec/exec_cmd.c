@@ -3,7 +3,7 @@
 int	ft_exec_builtin(t_list *line, t_data *data)
 {
 	if (ft_find_word(line->args[0], "cd") == 1)
-		ft_cd(line->args, data->env);
+		ft_cd(line->args, data->env, data);
 	else if (ft_find_word(line->args[0], "pwd") == 1)
 		ft_pwd();
 	else if (ft_find_word(line->args[0], "env") == 1)
@@ -78,7 +78,7 @@ int	ft_exe(t_list *line, t_list *temp, t_data *data)
 
 void	ft_parsexec(t_list *line, t_data *data, t_list *temp)
 {
-	if (ft_is_builtin_parent(line) == 1 && data->nodes == 1)
+	if (ft_is_builtin_parent(line) == 1)
 		ft_exec_builtin(line, data);
 	if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1
 		&& line->args[0])

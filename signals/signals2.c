@@ -36,6 +36,5 @@ int	modify_signals_execve(void)
 {
 	signal(SIGINT, ft_sigint_handler_execve);
 	signal(SIGQUIT, ft_sigquit_handler_execve);
-	// signal(SIGPIPE, SIG_IGN);
 	return (0);
 }

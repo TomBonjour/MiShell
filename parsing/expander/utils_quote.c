@@ -90,7 +90,10 @@ char	**ft_return_one_str(char *str)
 	char	**tab;
 
 	tab = malloc(sizeof(char *) * 2);
-	tab[0] = ft_strdup(str);
+	if (!str)
+		tab[0] = "";
+	else
+		tab[0] = ft_strdup(str);
 	tab[1] = NULL;
 	return (tab);
 }

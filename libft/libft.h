@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 17:53:27 by tobourge          #+#    #+#             */
-/*   Updated: 2025/04/15 13:31:22 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/04/18 11:30:31 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		ft_isascii(int c);
 int		ft_isprint(int c);
 int		ft_atoi(const char *str);
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
-int	ft_strlen(const char *str);
+int		ft_strlen(const char *str);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnstr(const char *src, const char *to_find, size_t n);
 int		ft_tolower(int c);
@@ -51,7 +51,5 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
-
-
 
 #endif

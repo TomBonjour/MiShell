@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:55:55 by tobourge          #+#    #+#             */
-/*   Updated: 2025/04/15 14:03:33 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/04/19 19:29:49 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,10 @@ char	**ft_fill_line_white(char **tab, char *s, int j, int len)
 	return (tab);
 }
 
-static char	**ft_fill_tab(char *s, char **tab, char c)
+static char	**ft_fill_tab(char *s, char **tab, char c, int j)
 {
 	int		len;
-	int		j;
 
-	j = 0;
 	while (*s != '\0')
 	{
 		while ((*s == c || (*s >= '\b' && *s <= '\r')) && *s != '\0')
@@ -49,7 +47,7 @@ static char	**ft_fill_tab(char *s, char **tab, char c)
 		if (*s == '\0')
 			break ;
 		len = 0;
-		while ((s[len] != c || (s[len] >= '\b' && s[len] <= '\r')) 
+		while ((s[len] != c || (s[len] >= '\b' && s[len] <= '\r'))
 			&& s[len] != '\0')
 			len ++;
 		tab[j] = malloc(sizeof(char) * (len + 1));
@@ -89,14 +87,23 @@ char	**ft_split_white(char const *s, char c)
 {
 	int		size;
 	char	**tab;
+	int		j;
 
+	j = 0;
 	if (s == NULL)
 		return (NULL);
+	if (s[0] == '\0')
+	{
+		tab = malloc(sizeof(char *) * 2);
+		tab[0] = ft_strdup("");
+		tab[1] = NULL;
+		return (tab);
+	}
 	size = count_words(s, c);
 	tab = malloc(sizeof(char *) * (size + 1));
 	if (!tab)
 		return (NULL);
-	tab = ft_fill_tab((char *)s, tab, c);
+	tab = ft_fill_tab((char *)s, tab, c, j);
 	if (!tab)
 		return (NULL);
 	return (tab);

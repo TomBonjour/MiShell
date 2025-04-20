@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-// CD-3 : Remplace le contenu de la var. d'env. ~var avec le nouveau contenu ~path
+// CD-3 : Remplace le contenu de la var. d'env. ~var avec le nouveau ~path
 // 		Utilisée par CD-2 pour actualiser OLDPWD avant de changer de dir, 
 // 		et actualiser PWD après le changement de dir
 int	ft_set_env_var(char *var, char path[PATH_MAX], t_env *env)
@@ -37,7 +37,7 @@ int	ft_change_dir_and_pwd(char *newdir, char path[PATH_MAX], t_env *env)
 	return (0);
 }
 
-int	ft_cd_empty(char path[PATH_MAX], t_env *env)
+int	ft_cd_empty(char path[PATH_MAX], t_env *env, t_data *data)
 {
 	int		i;
 	char	*newdir;
@@ -52,27 +52,39 @@ int	ft_cd_empty(char path[PATH_MAX], t_env *env)
 		if (!newdir)
 			return (-1);
 		if (ft_change_dir_and_pwd(newdir, path, env) == -1)
+		{
+			data->rvalue = 1;
 			ft_dprintf(2, "Error using cd builtin\n");
+		}
 		free(newdir);
 	}
 	else
+	{
+		data->rvalue = 1;
 		ft_dprintf(2, "HOME not set\n");
+	}
 	return (0);
 }
 
-void	ft_cd(char **tab, t_env *env)
+void	ft_cd(char **tab, t_env *env, t_data *data)
 {
 	char	path[PATH_MAX];
 
 	ft_memset(path, 0, PATH_MAX);
 	if (!tab[1])
 	{
-		if (ft_cd_empty(path, env) == -1)
+		if (ft_cd_empty(path, env, data) == -1)
+		{
+			data->rvalue = 1;
 			ft_dprintf(2, "Error using cd builtin\n");
+		}
 	}
 	else
 	{
 		if (ft_change_dir_and_pwd(tab[1], path, env) == -1)
+		{
+			data->rvalue = 1;
 			ft_dprintf(2, "No such file or directory\n");
+		}
 	}
 }

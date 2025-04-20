@@ -70,12 +70,17 @@ char	**ft_split_env_var(char *str, char *var, t_data *data)
 
 	split = ft_split_white(var, ' ');
 	if (!split)
+	{
 		ft_set_error(data, 1);
+		return (NULL);
+	}
 	if (ft_is_redir(str[0]) && split[1] != NULL)
 	{
 		printf("ambiguous redirect\n");
 		return (NULL);
 	}
+	if (var && ft_quote_in_str(var) == 1)
+		split = ft_quote_protection(split);
 	if (split[1] == NULL)
 	{
 		expand_str = ft_return_one_str(split[0]);
