@@ -78,12 +78,12 @@ int	ft_exe(t_list *line, t_list *temp, t_data *data)
 
 void	ft_parsexec(t_list *line, t_data *data, t_list *temp)
 {
-	if (ft_is_builtin_parent(line) == 1)
+	if (ft_is_builtin_parent(line) == 1 && data->nodes == 1)
 		ft_exec_builtin(line, data);
-	if (ft_pars_dir(line, data, line->args[0]) && line->builtin != 1
-		&& line->args[0])
+	if (ft_pars_dir(line, data, line->args[0]) && line->args[0])
 	{
-		if (line->pathname == NULL && line->builtin != -1)
+		if (line->pathname == NULL && line->builtin != -1
+			&& ft_is_builtin_child(line) != 1)
 			ft_fill_pathnames(data, line);
 		if (data->rvalue != 127)
 			ft_exe(line, temp, data);

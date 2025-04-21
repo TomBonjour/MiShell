@@ -1,4 +1,5 @@
 #include "../minishell.h"
+#include "ft_dprintf.h"
 
 // CD-3 : Remplace le contenu de la var. d'env. ~var avec le nouveau ~path
 // 		Utilisée par CD-2 pour actualiser OLDPWD avant de changer de dir, 
@@ -8,8 +9,13 @@ int	ft_set_env_var(char *var, char path[PATH_MAX], t_env *env)
 	int	i;
 
 	i = 0;
-	while (ft_strncmp(env[i].name, var, ft_strlen(var)) != 0)
+	while (env[i].name && ft_strncmp(env[i].name, var, ft_strlen(var)) != 0)
 		i++;
+	if (env[i].name == NULL)
+	{
+		ft_dprintf(2, "Warning : %s not set\n", var);
+		return (0);
+	}
 	free(env[i].data);
 	env[i].data = ft_strdup(path);
 	if (!env[i].data)

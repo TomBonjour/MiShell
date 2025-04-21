@@ -26,7 +26,7 @@ long long	ft_atoll(char *str)
 void	ft_error_manager(t_data *data, t_list **line, t_env *env)
 {
 	if (data->err == 1)
-		ft_free_and_exit(*line, env);
+		ft_free_and_exit(line, env);
 	if (data->err == 2)
 		ft_syntax_error(line, data);
 }

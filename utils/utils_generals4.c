@@ -1,9 +1,11 @@
 #include <minishell.h>
 
-void	ft_free_and_exit(t_list *line, t_env *env)
+void	ft_free_and_exit(t_list **line, t_env *env)
 {
-	ft_free_env(env);
-	ft_free_list(&line);
+	if (env)
+		ft_free_env(env);
+	if (*line)
+		ft_free_list(line);
 	exit (2);
 }
 
@@ -47,6 +49,8 @@ void	ft_free_env(t_env *env)
 	int	j;
 
 	j = 0;
+	if (!env)
+		return ;
 	while (env[j].name != NULL)
 	{
 		free(env[j].name);

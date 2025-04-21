@@ -11,6 +11,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	line = NULL;
 	ft_init_data(&data);
 	env = ft_set_env(envp, &data);
 	if (data.err != 0)

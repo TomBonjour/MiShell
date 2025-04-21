@@ -171,7 +171,7 @@ char		*ft_extract_str(char *cmd, int *i, char *str, t_data *data);
 char		*ft_pathcpy(char s[PATH_MAX], char *src, int size);
 void		*ft_set_error(t_data *data, int n);
 void		ft_error_manager(t_data *data, t_list **line, t_env *env);
-void		ft_free_and_exit(t_list *line, t_env *env);
+void		ft_free_and_exit(t_list **line, t_env *env);
 void		ft_free_tab(char **tab, int nb);
 int			ft_find_word(char *s, char *word);
 void		ft_close_fds(t_data *data, int i);
