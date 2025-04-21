@@ -51,12 +51,18 @@ void	ft_free_env(t_env *env)
 	j = 0;
 	if (!env)
 		return ;
-	while (env[j].name != NULL)
+	while (env[j].name != NULL && env[j].data != NULL)
 	{
-		free(env[j].name);
-		free(env[j].data);
+		if (env[j].name)
+			free(env[j].name);
+		if (env[j].data)
+			free(env[j].data);
 		j++;
 	}
+	if (env[j].name)
+		free(env[j].name);
+	if (env[j].data)
+		free(env[j].data);
 	free(env);
 }
 
