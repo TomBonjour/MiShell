@@ -23,9 +23,9 @@ t_list	*ft_lst_new_node(char *cmd, t_data *data)
 	new_elem->fd_outfile = 0;
 	new_elem->pathname = NULL;
 	new_elem->realloc = 0;
-	if (ft_get_cmd_and_redir(cmd, i, &new_elem, data) == NULL && data->err == 1)
-		return (NULL);
 	new_elem->next = NULL;
+	if (ft_get_cmd_and_redir(cmd, i, &new_elem, data) == NULL && data->err == 1)
+		return (new_elem);
 	return (new_elem);
 }
 

@@ -7,7 +7,7 @@ int	ft_copy_env_name(char **envp, t_env *env, int j, int *i)
 {
 	while (envp[j][*i] != '=')
 		(*i)++;
-	// env[j].name = malloc(sizeof(char) * (*i + 1));
+	env[j].name = malloc(sizeof(char) * (*i + 1));
 	if (!env[j].name)
 		return (-1);
 	env[j].name[*i] = '\0';
@@ -49,6 +49,16 @@ int	ft_copy_name_data(char **envp, t_env *env, int j, int *i)
 	return (0);
 }
 
+void	ft_init_env_name_data(t_env *env, int j)
+{
+	while (j >= 0)
+	{
+		env[j].name = NULL;
+		env[j].data = NULL;
+		j--;
+	}
+}
+
 // Création du nouveau tableau de variables d'environnement
 // --> un tableau de structures {char *name ; char *data}
 t_env	*ft_set_env(char **envp, t_data *data)
@@ -63,6 +73,7 @@ t_env	*ft_set_env(char **envp, t_data *data)
 	env = malloc(sizeof(t_env) * (j + 1));
 	if (!env)
 		return (ft_set_error(data, 1));
+	ft_init_env_name_data(env, j);
 	j = 0;
 	while (envp[j] != NULL)
 	{
