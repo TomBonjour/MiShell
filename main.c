@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/22 17:17:47 by tobourge          #+#    #+#             */
+/*   Updated: 2025/04/22 17:40:44 by tobourge         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h" 
 
 int	g_errvalue = 0;
@@ -50,7 +62,7 @@ int	main(int ac, char **av, char **envp)
 	}
 	data.env = env;
 	ft_minishell(env, &data, input, line);
-	clear_history();
+	rl_clear_history();
 	ft_close_fds(&data, 0);
 	ft_free_env(data.env);
 	return (data.rvalue);
