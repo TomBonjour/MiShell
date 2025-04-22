@@ -38,7 +38,7 @@ void	ft_child_process(t_list *line, char **envtab, t_data *data, int *fd)
 		if (tmpread != 0)
 			close(tmpread);
 		close(fd[1]);
-		if (ft_is_builtin_child(line))
+		if (data->rvalue != 127 && ft_is_builtin_child(line))
 			ft_exec_builtin(line, data);
 		if (line->pathname && line->args && line->builtin == 0)
 			execve(line->pathname, line->args, envtab);
@@ -86,8 +86,7 @@ void	ft_parsexec(t_list *line, t_data *data, t_list *temp)
 		if (line->pathname == NULL && line->builtin != -1
 			&& ft_is_builtin_child(line) != 1)
 			ft_fill_pathnames(data, line);
-		if (data->rvalue != 127)
-			ft_exe(line, temp, data);
+		ft_exe(line, temp, data);
 	}
 }
 

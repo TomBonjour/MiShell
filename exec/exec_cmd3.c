@@ -20,25 +20,45 @@ int	ft_init_exe(t_data *data, int *fd)
 	return (0);
 }
 
+int	ft_perm_isadir(t_list *line, t_data *data, char *str)
+{
+	int	i;
+
+	i = 0;
+	if (access(str, X_OK) == 0)
+	{
+		while (str[i] != '\0')
+		{
+			if (ft_isalnum(str[i]))
+				if (!ft_get_pathname(line, NULL, str))
+					return (1);
+			i++;
+		}
+		data->rvalue = 126;
+		ft_dprintf(2, "%s: Is a directory\n", str);
+	}
+	else
+	{
+		data->rvalue = 126;
+		ft_dprintf(2, "%s: Permission denied\n", str);
+	}
+	return (0);
+}
+
 int	ft_pars_dir(t_list *line, t_data *data, char *str)
 {
 	int	i;
 
+	(void)line;
 	i = 0;
 	if (ft_strchr(str, '/'))
 	{
 		if (access(str, F_OK) == 0)
 		{
-			while (str[i] != '\0')
-			{
-				if (ft_isalnum(str[i]))
-					if (!ft_get_pathname(line, NULL, str))
-						return (1);
-				i++;
-			}
-			ft_dprintf(2, "%s: Is a directory\n", str);
-			data->rvalue = 126;
-			return (0);
+			if (ft_perm_isadir(line, data, str))
+				return (1);
+			else
+				return (0);
 		}
 		data->rvalue = 127;
 		ft_dprintf(2, "%s: No such file or directory\n", str);
