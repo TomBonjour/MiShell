@@ -29,10 +29,7 @@ t_env	*ft_realloc_env(int i)
 
 	new = malloc(sizeof(t_env) * (i + 1));
 	if (!new)
-	{
-		ft_dprintf(2, "malloc fail\n");
 		return (NULL);
-	}
 	new[i].name = NULL;
 	new[i].data = NULL;
 	return (new);
@@ -85,7 +82,7 @@ void	ft_unset_fill_env(t_env *new, char *var, t_env *env, int i)
 	}
 }
 
-t_env	*ft_unset(char **argv, t_env *env)
+t_env	*ft_unset(char **argv, t_env *env, t_data *data)
 {
 	int		i;
 	int		j;
@@ -101,7 +98,7 @@ t_env	*ft_unset(char **argv, t_env *env)
 			while (env[i].name != NULL)
 				i++;
 			if (!ft_alloc_newenv(&new, i - 1))
-				return (NULL);
+				return (ft_set_error(data, 1));
 			ft_unset_fill_env(new, argv[j], env, i);
 			free(env);
 			env = new;

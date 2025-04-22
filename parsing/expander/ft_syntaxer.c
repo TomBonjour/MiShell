@@ -8,13 +8,15 @@ void	ft_syntax_error(t_list **line, t_data *data)
 	ft_free_list(line);
 }
 
-char	**ft_suppress_empty_arg(char **tab, int i)
+char	**ft_suppress_empty_arg(char **tab, int i, t_data *data)
 {
 	char	**new;
 	int		j;
 
 	j = 0;
 	new = malloc(sizeof (char *) * ft_tablen(tab) - 1 + 1);
+	if (!new)
+		return (ft_set_error(data, 1));
 	while (j < i)
 	{
 		new[j] = ft_strdup(tab[j]);

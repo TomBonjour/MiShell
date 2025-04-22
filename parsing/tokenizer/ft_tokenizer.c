@@ -12,12 +12,12 @@ void	*ft_malloc_arrays(char *cmd, t_list **new, t_data *data)
 	if ((*new)->nb_redir == -1)
 		return (ft_set_error(data, 2));
 	(*new)->args = malloc(sizeof(char *) * ((*new)->nb_args + 1));
-	(*new)->args[0] = NULL;
 	(*new)->redir = malloc(sizeof(char *) * ((*new)->nb_redir + 1));
-	(*new)->redir[0] = NULL;
 	(*new)->quote = malloc(sizeof(int) * ((*new)->nb_redir));
 	if (!(*new)->args || !(*new)->redir || !(*new)->quote)
 		return (ft_set_error(data, 1));
+	(*new)->args[0] = NULL;
+	(*new)->redir[0] = NULL;
 	return (0);
 }
 

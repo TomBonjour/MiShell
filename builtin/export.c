@@ -76,7 +76,7 @@ t_env	*ft_export(char **argv, t_data *data)
 			while (data->env[i].name != NULL)
 				i++;
 			if (!ft_alloc_newenv(&new, i + 1))
-				return (NULL);
+				return (ft_set_error(data, 1));
 			ft_export_fill_env(new, argv[j], data->env);
 			free(data->env);
 			data->env = new;

@@ -6,7 +6,7 @@
 /*   By: tobourge <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 16:55:55 by tobourge          #+#    #+#             */
-/*   Updated: 2025/04/19 19:29:49 by tobourge         ###   ########.fr       */
+/*   Updated: 2025/04/22 14:37:27 by tobourge         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,8 @@ char	**ft_split_white(char const *s, char c)
 	if (s[0] == '\0')
 	{
 		tab = malloc(sizeof(char *) * 2);
+		if (!tab)
+			return (NULL);
 		tab[0] = ft_strdup("");
 		tab[1] = NULL;
 		return (tab);

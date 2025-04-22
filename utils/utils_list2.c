@@ -1,7 +1,6 @@
 #include "libft.h"
 #include <minishell.h>
 
-
 // Copie du nom de la variable dans la partie "name" de la structure
 int	ft_copy_env_name(char **envp, t_env *env, int j, int *i)
 {

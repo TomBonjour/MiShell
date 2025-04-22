@@ -76,9 +76,6 @@ int	ft_alloc_newenv(t_env **new, int i)
 {
 	*new = ft_realloc_env(i);
 	if (!*new)
-	{
-		ft_dprintf(2, "malloc fail\n");
 		return (0);
-	}
 	return (1);
 }
