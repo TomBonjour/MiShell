@@ -86,8 +86,8 @@ void	ft_parsexec(t_list *line, t_data *data, t_list *temp)
 		if (line->pathname == NULL && line->builtin != -1
 			&& ft_is_builtin_child(line) != 1)
 			ft_fill_pathnames(data, line);
-		if (data->rvalue != 127)
-			ft_exe(line, temp, data);
+		// if (data->rvalue != 127)
+		ft_exe(line, temp, data);
 	}
 }
 
