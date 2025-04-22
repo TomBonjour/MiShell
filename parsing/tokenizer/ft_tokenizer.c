@@ -21,10 +21,6 @@ void	*ft_malloc_arrays(char *cmd, t_list **new, t_data *data)
 	return (0);
 }
 
-// Compte le nombre d'arguments et de redirections dans la commande, malloc
-// Parcoure la string et envoie la position a ft_arg_substr() si il trouve
-// un argument et a ft_redir_substr() si il trouve une redirection
-// 	Remplit les tableaux avec les sub-string renvoyées par ces fonctions
 void	*ft_get_cmd_and_redir(char *cmd, int i, t_list **new, t_data *data)
 {
 	int	j;
@@ -54,9 +50,6 @@ void	*ft_get_cmd_and_redir(char *cmd, int i, t_list **new, t_data *data)
 	return (0);
 }
 
-// 3. Tronque les espaces restant de la commande
-// 		Envoie la string a lst_new() pour créer le nouveau node
-// 		Envoie le nouveau node a lst_add_back() l'ajouter a la liste existante
 t_list	**ft_new_add_back(char *s, int len, t_list **args, t_data *data)
 {
 	t_list	*new_arg;
@@ -76,8 +69,6 @@ t_list	**ft_new_add_back(char *s, int len, t_list **args, t_data *data)
 	return (args);
 }
 
-// 2. Enleve les blank et split par les pipes
-// 		Envoie chaque partie a lst_new_add_back(3) pour créer la liste chainee
 t_list	*ft_split_line(char *s, t_list *args, int len, t_data *data)
 {
 	while (*s != '\0')
@@ -105,8 +96,6 @@ t_list	*ft_split_line(char *s, t_list *args, int len, t_data *data)
 	}
 	return (args);
 }
-
-// 1. Split (|) l'input en commandes avec split_line(2)
 
 t_list	*ft_tokenize(char *s, t_data *data)
 {

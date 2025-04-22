@@ -1,7 +1,5 @@
 #include "../../minishell.h"
 
-// Compte le nombre d'arguments non-redir dans la string
-// --> Utilisée pour malloc le tableau de commande/arguments
 int	ft_count_args(char *cmd, int i)
 {
 	int	n;
@@ -31,8 +29,6 @@ int	ft_count_args(char *cmd, int i)
 	return (n);
 }
 
-// Extrait l'argument dans une string malloquée en format "xxxx"
-// --> Utilisée pour remplir le tableau de commande/arguments
 char	*ft_arg_substr(char *cmd, int *i, t_data *data)
 {
 	char	*str;

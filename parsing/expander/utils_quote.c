@@ -7,7 +7,6 @@ void	ft_skip_quote(int *i, int *nb_quote, int *pos)
 	*nb_quote += 1;
 }
 
-// Realloc une string en enlevant deux quotes
 char	*ft_remove_quotes(char *str, char quote, int *pos, t_data *data)
 {
 	int		i;
@@ -36,9 +35,6 @@ char	*ft_remove_quotes(char *str, char quote, int *pos, t_data *data)
 	return (new);
 }
 
-// Trouve la fin de la quote dans laquelle on est entré.
-// Renvoie syntax error si la quote n'a pas de fin.
-// 		Utilisée dès qu'on trouve une quote et qu'on veut la passer
 int	ft_find_end_quote(char *s, int *i, char c)
 {
 	(*i)++;
@@ -52,10 +48,6 @@ int	ft_find_end_quote(char *s, int *i, char c)
 	return (0);
 }
 
-// Gere les cas d'expansion de variables d'environnement avec des quotes
-// 		Cherche la fin de la quote et expand les variables d'env trouvées
-// 		en chemin seulement si on est entre double quotes ""
-// 		Realloc en enlevant les quotes
 char	*ft_expand_quote(char *str, int *i, t_data *data)
 {
 	char	quote;

@@ -1,9 +1,6 @@
 #include "../minishell.h"
 #include "ft_dprintf.h"
 
-// CD-3 : Remplace le contenu de la var. d'env. ~var avec le nouveau ~path
-// 		Utilisée par CD-2 pour actualiser OLDPWD avant de changer de dir, 
-// 		et actualiser PWD après le changement de dir
 int	ft_set_env_var(char *var, char path[PATH_MAX], t_env *env)
 {
 	int	i;
@@ -23,11 +20,6 @@ int	ft_set_env_var(char *var, char path[PATH_MAX], t_env *env)
 	return (0);
 }
 
-// CD-2 : Récupère le path actuel avec la #getcwd
-// 		  Le remplace dans $OLDPWD avec CD-3 (ft_set_env_var)
-// 		  Change de directory vers le ~newdir avec la #chdir
-// 		  Récupère le nouveau path avec la #getcwd
-// 		  Le remplace dans $PWD avec CD-3 (ft_set_env_var)
 int	ft_change_dir_and_pwd(char *newdir, char path[PATH_MAX], t_env *env)
 {
 	if (getcwd(path, PATH_MAX) == NULL)

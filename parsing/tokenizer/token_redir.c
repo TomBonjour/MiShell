@@ -1,7 +1,5 @@
 #include "../../minishell.h"
 
-// Calcule la taille d'une redirection
-// --> Utilisée pour skip la redirection quand on compte les arguments non-redir
 int	ft_redir_len(char *cmd, int *i)
 {
 	(*i)++;
@@ -23,8 +21,6 @@ int	ft_redir_len(char *cmd, int *i)
 	return (0);
 }
 
-// Compte le nombre de redirections dans la string
-// --> Utilisée pour malloc le tableau de redir
 int	ft_count_redir(char *cmd)
 {
 	int	i;
@@ -73,8 +69,6 @@ char	*ft_init_malloc_redir(char *cmd, int *i, t_data *data)
 	return (str);
 }
 
-// Extrait la redirection dans une string malloquée en format ">xxxxx"
-// --> Utilisée pour remplir le tableau de redir
 char	*ft_redir_substr(char *cmd, int *i, t_list **new, t_data *data)
 {
 	char	*str;

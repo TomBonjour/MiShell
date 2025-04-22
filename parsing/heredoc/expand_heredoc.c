@@ -1,6 +1,5 @@
 #include "../../minishell.h"
 
-//rajouter env et data
 char	*ft_expand_heredoc(char *str, t_data *data)
 {
 	int		i;

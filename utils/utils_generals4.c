@@ -24,7 +24,6 @@ char	*ft_pathcpy(char str[PATH_MAX], char *src, int size)
 	return (str);
 }
 
-// Re-malloc +1 une chaine de caractere et rajoute le char ~c
 char	*ft_realloc_char(char *str, char c, t_data *data)
 {
 	char	*new;

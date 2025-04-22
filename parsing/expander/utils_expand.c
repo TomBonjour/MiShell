@@ -1,6 +1,5 @@
 #include "../../minishell.h"
 
-// Renvoie la longueur du nom d'une variable d'env
 int	ft_env_var_len(char *str, int i)
 {
 	int	size;
@@ -14,7 +13,6 @@ int	ft_env_var_len(char *str, int i)
 	return (size);
 }
 
-// Regarde dans une string si il y a une variable d'env ou des quotes
 int	ft_need_to_expand(char *str)
 {
 	int	i;

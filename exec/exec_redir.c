@@ -1,5 +1,4 @@
 #include "../minishell.h"
-#include <unistd.h>
 
 int	ft_open_infile(t_list *line, t_data *data)
 {

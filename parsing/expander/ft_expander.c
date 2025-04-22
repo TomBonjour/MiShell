@@ -22,8 +22,6 @@ int	ft_find_env_var(t_env *env, char *var, int var_size)
 	return (-1);
 }
 
-// Realloc la string en remplacant la variable d'environnement par son expansion
-// 		Utilisée dans expand_var_env
 char	*ft_replace_env_var(char *str, int i, char *exp, t_data *data)
 {
 	char	*new;
@@ -53,10 +51,6 @@ char	*ft_replace_env_var(char *str, int i, char *exp, t_data *data)
 	return (new);
 }
 
-// Expand une variable d'environnement
-// 		Recupere le nom de la variable d'env
-// 		La retrouve dans le tableau d'env
-// 		Realloc la string dans laquelle elle se situe avec son vrai contenu
 char	*ft_expand_env_var(char *str, int *i, t_data *data)
 {
 	char	*var;
@@ -100,8 +94,6 @@ char	*ft_expand_quest_mark(char *str, int i, t_data *data)
 	return (str);
 }
 
-//Expand les variables d'env et le contenu des quotes suivant le cas
-//	Fournit l'input prêt a être envoyé a l'exec
 char	**ft_expander(char **tab, int n, t_data *data)
 {
 	int		i;
