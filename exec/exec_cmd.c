@@ -13,7 +13,7 @@ int	ft_exec_builtin(t_list *line, t_data *data)
 	else if (ft_find_word(line->args[0], "exit") == 1)
 		data->rvalue = ft_exit(line, data->env, data);
 	else if (ft_find_word(line->args[0], "unset") == 1)
-		data->env = ft_unset(line->args, data->env);
+		data->env = ft_unset(line->args, data->env, data);
 	else if (ft_find_word(line->args[0], "export") == 1)
 		data->env = ft_export(line->args, data);
 	if (dup2(STDOUT_FILENO, 1) == -1 || dup2(STDIN_FILENO, 0) == -1)
@@ -80,7 +80,8 @@ void	ft_parsexec(t_list *line, t_data *data, t_list *temp)
 {
 	if (ft_is_builtin_parent(line) == 1 && data->nodes == 1)
 		ft_exec_builtin(line, data);
-	if (ft_pars_dir(line, data, line->args[0]) && line->args[0])
+	if (ft_pars_dir(line, data, line->args[0])
+		&& line->args[0] && data->err != 1)
 	{
 		if (line->pathname == NULL && line->builtin != -1
 			&& ft_is_builtin_child(line) != 1)

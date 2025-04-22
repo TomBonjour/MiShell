@@ -70,7 +70,7 @@ char	**ft_var_analyse(char *str, int *i, t_data *data)
 		if (ft_is_var_only(str) == 1)
 			return (NULL);
 		else
-			return (ft_return_one_str(""));
+			return (ft_return_one_str("", data));
 	}
 	else
 		return (ft_split_env_var(str, data->env[j].data, data));

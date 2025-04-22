@@ -16,6 +16,8 @@ void	*ft_malloc_arrays(char *cmd, t_list **new, t_data *data)
 	(*new)->quote = malloc(sizeof(int) * ((*new)->nb_redir));
 	if (!(*new)->args || !(*new)->redir || !(*new)->quote)
 		return (ft_set_error(data, 1));
+	(*new)->args[0] = NULL;
+	(*new)->redir[0] = NULL;
 	return (0);
 }
 
@@ -69,11 +71,6 @@ t_list	**ft_new_add_back(char *s, int len, t_list **args, t_data *data)
 	if (!cmd)
 		return (ft_set_error(data, 1));
 	new_arg = ft_lst_new_node(cmd, data);
-	if (data->err == 1)
-	{
-		free(cmd);
-		return (NULL);
-	}
 	free(cmd);
 	ft_lstadd_back(args, new_arg);
 	return (args);
@@ -90,13 +87,13 @@ t_list	*ft_split_line(char *s, t_list *args, int len, t_data *data)
 		if (s[len] == '\0')
 		{
 			if (ft_new_add_back(s, len, &args, data) == NULL && data->err == 1)
-				return (NULL);
+				return (args);
 			return (args);
 		}
 		if (s[len] == '|')
 		{
 			if (ft_new_add_back(s, len, &args, data) == NULL && data->err == 1)
-				return (NULL);
+				return (args);
 			s += len;
 			if (s[1] == '\0')
 			{
@@ -125,7 +122,9 @@ t_list	*ft_tokenize(char *s, t_data *data)
 	if (*s == '\0')
 		return (NULL);
 	line = ft_split_line(s, line, len, data);
-	if (!line)
+	if (data->err == 1)
+		return (line);
+	else if (!line)
 		return (NULL);
 	data->nodes = ft_count_nodes(line);
 	return (line);

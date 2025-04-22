@@ -80,7 +80,7 @@ int			ft_find_var(t_env *env, char *var, int *i);
 int			ft_export_fill_env(t_env *new_tab, char *var, t_env *env);
 t_env		*ft_export(char **argv, t_data *data);
 char		*ft_fill_name(char *var, int flag);
-t_env		*ft_unset(char **argv, t_env *env);
+t_env		*ft_unset(char **argv, t_env *env, t_data *data);
 void		ft_unset_fill_env(t_env *new_tab, char *var, t_env *env, int i);
 int			ft_unset_find_var(char *var, t_env *env);
 t_env		*ft_realloc_env(int i);
@@ -144,9 +144,9 @@ char		**ft_realloc_elem(char **tab, int n, char **split, t_data *data);
 char		**ft_realloc_split(char **new, int *i, char **split, t_data *data);
 char		**ft_split_join(char **split, char **tab, int n, t_data *data);
 char		**ft_var_analyse(char *str, int *i, t_data *data);
-char		**ft_suppress_empty_arg(char **tab, int i);
-char		**ft_quote_protection(char **split);
-char		*ft_realloc_quote_protection(char *str, int pos);
+char		**ft_suppress_empty_arg(char **tab, int i, t_data *data);
+char		**ft_quote_protection(char **split, t_data *data);
+char		*ft_realloc_quote_protection(char *str, int pos, t_data *data);
 
 //------	 LISTS UTILS ------//
 t_list		*ft_lst_new_node(char *s, t_data *data);
@@ -175,7 +175,7 @@ void		ft_free_and_exit(t_list **line, t_env *env);
 void		ft_free_tab(char **tab, int nb);
 int			ft_find_word(char *s, char *word);
 void		ft_close_fds(t_data *data, int i);
-char		**ft_return_one_str(char *str);
+char		**ft_return_one_str(char *str, t_data *data);
 char		**ft_join_content_before(char **split, char *str, t_data *data);
 int			ft_quote_in_str(char *str);
 

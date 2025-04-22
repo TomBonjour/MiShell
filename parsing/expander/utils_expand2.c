@@ -48,7 +48,7 @@ char	**ft_expand_dollar(char **tab, int n, int i, t_data *data)
 		analysis = ft_var_analyse(tab[n], &i, data);
 		if (!analysis)
 		{
-			tab = ft_suppress_empty_arg(tab, n);
+			tab = ft_suppress_empty_arg(tab, n, data);
 			if (!tab[n])
 				return (tab);
 		}
@@ -66,7 +66,6 @@ char	**ft_expand_dollar(char **tab, int n, int i, t_data *data)
 char	**ft_split_env_var(char *str, char *var, t_data *data)
 {
 	char	**split;
-	char	**expand_str;
 
 	split = ft_split_white(var, ' ');
 	if (!split)
@@ -80,15 +79,15 @@ char	**ft_split_env_var(char *str, char *var, t_data *data)
 		return (NULL);
 	}
 	if (var && ft_quote_in_str(var) == 1)
-		split = ft_quote_protection(split);
-	if (split[1] == NULL)
 	{
-		expand_str = ft_return_one_str(split[0]);
-		ft_free_tab(split, 0);
-		return (expand_str);
+		split = ft_quote_protection(split, data);
+		if (data->err == 1)
+		{
+			ft_free_tab(split, 0);
+			return (NULL);
+		}
 	}
-	else
-		return (split);
+	return (split);
 }
 
 char	**ft_realloc_split(char **new, int *i, char **split, t_data *data)

@@ -85,11 +85,13 @@ char	*ft_expand_quote(char *str, int *i, t_data *data)
 	return (str);
 }
 
-char	**ft_return_one_str(char *str)
+char	**ft_return_one_str(char *str, t_data *data)
 {
 	char	**tab;
 
 	tab = malloc(sizeof(char *) * 2);
+	if (!tab)
+		return (ft_set_error(data, 1));
 	if (!str)
 		tab[0] = "";
 	else

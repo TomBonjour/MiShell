@@ -1,7 +1,9 @@
+#include "ft_dprintf.h"
 #include <minishell.h>
 
 void	ft_free_and_exit(t_list **line, t_env *env)
 {
+	ft_dprintf(2, "malloc fail\n");
 	if (env)
 		ft_free_env(env);
 	if (*line)

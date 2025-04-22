@@ -18,13 +18,15 @@ void	ft_init_remove_quotes(int *i, int *j, int *nb_quote)
 	*nb_quote = 1;
 }
 
-char	*ft_realloc_quote_protection(char *str, int pos)
+char	*ft_realloc_quote_protection(char *str, int pos, t_data *data)
 {
 	char	*new;
 	int		i;
 
 	i = 0;
 	new = malloc(sizeof(char) * (ft_strlen(str) + 2 + 1));
+	if (!new)
+		return (ft_set_error(data, 1));
 	while (i < pos)
 	{
 		new[i] = str[i];
@@ -44,7 +46,7 @@ char	*ft_realloc_quote_protection(char *str, int pos)
 	return (new);
 }
 
-char	**ft_quote_protection(char **split)
+char	**ft_quote_protection(char **split, t_data *data)
 {
 	int		i;
 	int		j;
@@ -58,7 +60,9 @@ char	**ft_quote_protection(char **split)
 		{
 			if (split[i][j] == '\'' || split[i][j] == '"')
 			{
-				split[i] = ft_realloc_quote_protection(split[i], j);
+				split[i] = ft_realloc_quote_protection(split[i], j, data);
+				if (data->err == 1)
+					return (NULL);
 				j += 2;
 			}
 			j++;
