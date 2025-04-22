@@ -4,7 +4,7 @@
 
 int	ft_malloc_strdup_eof(t_hdoc *infos, char *str) //, t_data *data)
 {
-	infos->eof = ft_strjoin(str + 2, "\n");
+	infos->eof = ft_strjoin(NULL, str + 2);
 	if (!infos->eof)
 	{
 		ft_dprintf(2, "malloc fail\n");
@@ -18,7 +18,8 @@ int	ft_prompt_hdoc(t_data *data, char *tmp, t_hdoc *infos)
 	if (!tmp)
 	{
 		data->rvalue = 0;
-		ft_dprintf(2, "readline fail\n");
+		infos->str = NULL;
+		ft_dprintf(2, "warning: (wanted '%s')\n", infos->eof);
 		return (1);
 	}
 	infos->str = ft_strjoin(tmp, "\n");
@@ -48,7 +49,8 @@ int	ft_reading_line(int eof_quote, t_hdoc *infos, t_data *data)
 	}
 	if (ft_prompt_hdoc(data, tmp, infos))
 	{
-		free(tmp);
+		if (tmp)
+			free(tmp);
 		return (0);
 	}
 	if (eof_quote == 0)
@@ -56,6 +58,8 @@ int	ft_reading_line(int eof_quote, t_hdoc *infos, t_data *data)
 	if (data->err == 1)
 		return (-1);
 	infos->size = ft_strlen(infos->str);
+	if (infos->size == 1)
+		infos->size++;
 	return (1);
 }
 
@@ -67,8 +71,10 @@ int	ft_reopen_hdoc(t_list *line, t_hdoc *infos)
 	{
 		unlink(infos->filename);
 		free(infos->filename);
-		free(infos->str);
-		free(infos->eof);
+		if (infos->str)
+			free(infos->str);
+		if (infos->eof)
+			free(infos->eof);
 		ft_dprintf(2, "reopen hd fail\n");
 		return (0);
 	}
@@ -96,8 +102,8 @@ int	ft_heredoc(t_list *line, t_hdoc *infos, t_data *data)
 		while (1)
 		{
 			if (!ft_reading_line(line->quote[i - 1], infos, data))
-				return (1);
-			if (!ft_strncmp(infos->eof, infos->str, infos->size))
+				break ;
+			if (!ft_strncmp(infos->eof, infos->str, infos->size - 1))
 				break ;
 			ft_putstr_fd(infos->str, line->fd_hdoc);
 			free(infos->str);

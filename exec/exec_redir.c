@@ -20,8 +20,7 @@ int	ft_open_infile(t_list *line, t_data *data)
 				else
 					ft_dprintf(2, "Error : Permissions denied\n");
 				ft_set_error(data, 3);
-				break ;
-				// return (-1);
+				return (-1);
 			}
 		}
 		i++;
